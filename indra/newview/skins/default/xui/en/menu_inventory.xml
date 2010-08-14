@@ -418,6 +418,14 @@
          parameter="open_original" />
     </menu_item_call>
     <menu_item_call
+     label="Use Windlight Settings"
+     layout="topleft"
+     name="Use Windlight Settings">
+        <menu_item_call.on_click
+         function="Inventory.DoToSelected"
+         parameter="load_windlight" />
+    </menu_item_call>
+    <menu_item_call
      label="Properties"
      layout="topleft"
      name="Properties">
