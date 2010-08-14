@@ -1065,12 +1065,6 @@ void LLItemBridge::performAction(LLInventoryModel* model, std::string action)
 		folder_view_itemp->getListener()->pasteLinkFromClipboard();
 		return;
 	}
-	else if ("load_windlight" == action)
-	{
-		LLInventoryItem* itemp = model->getItem(mUUID);
-		if(!itemp) return;
-		LLWLParamManager::instance()->loadPresetNotecard(itemp->getName(), itemp->getAssetUUID(), mUUID);
-	}
 }
 
 void LLItemBridge::selectItem()
@@ -3792,7 +3786,15 @@ void LLNotecardBridge::openItem()
 	LLViewerInventoryItem* item = getItem();
 	if (item)
 	{
-		LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
+		bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
+		if(!is_windlight)
+		{
+			LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
+		}
+		else
+		{
+			LLWLParamManager::instance()->loadPresetNotecard(item->getName(), item->getAssetUUID(), mUUID);
+		}
 	}
 }
 
@@ -3813,10 +3815,14 @@ void LLNotecardBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 			disabled_items.push_back(std::string("Share"));
 		}
 		
-		addOpenRightClickMenuOption(items);
 		if(is_windlight)
 		{
 			items.push_back(std::string("Use WindLight Settings"));
+			items.push_back(std::string("Edit WindLight Settings"));
+		}
+		else
+		{
+			addOpenRightClickMenuOption(items);
 		}
 		items.push_back(std::string("Properties"));
 		
@@ -3825,6 +3831,24 @@ void LLNotecardBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	hide_context_entries(menu, items, disabled_items);
 }
 
+void LLNotecardBridge::performAction(LLInventoryModel* model, std::string action)
+{
+	if ("load_windlight" == action)
+	{
+		LLInventoryItem* itemp = model->getItem(mUUID);
+		if(!itemp) return;
+		LLWLParamManager::instance()->loadPresetNotecard(itemp->getName(), itemp->getAssetUUID(), mUUID);
+	}
+	else if ("edit_windlight" == action)
+	{
+		LLFloaterReg::showInstance("preview_notecard", LLSD(mUUID), TAKE_FOCUS_YES);
+	}
+	else
+	{
+		LLItemBridge::performAction(model, action);
+	}
+}
+	
 // +=================================================+
 // |        LLGestureBridge                          |
 // +=================================================+

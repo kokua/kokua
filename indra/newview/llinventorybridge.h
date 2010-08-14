@@ -391,6 +391,7 @@ public:
 		LLItemBridge(inventory, root, uuid) {}
 	virtual void openItem();
 	virtual void buildContextMenu(LLMenuGL& menu, U32 flags);
+	virtual void performAction(LLInventoryModel* model, std::string action);
 };
 
 class LLGestureBridge : public LLItemBridge
