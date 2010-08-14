@@ -68,6 +68,7 @@
 #include "llviewerwindow.h"
 #include "llvoavatarself.h"
 #include "llwearablelist.h"
+#include "llwlparammanager.h"
 
 typedef std::pair<LLUUID, LLUUID> two_uuids_t;
 typedef std::list<two_uuids_t> two_uuids_list_t;
@@ -1063,6 +1064,12 @@ void LLItemBridge::performAction(LLInventoryModel* model, std::string action)
 
 		folder_view_itemp->getListener()->pasteLinkFromClipboard();
 		return;
+	}
+	else if ("load_windlight" == action)
+	{
+		LLInventoryItem* itemp = model->getItem(mUUID);
+		if(!itemp) return;
+		LLWLParamManager::instance()->loadPresetNotecard(itemp->getName(), itemp->getAssetUUID(), mUUID);
 	}
 }
 
@@ -3787,6 +3794,35 @@ void LLNotecardBridge::openItem()
 	{
 		LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
 	}
+}
+
+void LLNotecardBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
+{
+	menuentry_vec_t items;
+	menuentry_vec_t disabled_items;
+	if(isItemInTrash())
+	{
+		addTrashContextMenuOptions(items, disabled_items);
+	}
+	else
+	{
+		bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
+		items.push_back(std::string("Share"));
+		if (!canShare())
+		{
+			disabled_items.push_back(std::string("Share"));
+		}
+		
+		addOpenRightClickMenuOption(items);
+		if(is_windlight)
+		{
+			items.push_back(std::string("Use Windlight Settings"));
+		}
+		items.push_back(std::string("Properties"));
+		
+		getClipboardEntries(true, items, disabled_items, flags);
+	}
+	hide_context_entries(menu, items, disabled_items);
 }
 
 // +=================================================+
