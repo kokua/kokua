@@ -426,6 +426,14 @@
          parameter="load_windlight" />
     </menu_item_call>
     <menu_item_call
+     label="Edit"
+     layout="topleft"
+     name="Edit WindLight Settings">
+        <menu_item_call.on_click
+         function="Inventory.DoToSelected"
+         parameter="edit_windlight" />
+    </menu_item_call>
+    <menu_item_call
      label="Properties"
      layout="topleft"
      name="Properties">
