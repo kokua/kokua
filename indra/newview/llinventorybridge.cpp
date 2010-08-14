@@ -3816,7 +3816,7 @@ void LLNotecardBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		addOpenRightClickMenuOption(items);
 		if(is_windlight)
 		{
-			items.push_back(std::string("Use Windlight Settings"));
+			items.push_back(std::string("Use WindLight Settings"));
 		}
 		items.push_back(std::string("Properties"));
 		
