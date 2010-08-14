@@ -12,25 +12,13 @@
      name="WLDefaultSkyNames">
         A-12AM:A-12PM:A-3AM:A-3PM:A-4.30PM:A-6AM:A-6PM:A-9AM:A-9PM:Barcelona:Blizzard:Blue Midday:Coastal Afternoon:Coastal Sunset:Default:Desert Sunset:Fine Day:Fluffy Big Clouds:Foggy:Funky Funky:Funky Funky Funky:Gelatto:Ghost:Incongruent Truths:Midday 1:Midday 2:Midday 3:Midday 4:Night:Pirate:Purple:Sailor&apos;s Delight:Sheer Sensuality
     </floater.string>
-    <text
-     type="string"
-     length="1"
-     follows="left|top|right"
-     font="SansSerif"
-     height="16"
-     layout="topleft"
-     left="10"
-     name="KeyFramePresetsText"
-     top="34"
-     width="85">
-        Sky Presets:
-    </text>
     <combo_box
+     follows="left|top|right"
+     top="30"
      height="23"
      layout="topleft"
-     left_delta="85"
+     left="10"
      name="WLPresetsCombo"
-     top_delta="-4"
      width="150" />
     <button
      height="23"
@@ -39,23 +27,31 @@
      layout="topleft"
      left_pad="3"
      name="WLNewPreset"
-     width="70" />
+     width="80" />
     <button
      height="23"
-     label="Save"
+     label="Save to Disk"
      label_selected="Save"
      layout="topleft"
      left_pad="3"
      name="WLSavePreset"
-     width="70" />
+     width="80" />
     <button
      height="23"
-     label="Delete"
+     label="Save to Inventory"
+     label_selected="Save"
+     layout="topleft"
+     left_pad="3"
+     name="WLSaveNotecard"
+     width="110" />
+    <button
+     height="23"
+     label="Delete File"
      label_selected="Delete"
      layout="topleft"
      left_pad="3"
      name="WLDeletePreset"
-     width="70" />
+     width="80" />
     <button
      height="23"
      label="Day Cycle Editor"
