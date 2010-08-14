@@ -392,6 +392,7 @@ public:
 	virtual void openItem();
 	virtual void buildContextMenu(LLMenuGL& menu, U32 flags);
 	virtual void performAction(LLInventoryModel* model, std::string action);
+	virtual LLUIImagePtr getIcon() const;
 };
 
 class LLGestureBridge : public LLItemBridge

@@ -692,5 +692,8 @@ with the same filename but different name
   <texture name="SpeakBtn_Left_Off" file_name="widgets/SpeakBtn_Left_Off.png" preload="true" scale.left="4" scale.top="19" scale.right="22" scale.bottom="4" />
   <texture name="SpeakBtn_Right_Selected_Press" file_name="widgets/SpeakBtn_Right_Selected_Press.png" preload="true" scale.left="4" scale.top="19" scale.right="22" scale.bottom="4" />
   <texture name="SpeakBtn_Right_Off" file_name="widgets/SpeakBtn_Right_Off.png" preload="true" scale.left="4" scale.top="19" scale.right="22" scale.bottom="4" />
+  
+  <!-- Kitty Viewer Art -->
+  <texture name="Inv_WindLight" file_name="icons/Inv_WindLight.png" preload="false" />
 
 </textures>

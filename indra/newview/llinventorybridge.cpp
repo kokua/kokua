@@ -3848,7 +3848,20 @@ void LLNotecardBridge::performAction(LLInventoryModel* model, std::string action
 		LLItemBridge::performAction(model, action);
 	}
 }
-	
+
+LLUIImagePtr LLNotecardBridge::getIcon() const
+{
+	bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
+	if(is_windlight)
+	{
+		return LLUI::getUIImage("Inv_WindLight");
+	}
+	else
+	{
+		return LLInventoryIcon::getIcon(LLAssetType::AT_NOTECARD);
+	}
+}
+
 // +=================================================+
 // |        LLGestureBridge                          |
 // +=================================================+
