@@ -44,21 +44,29 @@
     <button
      height="23"
      label="Save"
-     label_selected="Save"
+     label_selected="Save to Disk"
      layout="topleft"
      left_pad="3"
      name="WaterSavePreset"
      top_delta="0"
-     width="70" />
+     width="80" />
     <button
      height="23"
-     label="Delete"
+     label="Save to Inventory"
+     label_selected="Save"
+     layout="topleft"
+     left_pad="3"
+     name="WaterSaveNotecard"
+     width="110" />
+    <button
+     height="23"
+     label="Delete File"
      label_selected="Delete"
      layout="topleft"
      left_pad="3"
      name="WaterDeletePreset"
      top_delta="0"
-     width="70" />
+     width="80" />
     <tab_container
     border="false"
      follows="left|top"
