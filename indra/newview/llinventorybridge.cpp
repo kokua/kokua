@@ -3786,14 +3786,13 @@ void LLNotecardBridge::openItem()
 	LLViewerInventoryItem* item = getItem();
 	if (item)
 	{
-		bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
-		if(!is_windlight)
+		if(isSkySetting())
 		{
-			LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
+			LLWLParamManager::instance()->loadPresetNotecard(item->getName(), item->getAssetUUID(), mUUID);
 		}
 		else
 		{
-			LLWLParamManager::instance()->loadPresetNotecard(item->getName(), item->getAssetUUID(), mUUID);
+			LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
 		}
 	}
 }
@@ -3808,16 +3807,18 @@ void LLNotecardBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 	}
 	else
 	{
-		bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
 		items.push_back(std::string("Share"));
 		if (!canShare())
 		{
 			disabled_items.push_back(std::string("Share"));
 		}
 		
-		if(is_windlight)
+		if(isWindLight())
 		{
-			items.push_back(std::string("Use WindLight Settings"));
+			if(isSkySetting())
+			{
+				items.push_back(std::string("Use WindLight Settings"));
+			}
 			items.push_back(std::string("Edit WindLight Settings"));
 		}
 		else
@@ -3851,8 +3852,7 @@ void LLNotecardBridge::performAction(LLInventoryModel* model, std::string action
 
 LLUIImagePtr LLNotecardBridge::getIcon() const
 {
-	bool is_windlight = (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
-	if(is_windlight)
+	if(isSkySetting())
 	{
 		return LLUI::getUIImage("Inv_WindLight");
 	}
@@ -3860,6 +3860,21 @@ LLUIImagePtr LLNotecardBridge::getIcon() const
 	{
 		return LLInventoryIcon::getIcon(LLAssetType::AT_NOTECARD);
 	}
+}
+
+bool LLNotecardBridge::isSkySetting() const
+{
+	return (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
+}
+
+bool LLNotecardBridge::isWaterSetting() const
+{
+	return (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".ww") == 0);
+}
+
+bool LLNotecardBridge::isWindLight() const
+{
+	return (isSkySetting() || isWaterSetting());
 }
 
 // +=================================================+
