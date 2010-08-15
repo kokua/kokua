@@ -1126,7 +1126,10 @@ void open_inventory_offer(const uuid_vec_t& objects, const std::string& from_nam
 				{
 					case LLAssetType::AT_NOTECARD:
 					{
-						LLFloaterReg::showInstance("preview_notecard", LLSD(obj_id), take_focus);
+						// Don't show WindLight settings as notecards.
+						// *TODO: centralise all these damned .wl checks somewhere.
+						if(item->getName().length() > 2 && item->getName().compare(item->getName().length() - 3, 3, ".wl") != 0)
+							LLFloaterReg::showInstance("preview_notecard", LLSD(obj_id), take_focus);
 						break;
 					}
 					case LLAssetType::AT_LANDMARK:
