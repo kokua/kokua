@@ -73,7 +73,8 @@ BOOL LLFloaterDayCycle::postBuild()
 			LLWLParamManager::instance()->mParamList.begin();
 		for(; mIt != LLWLParamManager::instance()->mParamList.end(); mIt++) 
 		{
-			keyCombo->add(std::string(mIt->first));
+			if(mIt->second.mInventoryID.isNull())
+				keyCombo->add(std::string(mIt->first));
 		}
 
 		// set defaults on combo boxes
