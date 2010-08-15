@@ -426,6 +426,14 @@
          parameter="load_windlight" />
     </menu_item_call>
     <menu_item_call
+     label="Use Water Settings"
+     layout="topleft"
+     name="Use WaterLight Settings">
+        <menu_item_call.on_click
+         function="Inventory.DoToSelected"
+         parameter="load_waterlight" />
+    </menu_item_call>
+    <menu_item_call
      label="Edit"
      layout="topleft"
      name="Edit WindLight Settings">
