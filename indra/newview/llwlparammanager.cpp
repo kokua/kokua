@@ -740,7 +740,6 @@ void LLWLParamManager::loadWindlightNotecard(LLVFS *vfs, const LLUUID& asset_id,
 		}
 		else
 		{
-			// We can do this because we know mCurParams 
 			sInstance->mParamList[name].mInventoryID = inventory_id;
 		}
 	}
