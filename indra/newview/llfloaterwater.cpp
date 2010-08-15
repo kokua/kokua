@@ -46,6 +46,10 @@
 #include "llboost.h"
 #include "llmultisliderctrl.h"
 
+#include "llagent.h"
+#include "llinventorymodel.h"
+#include "llviewerinventory.h"
+
 #include "v4math.h"
 #include "llviewerdisplay.h"
 #include "llviewercontrol.h"
@@ -136,6 +140,7 @@ void LLFloaterWater::initCallbacks(void) {
 	getChild<LLUICtrl>("WaterNewPreset")->setCommitCallback(boost::bind(&LLFloaterWater::onNewPreset, this));
 	getChild<LLUICtrl>("WaterSavePreset")->setCommitCallback(boost::bind(&LLFloaterWater::onSavePreset, this));
 	getChild<LLUICtrl>("WaterDeletePreset")->setCommitCallback(boost::bind(&LLFloaterWater::onDeletePreset, this));
+	getChild<LLUICtrl>("WaterSaveNotecard")->setCommitCallback(boost::bind(&LLFloaterWater::onSaveNotecard, this));
 
 	// wave direction
 	getChild<LLUICtrl>("WaterWave1DirX")->setCommitCallback(boost::bind(&LLFloaterWater::onVector2ControlXMoved, this, _1, &param_mgr->mWave1Dir));
@@ -524,6 +529,74 @@ void LLFloaterWater::onSavePreset()
 	}
 
 	LLNotificationsUtil::add("WLSavePresetAlert", LLSD(), LLSD(), boost::bind(&LLFloaterWater::saveAlertCallback, this, _1, _2));
+}
+
+class KVFloaterWaterNotecardCreatedCallback : public LLInventoryCallback
+{
+public:
+	void fire(const LLUUID& inv_item);
+};
+
+void LLFloaterWater::onSaveNotecard()
+{
+	// get the name
+	LLComboBox* comboBox = getChild<LLComboBox>("WaterPresetsCombo");
+	
+	// don't save the empty name
+	if(comboBox->getSelectedItemLabel() == "")
+		return;
+	
+	// Check if this is already a notecard.
+	if(LLWaterParamManager::instance()->mCurParams.mInventoryID.notNull())
+	{
+		LLNotificationsUtil::add("KittyWLSaveNotecardAlert", LLSD(), LLSD(), boost::bind(&LLFloaterWater::saveNotecardCallback, this, _1, _2));
+	}
+	else
+	{
+		// Make sure we have a ".ww" extension.
+		std::string name = comboBox->getSelectedItemLabel();
+		if(name.length() > 2 && name.compare(name.length() - 3, 3, ".ww") != 0)
+		{
+			name += ".ww";
+		}
+		LLPointer<KVFloaterWaterNotecardCreatedCallback> cb = new KVFloaterWaterNotecardCreatedCallback();
+		// Create a notecard and then save it.
+		create_inventory_item(gAgent.getID(), 
+							  gAgent.getSessionID(), 
+							  gInventory.findCategoryUUIDForType(LLFolderType::FT_NOTECARD),
+							  LLTransactionID::tnull,
+							  name,
+							  "Water settings (Kitty Viewer compatible)",
+							  LLAssetType::AT_NOTECARD,
+							  LLInventoryType::IT_NOTECARD,
+							  NOT_WEARABLE,
+							  PERM_ITEM_UNRESTRICTED,
+							  cb);
+		
+	}
+}
+
+void KVFloaterWaterNotecardCreatedCallback::fire(const LLUUID& inv_item)
+{
+	LLWaterParamManager * param_mgr = LLWaterParamManager::instance();
+	param_mgr->setParamSet(param_mgr->mCurParams.mName, param_mgr->mCurParams);
+	param_mgr->mParamList[param_mgr->mCurParams.mName].mInventoryID = inv_item;
+	param_mgr->mCurParams.mInventoryID = inv_item;
+	LL_INFOS("WindLight") << "Created inventory item " << inv_item << LL_ENDL;
+	param_mgr->savePresetToNotecard(param_mgr->mCurParams.mName);
+}
+
+bool LLFloaterWater::saveNotecardCallback(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	// if they choose save, do it.  Otherwise, don't do anything
+	if(option == 0) 
+	{
+		LLWaterParamManager * param_mgr = LLWaterParamManager::instance();
+		param_mgr->setParamSet(param_mgr->mCurParams.mName, param_mgr->mCurParams);
+		param_mgr->savePresetToNotecard(param_mgr->mCurParams.mName);
+	}
+	return false;
 }
 
 bool LLFloaterWater::saveAlertCallback(const LLSD& notification, const LLSD& response)

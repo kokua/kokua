@@ -83,6 +83,12 @@ public:
 
 	/// when user hits the save preset button
 	void onSavePreset();
+	
+	/// when user hits the save to inventory button
+	void onSaveNotecard();
+	
+	/// prompts a user when overwriting a preset notecard
+	bool saveNotecardCallback(const LLSD& notification, const LLSD& response);
 
 	/// prompts a user when overwriting a preset
 	bool saveAlertCallback(const LLSD& notification, const LLSD& response);
