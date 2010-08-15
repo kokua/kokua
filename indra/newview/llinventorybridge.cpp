@@ -67,6 +67,7 @@
 #include "llviewerobjectlist.h"
 #include "llviewerwindow.h"
 #include "llvoavatarself.h"
+#include "llwaterparammanager.h"
 #include "llwearablelist.h"
 #include "llwlparammanager.h"
 
@@ -3790,6 +3791,10 @@ void LLNotecardBridge::openItem()
 		{
 			LLWLParamManager::instance()->loadPresetNotecard(item->getName(), item->getAssetUUID(), mUUID);
 		}
+		else if(isWaterSetting())
+		{
+			LLWaterParamManager::instance()->loadPresetNotecard(item->getName(), item->getAssetUUID(), mUUID);
+		}
 		else
 		{
 			LLInvFVBridgeAction::doAction(item->getType(),mUUID,getInventoryModel());
@@ -3843,6 +3848,12 @@ void LLNotecardBridge::performAction(LLInventoryModel* model, std::string action
 		LLInventoryItem* itemp = model->getItem(mUUID);
 		if(!itemp) return;
 		LLWLParamManager::instance()->loadPresetNotecard(itemp->getName(), itemp->getAssetUUID(), mUUID);
+	}
+	else if ("load_waterlight" == action)
+	{
+		LLInventoryItem* itemp = model->getItem(mUUID);
+		if(!itemp) return;
+		LLWaterParamManager::instance()->loadPresetNotecard(itemp->getName(), itemp->getAssetUUID(), mUUID);
 	}
 	else if ("edit_windlight" == action)
 	{
