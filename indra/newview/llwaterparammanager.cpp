@@ -45,6 +45,10 @@
 #include "llsdserialize.h"
 
 // For notecard loading
+// (I don't like having to include all of these here,
+// but file loading/saving is handled here, so it
+// follows that notecard loading/saving should be
+// too. Or, y'know, LL could actually do it right.)
 #include "llvfile.h"
 #include "llnotecard.h"
 #include "llmemorystream.h"
@@ -563,7 +567,6 @@ void LLWaterParamManager::loadWaterNotecard(LLVFS *vfs, const LLUUID& asset_id, 
 		}
 		else
 		{
-			// We can do this because we know mCurParams 
 			sInstance->mParamList[name].mInventoryID = inventory_id;
 		}
 	}
