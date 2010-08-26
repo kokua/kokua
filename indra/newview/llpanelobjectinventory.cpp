@@ -1119,12 +1119,21 @@ public:
 	virtual BOOL canOpenItem() const { return TRUE; }
 	virtual void openItem();
 	virtual BOOL removeItem();
+	virtual LLUIImagePtr getIcon() const;
+
+	bool isSkySetting() const;
+	bool isWaterSetting() const;
+	bool isWindLight() const;
 };
 
 void LLTaskNotecardBridge::openItem()
 {
 	LLViewerObject* object = gObjectList.findObject(mPanel->getTaskUUID());
 	if(!object || object->isInventoryPending())
+	{
+		return;
+	}
+	if(isWindLight())
 	{
 		return;
 	}
@@ -1143,6 +1152,38 @@ BOOL LLTaskNotecardBridge::removeItem()
 	LLFloaterReg::hideInstance("preview_notecard", LLSD(mUUID));
 	return LLTaskInvFVBridge::removeItem();
 }
+
+LLUIImagePtr LLTaskNotecardBridge::getIcon() const
+{
+	if(isSkySetting())
+	{
+		return LLUI::getUIImage("Inv_WindLight");
+	}
+	else if(isWaterSetting())
+	{
+		return LLUI::getUIImage("Inv_WaterLight");
+	}
+	else
+	{
+		return LLInventoryIcon::getIcon(LLAssetType::AT_NOTECARD);
+	}
+}
+
+bool LLTaskNotecardBridge::isSkySetting() const
+{
+	return (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".wl") == 0);
+}
+
+bool LLTaskNotecardBridge::isWaterSetting() const
+{
+	return (getName().length() > 2 && getName().compare(getName().length() - 3, 3, ".ww") == 0);
+}
+
+bool LLTaskNotecardBridge::isWindLight() const
+{
+	return (isSkySetting() || isWaterSetting());
+}
+
 
 ///----------------------------------------------------------------------------
 /// Class LLTaskGestureBridge
