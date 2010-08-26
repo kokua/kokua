@@ -58,6 +58,7 @@
 #include "llviewerinventory.h"
 #include "llviewerregion.h"
 #include "llassetuploadresponders.h"
+#include "lluploaddialog.h"
 
 #include "v4math.h"
 #include "llviewercontrol.h"
@@ -259,6 +260,8 @@ bool LLWaterParamManager::loadPresetXML(const std::string& name, std::istream& p
 
 void LLWaterParamManager::loadPresetNotecard(const std::string& name, const LLUUID& asset_id, const LLUUID& inv_id)
 {
+	LLUploadDialog::modalUploadDialog("Loading water settings...");
+
 	gAssetStorage->getInvItemAsset(LLHost::invalid,
 								   gAgent.getID(),
 								   gAgent.getSessionID(),
@@ -626,4 +629,13 @@ void LLWaterParamManager::loadWaterNotecard(LLVFS *vfs, const LLUUID& asset_id, 
 			sInstance->mParamList[name].mInventoryID = inventory_id;
 		}
 	}
+	else
+	{
+		LLSD subs;
+		subs["NAME"] = name;
+		LLNotificationsUtil::add("KittyWaterlightLoadingFailed", subs);
+	}
+
+	// Clear this regardless of whether it actually worked.
+	LLUploadDialog::modalUploadFinished();
 }
