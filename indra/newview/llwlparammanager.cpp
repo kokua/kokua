@@ -50,6 +50,7 @@
 #include "llviewerinventory.h"
 #include "llviewerregion.h"
 #include "llassetuploadresponders.h"
+#include "lluploaddialog.h"
 
 #include "v4math.h"
 #include "llviewercontrol.h"
@@ -307,6 +308,10 @@ bool LLWLParamManager::loadPresetXML(const std::string& name, std::istream& pres
 
 void LLWLParamManager::loadPresetNotecard(const std::string& name, const LLUUID& asset_id, const LLUUID& inv_id)
 {
+	// This is somewhat abusive, since we're supposed to use it for uploads.
+	// On the other hand, it is a useful feedback mechanism.
+	LLUploadDialog::modalUploadDialog("Loading WindLight settings...");
+
 	gAssetStorage->getInvItemAsset(LLHost::invalid,
 								   gAgent.getID(),
 								   gAgent.getSessionID(),
@@ -742,4 +747,13 @@ void LLWLParamManager::loadWindlightNotecard(LLVFS *vfs, const LLUUID& asset_id,
 			sInstance->mParamList[name].mInventoryID = inventory_id;
 		}
 	}
+	else
+	{
+		LLSD subs;
+		subs["NAME"] = name;
+		LLNotificationsUtil::add("KittyWindlightLoadingFailed", subs);
+	}
+
+	// Clear this regardless of whether it actually worked.
+	LLUploadDialog::modalUploadFinished();
 }

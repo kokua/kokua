@@ -6590,6 +6590,20 @@ Mute everyone?
 
   <notification
    icon="alertmodal.tga"
+   name="KittyWindlightLoadingFailed"
+   type="alert">
+The WindLight setting "[NAME]" could not be opened.
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="KittyWaterlightLoadingFailed"
+   type="alert">
+The water setting "[NAME]" could not be opened.
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
    name="KittyWLSaveNotecardAlert"
    type="alertmodal">
 Do you wish to overwrite the saved preset?
