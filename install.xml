@@ -436,9 +436,9 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>9de3f44be65645c7f6af236139596942</string>
+            <string>efc845cf291073b1e4d381a271f194eb</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/freetype-2.3.9-linux-2010-02-19a-nommap.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/freetype-2.3.11-linux-20091103.tar.bz2</uri>
           </map>
           <key>linux64</key>
           <map>
@@ -514,9 +514,9 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>2f1a9e14f9213c2c9564c1c1cfdd6d47</string>
+            <string>566cc47a572303bc4aef12ca02670902</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glib-2.0-linux-20080817.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/glib-2.20.5-linux32-20100529.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -671,12 +671,15 @@
           </map>
         </map>
       </map>
-      <key>gtk-atk-pango-glib</key>
+      <key>gtk-etc</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald</string>
+        <string>Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+atk: Copyright 2001 Sun Microsystems Inc.
+cairo: Copyright © 2002 University of Southern California, Copyright © 2005 Red Hat, Inc.
+        </string>
         <key>description</key>
-        <string>Libraries associated with GTK for gui features. atk: interfaces for accessibility; glib: low-level core functionality for using GTK+ and GNOME; pango: layout/rendering of text w/ emphasis on internationalization.</string>
+        <string>GTK+ and associated libraries (atk, cairo, pango, pixman)</string>
         <key>license</key>
         <string>lgpl</string>
         <key>packages</key>
@@ -684,16 +687,9 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>21c16a74f8fc9a62e3ab944a6eb7403d</string>
+            <string>349ee367e0ac1e878b24b66e449c6ff8</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gtk-atk-pango-glib-linux-20080616.tar.bz</uri>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>md5sum</key>
-            <string>d963750bcd333a108b3697d220c87d09</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gtk-atk-pango-glib-windows-20080613.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/gtk-etc-linux-20101106.1.tar.bz2</uri>
           </map>
         </map>
       </map>
