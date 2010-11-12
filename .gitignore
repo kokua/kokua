@@ -45,6 +45,10 @@ indra/newview/vivox-runtime/
 indra/newview/*.lproj/
 indra/newview/mozilla-theme/
 indra/test_apps/
+indra/sharedlibs
+indra/temp
+indra/llplugin/slplugin/lib
+indra/llwindow/glh
 
 
 # COMPILED STUFF
