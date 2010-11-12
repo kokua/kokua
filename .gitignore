@@ -72,3 +72,4 @@ installed.xml
 ChangeLog.txt
 .DS_Store
 *.zip
+/dox
