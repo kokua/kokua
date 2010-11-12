@@ -208,8 +208,10 @@ LLBottomTray::LLBottomTray(const LLSD&)
 
 	LLUICtrlFactory::getInstance()->buildPanel(this,"panel_bottomtray.xml");
 
+//Kokua registers this callback in llfloatercamera.cpp:
+/*
 	LLUICtrl::CommitCallbackRegistry::defaultRegistrar().add("CameraPresets.ChangeView", boost::bind(&LLFloaterCamera::onClickCameraItem, _2));
-
+*/
 	//this is to fix a crash that occurs because LLBottomTray is a singleton
 	//and thus is deleted at the end of the viewers lifetime, but to be cleanly
 	//destroyed LLBottomTray requires some subsystems that are long gone

@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 This file contains metadata about how to load, display, and scale textures for rendering in the UI.
 Images do *NOT* have to appear in this file in order to use them as textures in the UI...simply refer
 to them by filename (relative to textures directory).
@@ -95,6 +95,11 @@ with the same filename but different name
   <texture name="Cam_Rotate_Out" file_name="bottomtray/Cam_Rotate_Out.png" preload="false" />
   <texture name="Cam_Tracking_In" file_name="bottomtray/Cam_Tracking_In.png" preload="false" />
   <texture name="Cam_Tracking_Out" file_name="bottomtray/Cam_Tracking_Out.png" preload="false" />
+  
+  <texture name="Cam_Rotate_In_Kokua" file_name="bottomtray/Cam_Rotate_In_Kokua.png" preload="false" />
+  <texture name="Cam_Rotate_Out_Kokua" file_name="bottomtray/Cam_Rotate_Out_Kokua.png" preload="false" />
+  <texture name="Cam_Tracking_In_Kokua" file_name="bottomtray/Cam_Tracking_In_Kokua.png" preload="false" />
+  <texture name="Cam_Tracking_Out_Kokua" file_name="bottomtray/Cam_Tracking_Out_Kokua.png" preload="false" />
 
   <texture name="Checkbox_Off_Disabled" file_name="widgets/Checkbox_Disabled.png" preload="true" />
   <texture name="Checkbox_On_Disabled" file_name="widgets/Checkbox_On_Disabled.png" preload="true" />
@@ -254,8 +259,8 @@ with the same filename but different name
 
   <texture name="menu_separator" file_name="navbar/FileMenu_Divider.png" scale.left="4" scale.top="166" scale.right="0" scale.bottom="0" />
 
-  <texture name="MouseLook_View_Off" file_name="bottomtray/MouseLook_view_off.png" preload="false" />
-  <texture name="MouseLook_View_On" file_name="bottomtray/MouseLook_view_on.png" preload="false" />
+  <texture name="Mouselook_View_Off" file_name="bottomtray/Mouselook_View_Off.png" preload="false" />
+  <texture name="Mouselook_View_On" file_name="bottomtray/Mouselook_View_On.png" preload="false" />
 
   <texture name="Move_Fly_Off" file_name="bottomtray/Move_Fly_Off.png" preload="false" />
   <texture name="Move_Run_Off" file_name="bottomtray/Move_Run_Off.png" preload="false" />
