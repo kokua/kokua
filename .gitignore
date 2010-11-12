@@ -49,6 +49,7 @@ indra/test_apps/
 
 # COMPILED STUFF
 
+/build
 indra/viewer-*
 indra/build-*
 installed.xml
