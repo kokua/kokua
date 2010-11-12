@@ -6,27 +6,31 @@
  name="panel_stand_stop_flying"
  mouse_opaque="false"
  visible="true"
- width="133">
+ width="20">
     <button
      follows="left|bottom"
-     height="19"
-     label="Stand"
+     height="18"
+     label=""
      layout="topleft"
-     left="10"
+     left="2"
      name="stand_btn"
+     image_overlay="Move_Walk_Off"
+     image_selected="PushButton_Selected_Press"
      tool_tip="Click here to stand up."
-     top="2"
+     top="5"
      visible="false"
-     width="113" />
+     width="18" />
     <button
      follows="left|bottom"
-     height="19"
-     label="Stop Flying"
+     height="18"
+     label=""
      layout="topleft"
-     left="10"
+     left="2"
      name="stop_fly_btn"
-     tool_tip="Stop flying"
-     top="2"
+     image_overlay="Move_Fly_Off"
+     image_selected="PushButton_Selected_Press"
+     tool_tip="Stop flying (press [Home] or F)"
+     top="5"
      visible="false"
-     width="113" />
+     width="18" />
 </panel>

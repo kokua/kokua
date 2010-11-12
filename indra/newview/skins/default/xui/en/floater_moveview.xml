@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!-- you also want to edit panel_stand_stop_flying.xml code in llmoveview.* -->
 <floater
  legacy_header_height="18"
+ bg_alpha_image_overlay="LtGray_50"
  can_dock="true"
  can_minimize="true"
  can_close="false"
  follows="bottom"
- height="110"
+ height="83"
  layout="topleft"
  name="move_floater"
  help_topic="move_floater"
@@ -91,6 +93,52 @@
     </string>
     <panel
      border="false"
+     height="60"
+     layout="topleft"
+     left="2"
+     name="panel_modes"
+     top="18"
+     width="20">
+        <button
+         follows="left|bottom"
+         height="18"
+         image_overlay="Move_Walk_Off"
+         image_selected="PushButton_Selected_Press"
+	 label=""
+         layout="topleft"
+         name="mode_walk_btn"
+         left="2"
+         pad_right="0"
+         tool_tip="Walking mode"
+         top="2"
+         width="18" />
+        <button
+         follows="left|bottom"
+         height="18"
+         image_overlay="Move_Run_Off"
+         image_selected="PushButton_Selected_Press"
+	 label=""
+         layout="topleft"
+         top="21"
+         name="mode_run_btn"
+         tool_tip="Running mode"
+         left="2"
+         width="18" />
+        <button
+         follows="left|bottom"
+         height="18"
+         image_overlay="Move_Fly_Off"
+         image_selected="PushButton_Selected_Press"
+	 label=""
+         layout="topleft"
+         left="2"
+         name="mode_fly_btn"
+         tool_tip="Flying mode (press [Home] or F)"
+         top="40"
+         width="18" />
+    </panel>
+    <panel
+     border="false"
      height="83"
      follows="left|top"
      layout="topleft"
@@ -126,7 +174,7 @@
          quadrant="left"
          scale_image="false"
          tool_tip="Walk left (press Shift + Left Arrow or A)"
-         top_pad="10"
+         top_pad="4"
          width="19" />
         <!-- Right column -->
         <button
@@ -154,7 +202,7 @@
          right_delta="4"
          scale_image="false"
          tool_tip="Walk right (press Shift + Right Arrow or D)"
-         top_pad="10"
+         top_pad="4"
          width="19" />
         <!-- Middle column -->
         <joystick_turn
@@ -212,56 +260,5 @@
          tool_tip="Fly down (press C)"
          top_pad="10"
          width="10" />
-    </panel>
-<!-- Width and height of this panel should be synchronized with panel_stand_stop_flying.xml -->
-    <panel
-     border="false"
-     height="27"
-     layout="topleft"
-     left="0"
-     name="panel_modes"
-     top_pad="0"
-     width="133">
-        <button
-         follows="left|bottom"
-         height="23"
-         image_overlay="Move_Walk_Off"
-         image_selected="PushButton_Selected_Press"
-	 label=""
-         layout="topleft"
-         name="mode_walk_btn"
-         left="20"
-         pad_right="0"
-         tool_tip="Walking mode"
-         top="2"
-         width="31" />
-        <button
-         follows="left|bottom"
-         height="23"
-         image_overlay="Move_Run_Off"
-         image_selected="PushButton_Selected_Press"
-	 label=""
-         layout="topleft"
-         left_pad="0"
-         name="mode_run_btn"
-         pad_left="0"
-         pad_right="0"
-         tool_tip="Running mode"
-         top="2"
-         width="31" />
-        <button
-         follows="left|bottom"
-         height="23"
-         image_overlay="Move_Fly_Off"
-         image_selected="PushButton_Selected_Press"
-	 label=""
-         layout="topleft"
-         left_pad="0"
-         name="mode_fly_btn"
-         pad_left="0"
-         pad_right="0"
-         tool_tip="Flying mode"
-         top="2"
-         width="31" />
     </panel>
 </floater>
