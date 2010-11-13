@@ -39,7 +39,7 @@
 #include "llviewercontrol.h"
 #include "llviewerstats.h"
 #include "llviewerregion.h"
-#include "llversioninfo.h"
+#include "viewerinfo.h"
 #include "llweb.h"
 
 // Linden library includes
@@ -206,15 +206,14 @@ LLSD LLFloaterAbout::getInfo()
 	// LLFloaterAbout.
 	LLSD info;
 	LLSD version;
-	version.append(LLVersionInfo::getMajor());
-	version.append(LLVersionInfo::getMinor());
-	version.append(LLVersionInfo::getPatch());
-	version.append(LLVersionInfo::getBuild());
+	version.append(ViewerInfo::versionMajor());
+	version.append(ViewerInfo::versionMinor());
+	version.append(ViewerInfo::versionPatch());
 	info["VIEWER_VERSION"] = version;
-	info["VIEWER_VERSION_STR"] = LLVersionInfo::getVersion();
+	info["VIEWER_VERSION_STR"] = ViewerInfo::versionFull();
 	info["BUILD_DATE"] = __DATE__;
 	info["BUILD_TIME"] = __TIME__;
-	info["CHANNEL"] = gSavedSettings.getString("VersionChannelName");
+	info["CHANNEL"] = ViewerInfo::viewerName();
 
 	info["VIEWER_RELEASE_NOTES_URL"] = get_viewer_release_notes_url();
 
@@ -291,9 +290,10 @@ static std::string get_viewer_release_notes_url()
 	// http://wiki.secondlife.com/wiki/Release_Notes/Second Life Beta Viewer/2.1.0
 	std::string url = LLTrans::getString("RELEASE_NOTES_BASE_URL");
 	if (! LLStringUtil::endsWith(url, "/"))
+	{
 		url += "/";
-	url += gSavedSettings.getString("VersionChannelName") + "/";
-	url += LLVersionInfo::getShortVersion();
+	}
+	url += ViewerInfo::versionFull();
 	return LLWeb::escapeURL(url);
 }
 

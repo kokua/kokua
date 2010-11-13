@@ -10,7 +10,7 @@
  width="470">
   <floater.string
      name="AboutHeader">
-[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2] ([VIEWER_VERSION_3]) [BUILD_DATE] [BUILD_TIME] ([CHANNEL])
+[APP_NAME] [VIEWER_VERSION_STR] ([BUILD_DATE] [BUILD_TIME])
 [[VIEWER_RELEASE_NOTES_URL] [ReleaseNotes]]
 
 </floater.string>

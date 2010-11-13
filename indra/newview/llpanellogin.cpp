@@ -51,7 +51,7 @@
 #include "llui.h"
 #include "lluiconstants.h"
 #include "llslurl.h"
-#include "llversioninfo.h"
+#include "viewerinfo.h"
 #include "llviewerhelp.h"
 #include "llviewertexturelist.h"
 #include "llviewermenu.h"			// for handle_preferences()
@@ -231,10 +231,7 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 
 	getChild<LLPanel>("login")->setDefaultBtn("connect_btn");
 
-	std::string channel = gSavedSettings.getString("VersionChannelName");
-	std::string version = llformat("%s (%d)",
-								   LLVersionInfo::getShortVersion().c_str(),
-								   LLVersionInfo::getBuild());
+	std::string version = ViewerInfo::versionNumber();
 	//LLTextBox* channel_text = getChild<LLTextBox>("channel_text");
 	//channel_text->setTextArg("[CHANNEL]", channel); // though not displayed
 	//channel_text->setTextArg("[VERSION]", version);
@@ -798,12 +795,8 @@ void LLPanelLogin::loadLoginPage()
 	}
 
 	// Channel and Version
-	std::string version = llformat("%s (%d)",
-								   LLVersionInfo::getShortVersion().c_str(),
-								   LLVersionInfo::getBuild());
-
-	char* curl_channel = curl_escape(gSavedSettings.getString("VersionChannelName").c_str(), 0);
-	char* curl_version = curl_escape(version.c_str(), 0);
+	char* curl_channel = curl_escape(ViewerInfo::viewerName().c_str(), 0);
+	char* curl_version = curl_escape(ViewerInfo::versionNumber().c_str(), 0);
 
 	oStr << "&channel=" << curl_channel;
 	oStr << "&version=" << curl_version;

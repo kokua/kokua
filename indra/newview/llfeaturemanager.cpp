@@ -45,7 +45,7 @@
 #include "llworld.h"
 #include "lldrawpoolterrain.h"
 #include "llviewertexturelist.h"
-#include "llversioninfo.h"
+#include "viewerinfo.h"
 #include "llwindow.h"
 #include "llui.h"
 #include "llcontrol.h"
@@ -228,16 +228,16 @@ BOOL LLFeatureManager::loadFeatureTables()
 	if (os_string.find("Microsoft Windows XP") == 0)
 	{
 		filename = llformat(FEATURE_TABLE_FILENAME, "_xp");
-		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "_xp", LLVersionInfo::getVersion().c_str());
+		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "_xp", ViewerInfo::versionNumber().c_str());
 	}
 	else
 	{
 		filename = llformat(FEATURE_TABLE_FILENAME, "");
-		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "", LLVersionInfo::getVersion().c_str());
+		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "", ViewerInfo::versionNumber().c_str());
 	}
 #else
 	filename = FEATURE_TABLE_FILENAME;
-	http_filename = llformat(FEATURE_TABLE_VER_FILENAME, LLVersionInfo::getVersion().c_str());
+	http_filename = llformat(FEATURE_TABLE_VER_FILENAME, ViewerInfo::versionNumber().c_str());
 #endif
 
 	app_path += filename;
@@ -357,7 +357,7 @@ void LLFeatureManager::loadGPUClass()
 	app_path += GPU_TABLE_FILENAME;
 	
 	// second table is downloaded with HTTP
-	std::string http_filename = llformat(GPU_TABLE_VER_FILENAME, LLVersionInfo::getVersion().c_str());
+	std::string http_filename = llformat(GPU_TABLE_VER_FILENAME, ViewerInfo::versionNumber().c_str());
 	std::string http_path = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, http_filename);
 
 	// use HTTP table if it exists
@@ -517,14 +517,14 @@ void fetch_feature_table(std::string table)
 	std::string filename;
 	if (os_string.find("Microsoft Windows XP") == 0)
 	{
-		filename = llformat(table.c_str(), "_xp", LLVersionInfo::getVersion().c_str());
+		filename = llformat(table.c_str(), "_xp", ViewerInfo::versionNumber().c_str());
 	}
 	else
 	{
-		filename = llformat(table.c_str(), "", LLVersionInfo::getVersion().c_str());
+		filename = llformat(table.c_str(), "", ViewerInfo::versionNumber().c_str());
 	}
 #else
-	const std::string filename   = llformat(table.c_str(), LLVersionInfo::getVersion().c_str());
+	const std::string filename   = llformat(table.c_str(), ViewerInfo::versionNumber().c_str());
 #endif
 
 	const std::string url        = base + "/" + filename;
@@ -540,7 +540,7 @@ void fetch_gpu_table(std::string table)
 {
 	const std::string base       = gSavedSettings.getString("FeatureManagerHTTPTable");
 
-	const std::string filename   = llformat(table.c_str(), LLVersionInfo::getVersion().c_str());
+	const std::string filename   = llformat(table.c_str(), ViewerInfo::versionNumber().c_str());
 
 	const std::string url        = base + "/" + filename;
 
