@@ -51,11 +51,11 @@ set(media_plugin_webkit_LINK_LIBRARIES
 
 # Select which VolumeCatcher implementation to use
 if (LINUX)
-  if (PULSEAUDIO)
+  if (PULSEAUDIO_FOUND)
     list(APPEND media_plugin_webkit_SOURCE_FILES linux_volume_catcher.cpp)
-  else (PULSEAUDIO)
+  else (PULSEAUDIO_FOUND)
     list(APPEND media_plugin_webkit_SOURCE_FILES dummy_volume_catcher.cpp)
-  endif (PULSEAUDIO)
+  endif (PULSEAUDIO_FOUND)
   list(APPEND media_plugin_webkit_LINK_LIBRARIES
        ${UI_LIBRARIES}     # for glib/GTK
        )
