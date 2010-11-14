@@ -46,15 +46,15 @@ set(media_plugin_webkit_LINK_LIBRARIES
 )
 
 # Select which VolumeCatcher implementation to use
-if (LINUX AND PULSEAUDIO)
+if (LINUX AND PULSEAUDIO_FOUND)
   list(APPEND media_plugin_webkit_SOURCE_FILES linux_volume_catcher.cpp)
   list(APPEND media_plugin_webkit_LINK_LIBRARIES
        ${UI_LIBRARIES}     # for glib/GTK
        )
-else (LINUX AND PULSEAUDIO)
+else (LINUX AND PULSEAUDIO_FOUND)
   # All other platforms use the dummy volume catcher for now.
   list(APPEND media_plugin_webkit_SOURCE_FILES dummy_volume_catcher.cpp)
-endif (LINUX AND PULSEAUDIO)
+endif (LINUX AND PULSEAUDIO_FOUND)
 
 add_library(media_plugin_webkit
     SHARED
