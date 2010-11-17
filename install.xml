@@ -319,28 +319,6 @@
           </map>
         </map>
       </map>
-      <key>elfio</key>
-      <map>
-        <key>license</key>
-        <string>lgpl</string>
-        <key>packages</key>
-        <map>
-          <key>linux</key>
-          <map>
-            <key>md5sum</key>
-            <string>82ea408af2f968cfe5f013ab241323ef</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/elfio-1.0.3-linux-20080812.tar.bz2</uri>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>md5sum</key>
-            <string>e829a52ba67e02b011cf2e372914d32f</string>
-            <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/elfio-1.0.3-linux64-20091129.tar.bz2</uri>
-          </map>
-        </map>
-      </map>
       <key>expat</key>
       <map>
         <key>copyright</key>
