@@ -848,10 +848,7 @@ class LinuxManifest(ViewerManifest):
             self.path("../media_plugins/gstreamer010/libmedia_plugin_gstreamer010.so", "libmedia_plugin_gstreamer.so")
             self.end_prefix("bin/llplugin")
 
-        try:
-            self.path("../llcommon/libllcommon.so", "lib/libllcommon.so")
-        except:
-            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
 
         self.path("featuretable_linux.txt")
 
@@ -915,7 +912,12 @@ class Linux_i686Manifest(LinuxManifest):
         except:
             print "Skipping libllkdu.so - not found"
 
-        if self.prefix("../../libraries/i686-linux/lib_release_client", dst="lib"):
+        try:
+            self.path("../llcommon/libllcommon.so", "lib/libllcommon.so")
+        except:
+            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
+	if self.prefix("../../libraries/i686-linux/lib_release_client", dst="lib"):
             self.path("libapr-1.so.0")
             self.path("libaprutil-1.so.0")
             self.path("libbreakpad_client.so.0.0.0", "libbreakpad_client.so.0")
@@ -961,6 +963,54 @@ class Linux_x86_64Manifest(LinuxManifest):
 
         # support file for valgrind debug tool
         self.path("secondlife-i686.supp")
+
+	try:
+            self.path("../llcommon/libllcommon.so", "lib64/libllcommon.so")
+        except:
+            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
+        if self.prefix("../../libraries/x86_64-linux/lib_release_client", dst="lib64"):
+            self.path("libapr-1.so.0")
+            self.path("libaprutil-1.so.0")
+            self.path("libbreakpad_client.so.0.0.0", "libbreakpad_client.so.0")
+            self.path("libdb-4.2.so")
+            self.path("libcrypto.so.0.9.8")
+            self.path("libexpat.so.1")
+            self.path("libssl.so.0.9.8")
+            self.path("libSDL-1.2.so.0")
+            self.path("libELFIO.so")
+            self.path("libjpeg.so.7")
+            self.path("libpng12.so.0")
+            self.path("libopenjpeg.so.2")
+
+
+            # OpenAL
+            self.path("libopenal.so.1")
+            self.path("libalut.so.0")
+
+            self.end_prefix("lib64")
+
+            # Vivox runtimes
+            if self.prefix(src="vivox-runtime/i686-linux", dst="bin"):
+                    self.path("SLVoice")
+                    self.end_prefix()
+            if self.prefix(src="vivox-runtime/i686-linux", dst="lib32"):
+                    self.path("libortp.so")
+                    self.path("libsndfile.so.1")
+                    self.path("libvivoxoal.so.1")
+                    self.path("libvivoxsdk.so")
+                    self.path("libvivoxplatform.so")
+                    self.end_prefix("lib32")
+
+            # 32bit libs needed for voice
+            if self.prefix("../../libraries/x86_64-linux/lib_release_client/32bit-compat", dst="lib32"):
+                    self.path("libalut.so")
+                    self.path("libidn.so.11")
+                    #self.path("libopenal.so.1", "libvivoxoal.so.1") # thats ours but vivox doesn't like it
+                    # self.path("libortp.so")
+                    self.path("libuuid.so.1")
+                    self.end_prefix("lib32")
+
 
 ################################################################
 
