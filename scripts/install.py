@@ -35,6 +35,7 @@ $/LicenseInfo$
 
 import sys
 import os.path
+import re
 
 # Look for indra/lib/python in all possible parent directories ...
 # This is an improvement over the setup-path.py method used previously:
@@ -64,6 +65,7 @@ def add_indra_lib_path():
 base_dir = add_indra_lib_path()
 
 import copy
+from hashlib import md5
 import optparse
 import os
 import platform
@@ -73,13 +75,6 @@ import tarfile
 import tempfile
 import urllib2
 import urlparse
-
-try:
-    # Python 2.6
-    from hashlib import md5
-except ImportError:
-    # Python 2.5 and earlier
-    from md5 import new as md5
 
 from indra.base import llsd
 from indra.util import helpformatter
@@ -498,7 +493,7 @@ windows/i686/vs/2003 -- specify a windows visual studio 2003 package"""
         for filename in remove_file_list:
             print "rm",filename
             if not self._dryrun:
-                if os.path.exists(filename):
+                if os.path.lexists(filename):
                     remove_dir_set.add(os.path.dirname(filename))
                     try:
                         os.remove(filename)
@@ -539,24 +534,24 @@ windows/i686/vs/2003 -- specify a windows visual studio 2003 package"""
                                                          platform, 
                                                          cache_dir))
         to_install = []
+        to_uninstall = []
         #print "self._installed",self._installed
         for ifile in ifiles:
             if ifile.pkgname not in self._installed:
                 to_install.append(ifile)
             elif ifile.url not in self._installed[ifile.pkgname].urls():
+                to_uninstall.append(ifile.pkgname)
                 to_install.append(ifile)
             elif ifile.md5sum != \
                  self._installed[ifile.pkgname].get_md5sum(ifile.url):
-                # *TODO: We may want to uninstall the old version too
-                # when we detect it is installed, but the md5 sum is
-                # different.
+                to_uninstall.append(ifile.pkgname)
                 to_install.append(ifile)
             else:
                 #print "Installation up to date:",
                 #        ifile.pkgname,ifile.platform_path
                 pass
         #print "to_install",to_install
-        return to_install
+        return [to_install, to_uninstall]
 
     def _install(self, to_install, install_dir):
         for ifile in to_install:
@@ -569,17 +564,43 @@ windows/i686/vs/2003 -- specify a windows visual studio 2003 package"""
                     tar.extractall(path=install_dir)
                 except AttributeError:
                     _extractall(tar, path=install_dir)
+            symlinks = []
+            if _get_platform() == 'linux' or _get_platform() == 'linux64':
+                first = 1
+                for tfile in tar.getnames():
+                    if tfile.find('.so.') > 0:
+                        LINK = re.sub(r'\.so\.[0-9.]*$', '.so', tfile)
+                        link_name = install_dir + "/" + LINK
+                        if not os.path.exists(link_name):
+                            if first == 1:
+                                first = 0
+                                print "Adding missing symlink(s) for package %s:" % ifile.filename
+                            target = os.path.basename(tfile)
+                            soname = os.popen("readelf -d \"%(install_dir)s/%(tfile)s\" %(stderr_redirect)s"
+                                " | grep SONAME | sed -e 's/.*\[//;s/\].*//'" %
+								{"install_dir": install_dir, "tfile": tfile, "stderr_redirect": ("2>/dev/null" if self._dryrun else "")}).read()
+                            soname = soname.strip()
+                            if soname:  # not empty
+                                tmpfname = os.path.dirname(LINK) + "/" + soname
+                                if os.path.exists(install_dir + "/" + tmpfname):
+                                    target = soname
+                                else:
+                                    print "WARNING: SONAME %s doesn't exist!" % tmpfname
+                            if not self._dryrun:
+                                os.symlink(target, link_name)
+                            symlinks += [LINK]
+                            print "    %s --> %s" % (LINK, target)
             if ifile.pkgname in self._installed:
                 self._installed[ifile.pkgname].add_files(
                     ifile.url,
-                    tar.getnames())
+                    tar.getnames() + symlinks)
                 self._installed[ifile.pkgname].set_md5sum(
                     ifile.url,
                     ifile.md5sum)
             else:
                 # *HACK: this understands the installed package syntax.
                 definition = { ifile.url :
-                               {'files': tar.getnames(),
+                               {'files': tar.getnames() + symlinks,
                                 'md5sum' : ifile.md5sum } }
                 self._installed[ifile.pkgname] = InstalledPackage(definition)
             self._installed_changed = True
@@ -599,12 +620,17 @@ windows/i686/vs/2003 -- specify a windows visual studio 2003 package"""
         cache_dir = os.path.realpath(cache_dir)
         _mkdir(install_dir)
         _mkdir(cache_dir)
-        to_install = self._build_ifiles(platform, cache_dir)
+        to_install_uninstall = self._build_ifiles(platform, cache_dir)
+        to_install = to_install_uninstall[0]
+        to_uninstall = to_install_uninstall[1]
 
         # Filter for files which we actually requested to install.
         to_install = [ifl for ifl in to_install if ifl.pkgname in installables]
+        to_uninstall = [ifl for ifl in to_uninstall if ifl in installables]
         for ifile in to_install:
             ifile.fetch_local()
+        if to_uninstall:
+            self.uninstall(to_uninstall, install_dir)
         self._install(to_install, install_dir)
 
     def do_install(self, installables, platform, install_dir, cache_dir=None, 
