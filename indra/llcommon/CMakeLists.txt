@@ -250,6 +250,10 @@ set_source_files_properties(${llcommon_HEADER_FILES}
 
 list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 
+  if (LINUX)
+      list(APPEND llcommon_LIBRARIES rt)
+  endif (LINUX)
+
 if(LLCOMMON_LINK_SHARED)
   add_library (llcommon SHARED ${llcommon_SOURCE_FILES})
   if(NOT WORD_SIZE EQUAL 32)
