@@ -70,7 +70,6 @@ private:
 	{
 		ICON_COLUMN = 0,
 		ENTRY_COLUMN = 1,
-		TRASH_COLUMN = 1,
 	};
 
 	LLCheckBoxCtrl* mEnableWhiteList;
