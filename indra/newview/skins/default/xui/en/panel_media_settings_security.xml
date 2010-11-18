@@ -23,18 +23,47 @@
    name="whitelist_enable" 
    radio_style="false" 
    width="250" />
-  <scroll_list 
+    <button 
+   bottom_delta="-30" 
    follows="top|left" 
-   height="200" 
-   left="30" 
-   name="whitelist" 
-   width="315" 
-   enabled="true" />
+   height="18" 
+   label=""
+   left="22" 
+   name="whitelist_del"
+   image_selected="TrashItem_Press"
+   image_unselected="TrashItem_Off"
+   width="18" 
+   enabled="true"> 
+     <button.commit_callback
+	     function="Media.whitelistClear"/>
+  </button>
+  <line_editor 
+   bottom_delta="0"
+   enabled="true"
+   follows="left|top"
+   font="SansSerif"
+   height="18"
+   left_delta="20"
+   name="whitelist_entry"
+   tool_tip="Enter a URL or URL pattern to White List"
+   width="250" />
+  <button 
+   bottom_delta="0" 
+   follows="top|left" 
+   height="18" 
+   label="Add"
+   left_delta="255" 
+   name="whitelist_add" 
+   width="40" 
+   enabled="true"> 
+     <button.commit_callback
+	     function="Media.whitelistAdd"/>
+  </button>
   <icon
-   bottom_delta="-23"
-   right="-35"
-   width="16"
-   height="16"
+   bottom_delta="-40"
+   right="-73"
+   width="10"
+   height="10"
    image_name="Parcel_Exp_Color"
    mouse_opaque="true"
    follows="top|left"
@@ -44,32 +73,28 @@
    visible="true"
    follows="top|left"
    height="15"
-   left="30"
-   bottom_delta="0"
+   left="25"
+   bottom_delta="-5"
    text_color="0.4 0.4 0.4 1.0" 
    name="home_url_fails_some_items_in_whitelist">
     Entries that the home page fails against are marked:
   </text>
+  <scroll_list 
+   follows="top|left" 
+   height="200" 
+   left="22" 
+   name="whitelist" 
+   width="315" 
+   enabled="true" />
+
   <button 
-   bottom_delta="-36" 
+   bottom_delta="-25" 
    follows="top|left" 
    height="20" 
-   label="Add"
-   left="30" 
-   name="whitelist_add" 
-   width="70" 
-   enabled="true"> 
-     <button.commit_callback
-	     function="Media.whitelistAdd"/>
-  </button>
-  <button 
-   bottom_delta="0" 
-   follows="top|left" 
-   height="20" 
-   label="Delete"
-   left="275" 
+   label="Delete selected"
+   left="239" 
    name="whitelist_del" 
-   width="70" 
+   width="100" 
    enabled="true"> 
      <button.commit_callback
 	     function="Media.whitelistDelete"/>
@@ -85,5 +110,4 @@
    name="home_url_fails_whitelist">
 Warning: the home page specified in the General tab fails to pass this whitelist. It has been disabled until a valid entry has been added.
   </text>
-
 </panel>

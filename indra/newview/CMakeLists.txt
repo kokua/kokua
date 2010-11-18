@@ -217,7 +217,6 @@ set(viewer_SOURCE_FILES
     llfloatervoicedevicesettings.cpp
     llfloatervoiceeffect.cpp
     llfloaterwater.cpp
-    llfloaterwhitelistentry.cpp
     llfloaterwindlight.cpp
     llfloaterwindowsize.cpp
     llfloaterworldmap.cpp
@@ -746,7 +745,6 @@ set(viewer_HEADER_FILES
     llfloatervoicedevicesettings.h
     llfloatervoiceeffect.h
     llfloaterwater.h
-    llfloaterwhitelistentry.h
     llfloaterwindlight.h
     llfloaterwindowsize.h
     llfloaterworldmap.h
