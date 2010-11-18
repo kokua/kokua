@@ -107,7 +107,7 @@ if [ -n "$LL_TCMALLOC" ]; then
     fi
 fi
 
-BINARY_TYPE=$(expr match "$(file -b bin/do-not-directly-run-secondlife-bin)" '\(.*executable\)')
+BINARY_TYPE=$(expr match "$(file -b bin/do-not-directly-run-kokua-bin)" '\(.*executable\)')
 if [ "${BINARY_TYPE}" == "ELF 32-bit LSB executable" ]; then
 
 	export SL_ENV='LD_LIBRARY_PATH="`pwd`"/lib:"${LD_LIBRARY_PATH}"'
@@ -115,7 +115,7 @@ else
 	export SL_ENV='LD_LIBRARY_PATH="`pwd`"/lib64:"`pwd`"/lib32:"${LD_LIBRARY_PATH}"'
 fi
 
-export SL_CMD='$LL_WRAPPER bin/do-not-directly-run-secondlife-bin'
+export SL_CMD='$LL_WRAPPER bin/do-not-directly-run-kokua-bin'
 export SL_OPT="`cat etc/gridargs.dat` $@"
 
 

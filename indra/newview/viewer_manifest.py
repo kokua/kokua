@@ -237,8 +237,8 @@ class WindowsManifest(ViewerManifest):
         self.enable_crt_manifest_check()
 
         if self.is_packaging_viewer():
-            # Find secondlife-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
-            self.path(src='%s/secondlife-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            # Find kokua-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
+            self.path(src='%s/kokua-bin.exe' % self.args['configuration'], dst=self.final_exe())
 
         # Plugin host application
         self.path(os.path.join(os.pardir,
@@ -821,7 +821,7 @@ class LinuxManifest(ViewerManifest):
             self.path("client-readme.txt","README-linux.txt")
             self.path("client-readme-voice.txt","README-linux-voice.txt")
             self.path("client-readme-joystick.txt","README-linux-joystick.txt")
-            self.path("wrapper.sh","secondlife")
+            self.path("wrapper.sh","kokua")
             self.path("handle_secondlifeprotocol.sh", "etc/handle_secondlifeprotocol.sh")
             self.path("register_secondlifeprotocol.sh", "etc/register_secondlifeprotocol.sh")
             self.path("refresh_desktop_app_entry.sh", "etc/refresh_desktop_app_entry.sh")
@@ -832,7 +832,7 @@ class LinuxManifest(ViewerManifest):
         # Create an appropriate gridargs.dat for this package, denoting required grid.
         self.put_in_file(self.flags_list(), 'etc/gridargs.dat')
 
-        self.path("secondlife-bin","bin/do-not-directly-run-secondlife-bin")
+        self.path("kokua-bin","bin/do-not-directly-run-kokua-bin")
         self.path("../linux_crash_logger/linux-crash-logger","bin/linux-crash-logger.bin")
         self.path("../linux_updater/linux-updater", "bin/linux-updater.bin")
         self.path("../llplugin/slplugin/SLPlugin", "bin/SLPlugin")

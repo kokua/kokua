@@ -1,4 +1,4 @@
-Second Life - Linux Beta README
+Kokua - Linux Alpha README
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 This document contains information about the Second Life Linux

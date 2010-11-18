@@ -777,7 +777,7 @@ int main(int argc, char **argv)
 	parse_args_and_init(argc, argv, &app_state);
 
 	// Initialize logger, and rename old log file
-	gDirUtilp->initAppDirs("SecondLife");
+	gDirUtilp->initAppDirs("Kokua");
 	LLError::initForApplication
 		(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, ""));
 	std::string old_log_file = gDirUtilp->getExpandedFilename

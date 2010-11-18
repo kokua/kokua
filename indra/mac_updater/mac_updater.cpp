@@ -337,7 +337,7 @@ int parse_args(int argc, char **argv)
 int main(int argc, char **argv)
 {
 	// We assume that all the logs we're looking for reside on the current drive
-	gDirUtilp->initAppDirs("SecondLife");
+	gDirUtilp->initAppDirs("Kokua");
 
 	LLError::initForApplication( gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, ""));
 

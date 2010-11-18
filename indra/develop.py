@@ -72,11 +72,12 @@ class PlatformSetup(object):
     standalone = 'OFF'
     unattended = 'OFF'
     universal = 'OFF'
-    project_name = 'SecondLife'
+    project_name = 'Kokua'
     distcc = True
     cmake_opts = []
     word_size = 32
     using_express = False
+
 
     def __init__(self):
         self.script_dir = os.path.realpath(
@@ -662,9 +663,9 @@ class WindowsSetup(PlatformSetup):
             executable = os.path.join('tools','vstool','VSTool.exe')
             vstool_cmd = (executable +
                           ' --solution ' +
-                          os.path.join(build_dir,'SecondLife.sln') +
+                          os.path.join(build_dir,'Kokua.sln') +
                           ' --config ' + self.build_type +
-                          ' --startup secondlife-bin')
+                          ' --startup kokua-bin')
             print 'Running %r in %r' % (vstool_cmd, getcwd())
             self.run(vstool_cmd, name=executable)        
             print >> open(stamp, 'w'), self.build_type
