@@ -65,7 +65,8 @@ BOOL LLPanelMediaSettingsSecurity::postBuild()
 	mEnableWhiteList = getChild< LLCheckBoxCtrl >( LLMediaEntry::WHITELIST_ENABLE_KEY );
 	mWhiteListList = getChild< LLScrollListCtrl >( LLMediaEntry::WHITELIST_KEY );
 	mHomeUrlFailsWhiteListText = getChild<LLTextBox>( "home_url_fails_whitelist" );
-	
+	mIconFails= getChild<LLIconCtrl>( "Parcel_Exp_Color" );
+
 	setDefaultBtn("whitelist_add");
 
 	return true;
@@ -281,12 +282,14 @@ void LLPanelMediaSettingsSecurity::updateWhitelistEnableStatus()
 	{
 		mEnableWhiteList->setEnabled( true );
 		mHomeUrlFailsWhiteListText->setVisible( false );
+		mIconFails->setVisible( false );
 	}
 	else
 	{
 		mEnableWhiteList->set( false );
 		mEnableWhiteList->setEnabled( false );
 		mHomeUrlFailsWhiteListText->setVisible( true );
+		mIconFails->setVisible( true );
 	};
 }
 
@@ -314,13 +317,13 @@ void LLPanelMediaSettingsSecurity::addWhiteListEntry( const std::string& entry )
 	{
 		row[ "columns" ][ ICON_COLUMN ][ "type" ] = "icon";
 		row[ "columns" ][ ICON_COLUMN ][ "value" ] = "";
-		row[ "columns" ][ ICON_COLUMN ][ "width" ] = 16;
+		row[ "columns" ][ ICON_COLUMN ][ "width" ] = 9;
 	}
 	else
 	{
 		row[ "columns" ][ ICON_COLUMN ][ "type" ] = "icon";
 		row[ "columns" ][ ICON_COLUMN ][ "value" ] = "Parcel_Exp_Color";
-		row[ "columns" ][ ICON_COLUMN ][ "width" ] = 16;
+		row[ "columns" ][ ICON_COLUMN ][ "width" ] = 9;
 	};
 
 	// always add in the entry itself

@@ -1,6 +1,6 @@
 /** 
  * @file llfloatermediasettings.cpp
- * @brief Tabbed dialog for media settings - class definition
+ * @brief Dialog for media settings - class definition
  *
  * $LicenseInfo:firstyear=2002&license=viewerlgpl$
  * Second Life Viewer Source Code
@@ -64,7 +64,7 @@ protected:
 	LLButton *mCancelBtn;
 	LLButton *mApplyBtn;
 
-	LLTabContainer *mTabContainer;
+// 	LLTabContainer *mTabContainer;
 	LLPanelMediaSettingsGeneral* mPanelMediaSettingsGeneral;
 	LLPanelMediaSettingsSecurity* mPanelMediaSettingsSecurity;
 	LLPanelMediaSettingsPermissions* mPanelMediaSettingsPermissions;
@@ -72,7 +72,7 @@ protected:
 	static void onBtnOK(void*);
 	static void onBtnCancel(void*);
 	static void onBtnApply(void*);
-	static void onTabChanged(void* user_data, bool from_click);
+// 	static void onTabChanged(void* user_data, bool from_click);
 	void commitFields();
 
 	static LLFloaterMediaSettings* sInstance;

@@ -1,6 +1,6 @@
 /** 
  * @file llfloatermediasettings.cpp
- * @brief Tabbed dialog for media settings - class implementation
+ * @brief Dialog for media settings - class implementation
  *
  * $LicenseInfo:firstyear=2002&license=viewerlgpl$
  * Second Life Viewer Source Code
@@ -43,7 +43,7 @@ LLFloaterMediaSettings* LLFloaterMediaSettings::sInstance = NULL;
 // 
 LLFloaterMediaSettings::LLFloaterMediaSettings(const LLSD& key)
 	: LLFloater(key),
-	mTabContainer(NULL),
+// 	mTabContainer(NULL),
 	mPanelMediaSettingsGeneral(NULL),
 	mPanelMediaSettingsSecurity(NULL),
 	mPanelMediaSettingsPermissions(NULL),
@@ -92,33 +92,36 @@ BOOL LLFloaterMediaSettings::postBuild()
 	mOKBtn = getChild<LLButton>("OK");
 	mOKBtn->setClickedCallback(onBtnOK, this);
 			
-	mTabContainer = getChild<LLTabContainer>( "tab_container" );
+// 	mTabContainer = getChild<LLTabContainer>( "tab_container" );
 	
 	mPanelMediaSettingsGeneral = new LLPanelMediaSettingsGeneral();
-	mTabContainer->addTabPanel( 
-			LLTabContainer::TabPanelParams().
-			panel(mPanelMediaSettingsGeneral));
+// 	mTabContainer->addTabPanel( 
+// 			LLTabContainer::TabPanelParams().
+// 			panel(mPanelMediaSettingsGeneral));
 	mPanelMediaSettingsGeneral->setParent( this );
 
 	// note that "permissions" tab is really "Controls" tab - refs to 'perms' and
 	// 'permissions' not changed to 'controls' since we don't want to change 
 	// shared files in server code and keeping everything the same seemed best.
 	mPanelMediaSettingsPermissions = new LLPanelMediaSettingsPermissions();
-	mTabContainer->addTabPanel( 
-			LLTabContainer::TabPanelParams().
-			panel(mPanelMediaSettingsPermissions));
+// 	mTabContainer->addTabPanel( 
+// 			LLTabContainer::TabPanelParams().
+// 			panel(mPanelMediaSettingsPermissions));
 
 	mPanelMediaSettingsSecurity = new LLPanelMediaSettingsSecurity();
-	mTabContainer->addTabPanel( 
-			LLTabContainer::TabPanelParams().
-			panel(mPanelMediaSettingsSecurity));
+// 	mTabContainer->addTabPanel( 
+// 			LLTabContainer::TabPanelParams().
+// 			panel(mPanelMediaSettingsSecurity));
 	mPanelMediaSettingsSecurity->setParent( this );
 		
 	// restore the last tab viewed from persistance variable storage
-	if (!mTabContainer->selectTab(gSavedSettings.getS32("LastMediaSettingsTab")))
-	{
-		mTabContainer->selectFirstTab();
-	};
+// 	if (!mTabContainer->selectTab(gSavedSettings.getS32("LastMediaSettingsTab")))
+// 	{
+// 		mTabContainer->selectFirstTab();
+// 	};
+	addChild(mPanelMediaSettingsGeneral);
+	addChild(mPanelMediaSettingsPermissions);
+	addChild(mPanelMediaSettingsSecurity);
 
 	sInstance = this;
 
@@ -164,7 +167,6 @@ void LLFloaterMediaSettings::onClose(bool app_quitting)
 	{
 		mPanelMediaSettingsGeneral->onClose(app_quitting);
 	}
-	LLFloaterReg::hideInstance("whitelist_entry");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,13 +253,13 @@ void LLFloaterMediaSettings::onBtnCancel( void* userdata )
 	sInstance->closeFloater(); 
 }
 
-////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////
 // static
-void LLFloaterMediaSettings::onTabChanged(void* user_data, bool from_click)
-{
-	LLTabContainer* self = (LLTabContainer*)user_data;
-	gSavedSettings.setS32("LastMediaSettingsTab", self->getCurrentPanelIndex());
-}
+// void LLFloaterMediaSettings::onTabChanged(void* user_data, bool from_click)
+// {
+// 	LLTabContainer* self = (LLTabContainer*)user_data;
+// 	gSavedSettings.setS32("LastMediaSettingsTab", self->getCurrentPanelIndex());
+// }
 ////////////////////////////////////////////////////////////////////////////////
 //
 const std::string LLFloaterMediaSettings::getHomeUrl()

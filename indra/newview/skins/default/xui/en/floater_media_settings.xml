@@ -59,7 +59,7 @@
 	 name="Apply" 
 	 scale_image="true"
 	 width="90" />
-	<tab_container 
+<!--	<tab_container 
 	 bottom="500" 
 	 enabled="true" 
 	 follows="left|top|right|bottom" 
@@ -70,5 +70,5 @@
 	 tab_group="1"
 	 tab_position="top" 
 	 tab_width="80" 
-	 width="365" />
+	 width="365" />-->
 </floater>

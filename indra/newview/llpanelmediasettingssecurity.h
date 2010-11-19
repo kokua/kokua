@@ -30,6 +30,7 @@
 #include "llpanel.h"
 
 class LLCheckBoxCtrl;
+class LLIconCtrl;
 class LLLineEditor;
 class LLScrollListCtrl;
 class LLTextBox;
@@ -76,6 +77,7 @@ private:
 	LLScrollListCtrl* mWhiteListList;
 	LLTextBox* mHomeUrlFailsWhiteListText;
 	LLLineEditor* mWhiteListEdit;
+	LLIconCtrl* mIconFails;
 
 	static void onBtnAdd(void*);
 	static void onBtnClear(void*);
