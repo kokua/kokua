@@ -2488,6 +2488,26 @@ bool enable_object_open()
 	return root->allowOpen();
 }
 
+class LLViewShowSidebar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		bool new_value = !gSavedSettings.getBOOL("SidebarEnabled");
+		gSavedSettings.setBOOL("SidebarEnabled", new_value);
+		LLSideTray::getInstance()->getButtonsPanel()->setVisible(new_value);
+		LLSideTray::getInstance()->updateSidetrayVisibility();
+		return true;
+	}
+};
+
+class LLViewCheckShowSidebar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		bool new_value = gSavedSettings.getBOOL("SidebarEnabled");
+		return new_value;
+	}
+};
 
 class LLViewJoystickFlycam : public view_listener_t
 {
@@ -7897,6 +7917,9 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLViewCheckHighlightTransparent(), "View.CheckHighlightTransparent");
 	view_listener_t::addMenu(new LLViewCheckRenderType(), "View.CheckRenderType");
 	view_listener_t::addMenu(new LLViewCheckHUDAttachments(), "View.CheckHUDAttachments");
+
+	view_listener_t::addMenu(new LLViewShowSidebar(), "View.ShowSidebar");
+	view_listener_t::addMenu(new LLViewCheckShowSidebar(), "View.CheckShowSidebar");
 
 	// World menu
 	commit.add("World.Chat", boost::bind(&handle_chat, (void*)NULL));

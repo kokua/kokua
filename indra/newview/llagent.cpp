@@ -1701,7 +1701,7 @@ void LLAgent::endAnimationUpdateUI()
 
 		LLBottomTray::getInstance()->onMouselookModeOut();
 
-		LLSideTray::getInstance()->getButtonsPanel()->setVisible(TRUE);
+		LLSideTray::getInstance()->getButtonsPanel()->setVisible(gSavedSettings.getBOOL("SidebarEnabled"));
 		LLSideTray::getInstance()->updateSidetrayVisibility();
 
 		LLPanelStandStopFlying::getInstance()->setVisible(TRUE);

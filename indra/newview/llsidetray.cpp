@@ -1253,7 +1253,7 @@ void	LLSideTray::updateSidetrayVisibility()
 	// set visibility of parent container based on collapsed state
 	if (getParent())
 	{
-		getParent()->setVisible(!mCollapsed && !gAgentCamera.cameraMouselook());
+		getParent()->setVisible(!mCollapsed && !gAgentCamera.cameraMouselook() && gSavedSettings.getBOOL("SidebarEnabled"));
 	}
 }
 
