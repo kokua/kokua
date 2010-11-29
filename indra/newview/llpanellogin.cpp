@@ -939,14 +939,24 @@ void LLPanelLogin::onClickConnect(void *)
 			LLNotificationsUtil::add("StartRegionEmpty");
 			return;
 		}		
+
+		std::string new_combo_value = combo_val.asString();
+		if (!new_combo_value.empty())
+		{
+			std::string match = "://";
+			size_t found = new_combo_value.find(match);
+			if (found != std::string::npos)	
+				new_combo_value.erase( 0,found+match.length());
+		}
+
 		try
 		{
-			LLGridManager::getInstance()->setGridChoice(combo_val.asString());
+			LLGridManager::getInstance()->setGridChoice(new_combo_value);
 		}
 		catch (LLInvalidGridName ex)
 		{
 			LLSD args;
-			args["GRID"] = combo_val.asString();
+			args["GRID"] = new_combo_value;
 			LLNotificationsUtil::add("InvalidGrid", args);
 			return;
 		}
@@ -1054,7 +1064,6 @@ void LLPanelLogin::onPassKey(LLLineEditor* caller, void* user_data)
 	}
 }
 
-
 void LLPanelLogin::updateServer()
 {
 	try 
@@ -1126,11 +1135,31 @@ void LLPanelLogin::onSelectServer(LLUICtrl*, void*)
 	{
 		combo_val = combo->getValue();
 	}
-	
+
+	std::string new_combo_value = combo_val.asString();
+	if (!new_combo_value.empty())
+	{
+		std::string match = "://";
+		size_t found = new_combo_value.find(match);
+		if (found != std::string::npos)	
+			new_combo_value.erase( 0,found+match.length());
+	}
+
+	try
+	{
+		LLGridManager::getInstance()->setGridChoice(new_combo_value);
+	}
+	catch (LLInvalidGridName ex)
+	{
+		// do nothing
+	}
+
 	combo = sInstance->getChild<LLComboBox>("start_location_combo");	
 	combo->setCurrentByIndex(1);
 	LLStartUp::setStartSLURL(LLSLURL(gSavedSettings.getString("LoginLocation")));
-	LLGridManager::getInstance()->setGridChoice(combo_val.asString());
+
+
+
 	// This new selection will override preset uris
 	// from the command line.
 	updateServer();

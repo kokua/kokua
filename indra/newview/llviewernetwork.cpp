@@ -361,48 +361,57 @@ void LLGridManager::getGridInfo(const std::string &grid, LLSD& grid_info)
 // if they're not populated yet.
 //
 
-void LLGridManager::addGrid(LLSD& grid_data)
+void LLGridManager::addGrid(LLSD& grid_data, bool is_system)
 {
 	if (grid_data.isMap() && grid_data.has(GRID_VALUE))
 	{
 		std::string grid = utf8str_tolower(grid_data[GRID_VALUE]);
-
 		// grid should be in the form of a dns address
-		if (!grid.empty() &&
-			grid.find_first_not_of("abcdefghijklmnopqrstuvwxyz1234567890-_. ") != std::string::npos)
+		// but also support localhost:9000 or localhost:9000/login
+		if (!grid.empty() && grid.find_first_not_of("abcdefghijklmnopqrstuvwxyz1234567890-_.:/ ") != std::string::npos)
 		{
 			printf("grid name: %s", grid.c_str());
 			throw LLInvalidGridName(grid);
 		}
-		
+
 		// populate the other values if they don't exist
 		if (!grid_data.has(GRID_LABEL_VALUE)) 
 		{
+
 			grid_data[GRID_LABEL_VALUE] = grid;
 		}
 		if (!grid_data.has(GRID_ID_VALUE))
 		{
 			grid_data[GRID_ID_VALUE] = grid;
 		}
+
 		
 		// if the grid data doesn't include any of the URIs, then 
-		// generate them from the grid, which should be a dns address
+		// generate them from the grid
+
 		if (!grid_data.has(GRID_LOGIN_URI_VALUE)) 
 		{
 			grid_data[GRID_LOGIN_URI_VALUE] = LLSD::emptyArray();
-			grid_data[GRID_LOGIN_URI_VALUE].append(std::string("https://") + 
-													grid + "/cgi-bin/login.cgi");
+			if (is_system)
+				grid_data[GRID_LOGIN_URI_VALUE].append(std::string("https://") + grid + "/cgi-bin/login.cgi");
+			else
+				grid_data[GRID_LOGIN_URI_VALUE].append(std::string("http://") + grid);
 		}
+
 		// Populate to the default values
-		if (!grid_data.has(GRID_LOGIN_PAGE_VALUE)) 
+			//this might be LL defaults, but not on opensimulators:
+		if (is_system)
 		{
-			grid_data[GRID_LOGIN_PAGE_VALUE] = std::string("http://") + grid + "/app/login/";
-		}		
-		if (!grid_data.has(GRID_HELPER_URI_VALUE)) 
-		{
-			grid_data[GRID_HELPER_URI_VALUE] = std::string("https://") + grid + "/helpers/";
+			if (!grid_data.has(GRID_LOGIN_PAGE_VALUE)) 
+			{
+				grid_data[GRID_LOGIN_PAGE_VALUE] = std::string("http://") + grid + "/app/login/";
+			}		
+			if (!grid_data.has(GRID_HELPER_URI_VALUE)) 
+			{
+				grid_data[GRID_HELPER_URI_VALUE] = std::string("https://") + grid + "/helpers/";
+			}
 		}
-		
+
 		if (!grid_data.has(GRID_LOGIN_IDENTIFIER_TYPES))
 		{
 			// non system grids and grids that haven't already been configured with values
@@ -458,7 +467,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	{
 		grid[GRID_SLURL_BASE] = llformat(SYSTEM_GRID_SLURL_BASE, label.c_str());
 	}
-	addGrid(grid);
+	addGrid(grid, true);
 }
 
 // return a list of grid name -> grid label mappings for UI purposes

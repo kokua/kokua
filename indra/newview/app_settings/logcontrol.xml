@@ -43,6 +43,8 @@
 						<array>
 							<!-- sample entry for debugging a specific item	-->
 <!--						<string>Voice</string>							-->
+						<!-- <string>GridManager</string>	-->
+
 						</array>
 				</map>
 			</array>
