@@ -818,7 +818,8 @@ bool idle_startup()
 		std::string userid = "unknown";                                                                                
 		if(gUserCredential.notNull())                                                                                  
 		{  
-			userid = gUserCredential->userID();                                                                    
+			userid = gUserCredential->userID();
+			gUserID = userid;
 			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
 		}
 		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);                                                 

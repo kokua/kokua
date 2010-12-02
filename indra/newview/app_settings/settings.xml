@@ -14,7 +14,18 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-	
+    <key>VoiceExecutableName</key>
+    <map>
+      <key>Comment</key>
+      <string>like SLVoice - platform specific parts (e.g. ".exe") are added by the voice client.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>SLVoice</string>
+    </map>
+
 <!--LL settings-->	
     <key>CrashHostUrl</key>
     <map>

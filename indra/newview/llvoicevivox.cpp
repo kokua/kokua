@@ -100,7 +100,6 @@ static const std::string VOICE_FONT_EXPIRY_TIME = "T05:00:00Z";
 // Maximum length of capture buffer recordings in seconds.
 const F32 CAPTURE_BUFFER_MAX_TIME = 10.f;
 
-
 static int scale_mic_volume(float volume)
 {
 	// incoming volume has the range [0.0 ... 2.0], with 1.0 as the default.                                                
@@ -378,12 +377,15 @@ LLVivoxVoiceClient::LLVivoxVoiceClient() :
 	setState(stateDisabled);
 	
 	gIdleCallbacks.addFunction(idle, this);
+
+	LLViewerParcelMgr::getInstance()->addAgentParcelChangedCallback(boost::bind(&LLVivoxVoiceClient::parcelChanged,this));
 }
 
 //---------------------------------------------------
 
 LLVivoxVoiceClient::~LLVivoxVoiceClient()
 {
+
 }
 
 //---------------------------------------------------
@@ -556,21 +558,20 @@ void LLVivoxVoiceClient::userAuthorized(const std::string& user_id, const LLUUID
 	mAccountName = nameFromID(agentID);
 }
 
-void LLVivoxVoiceClient::requestVoiceAccountProvision(S32 retries)
+bool LLVivoxVoiceClient::requestVoiceAccountProvision(S32 retries)
 {
 	if ( gAgent.getRegion() && mVoiceEnabled )
 	{
-		std::string url = 
-			gAgent.getRegion()->getCapability(
-				"ProvisionVoiceAccountRequest");
-
-		if ( url == "" ) return;
+		std::string url = gAgent.getRegion()->getCapability("ProvisionVoiceAccountRequest");
+		if ( url.empty() ) return false;
 
 		LLHTTPClient::post(
 			url,
 			LLSD(),
 			new LLVivoxVoiceAccountProvisionResponder(retries));
+		return true;
 	}
+	return false;
 }
 
 void LLVivoxVoiceClient::login(
@@ -656,6 +657,7 @@ std::string LLVivoxVoiceClient::state2string(LLVivoxVoiceClient::state inState)
 	{
 		CASE(stateDisableCleanup);
 		CASE(stateDisabled);
+		CASE(stateAuthorize);
 		CASE(stateStart);
 		CASE(stateDaemonLaunched);
 		CASE(stateConnecting);
@@ -715,6 +717,7 @@ void LLVivoxVoiceClient::setState(state inState)
 
 void LLVivoxVoiceClient::stateMachine()
 {
+
 	if(gDisconnected)
 	{
 		// The viewer has been disconnected from the sim.  Disable voice.
@@ -748,43 +751,6 @@ void LLVivoxVoiceClient::stateMachine()
 		}
 	}
 	
-	// Check for parcel boundary crossing
-	{
-		LLViewerRegion *region = gAgent.getRegion();
-		LLParcel *parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
-		
-		if(region && parcel)
-		{
-			S32 parcelLocalID = parcel->getLocalID();
-			std::string regionName = region->getName();
-			std::string capURI = region->getCapability("ParcelVoiceInfoRequest");
-		
-//			LL_DEBUGS("Voice") << "Region name = \"" << regionName << "\", parcel local ID = " << parcelLocalID << ", cap URI = \"" << capURI << "\"" << LL_ENDL;
-
-			// The region name starts out empty and gets filled in later.  
-			// Also, the cap gets filled in a short time after the region cross, but a little too late for our purposes.
-			// If either is empty, wait for the next time around.
-			if(!regionName.empty())
-			{
-				if(!capURI.empty())
-				{
-					if((parcelLocalID != mCurrentParcelLocalID) || (regionName != mCurrentRegionName))
-					{
-						// We have changed parcels.  Initiate a parcel channel lookup.
-						mCurrentParcelLocalID = parcelLocalID;
-						mCurrentRegionName = regionName;
-						
-						parcelChanged();
-					}
-				}
-				else
-				{
-					LL_WARNS_ONCE("Voice") << "region doesn't have ParcelVoiceInfoRequest capability.  This is normal for a short time after teleporting, but bad if it persists for very long." << LL_ENDL;
-				}
-			}
-		}
-	}
-
 	switch(getState())
 	{
 		//MARK: stateDisableCleanup
@@ -794,6 +760,7 @@ void LLVivoxVoiceClient::stateMachine()
 			cleanUp();
 
 			mAccountHandle.clear();
+			mAccountName.clear();//stay at stateDisabled until reset
 			mAccountPassword.clear();
 			mVoiceAccountServerURI.clear();
 			
@@ -807,7 +774,15 @@ void LLVivoxVoiceClient::stateMachine()
 				setState(stateStart);
 			}
 		break;
-		
+
+		case stateAuthorize:
+			if (mAccountName.empty())
+			{
+				userAuthorized(gUserID, gAgentID);
+				setState(stateStart);
+			}
+		break;
+
 		//MARK: stateStart
 		case stateStart:
 			if(gSavedSettings.getBOOL("CmdLineDisableVoice"))
@@ -815,7 +790,8 @@ void LLVivoxVoiceClient::stateMachine()
 				// Voice is locked out, we must not launch the vivox daemon.
 				setState(stateJail);
 			}
-			else if(!isGatewayRunning())
+
+			if(!isGatewayRunning())
 			{
 				if(true)
 				{
@@ -827,12 +803,17 @@ void LLVivoxVoiceClient::stateMachine()
 					//std::string exe_path = gDirUtilp->getAppRODataDir();
 					std::string exe_path = gDirUtilp->getExecutableDir();
 					exe_path += gDirUtilp->getDirDelimiter();
+
+					// exe_name used to be hardcoded as SLVoice
+					std::string exe_name = gSavedSettings.getString("VoiceExecutableName");
 #if LL_WINDOWS
-					exe_path += "SLVoice.exe";
+					exe_path += exe_name;
+					exe_path += ".exe";
 #elif LL_DARWIN
-					exe_path += "../Resources/SLVoice";
+					exe_path += "../Resources/"
+					exe_path += exe_name;
 #else
-					exe_path += "SLVoice";
+					exe_path += exe_name;
 #endif
 					// See if the vivox executable exists
 					llstat s;
@@ -853,7 +834,7 @@ void LLVivoxVoiceClient::stateMachine()
 						args += " -ll ";
 						args += loglevel;
 						
-						LL_DEBUGS("Voice") << "Args for SLVoice: " << args << LL_ENDL;
+						LL_DEBUGS("Voice") << "Args for " << exe_name << ": " << args << LL_ENDL;
 
 #if LL_WINDOWS
 						PROCESS_INFORMATION pinfo;
@@ -862,7 +843,8 @@ void LLVivoxVoiceClient::stateMachine()
 						memset(&sinfo, 0, sizeof(sinfo));
 						
 						std::string exe_dir = gDirUtilp->getAppRODataDir();
-						cmd = "SLVoice.exe";
+						cmd = exe_name
+						cmd += ".exe";
 						cmd += args;
 
 						// So retarded.  Windows requires that the second parameter to CreateProcessA be writable (non-const) string...
@@ -928,9 +910,10 @@ void LLVivoxVoiceClient::stateMachine()
 					else
 					{
 						LL_INFOS("Voice") << exe_path << " not found." << LL_ENDL;
+						setState(stateDisableCleanup);
 					}	
 				}
-				else
+				/*else //we came here because if(true) was false
 				{		
 					// SLIM SDK: port changed from 44124 to 44125.
 					// We can connect to a client gateway running on another host.  This is useful for testing.
@@ -938,7 +921,7 @@ void LLVivoxVoiceClient::stateMachine()
 					//  vivox-gw.exe -p tcp -i 0.0.0.0:44125
 					// and put that host's IP address here.
 					mDaemonHost = LLHost(gSavedSettings.getString("VivoxVoiceHost"), gSavedSettings.getU32("VivoxVoicePort"));
-				}
+				}*/
 
 				mUpdateTimer.start();
 				mUpdateTimer.setTimerExpirySec(CONNECT_THROTTLE_SECONDS);
@@ -1037,19 +1020,20 @@ void LLVivoxVoiceClient::stateMachine()
 				
 				if(region)
 				{
-					if ( region->getCapability("ProvisionVoiceAccountRequest") != "" )
-					{
-						if ( mAccountPassword.empty() )
+						if ( mAccountPassword.empty() && requestVoiceAccountProvision() )
 						{
-							requestVoiceAccountProvision();
+							setState(stateConnectorStart);
 						}
-						setState(stateConnectorStart);
-					}
-					else
-					{
-						LL_WARNS_ONCE("Voice") << "region doesn't have ProvisionVoiceAccountRequest capability!" << LL_ENDL;
-					}
+						else
+						{
+							setState(stateDisableCleanup);
+							LL_DEBUGS("Voice") << "region doesn't have ProvisionVoiceAccountRequest capability!" << LL_ENDL;
+						}
 				}
+			}
+			else //how do we ever get here with mAccountName.empty() ?!
+			{
+				setState(stateDisabled);
 			}
 		break;
 
@@ -4480,20 +4464,30 @@ LLVivoxVoiceClient::participantState* LLVivoxVoiceClient::findParticipantByID(co
 	return result;
 }
 
-
 void LLVivoxVoiceClient::parcelChanged()
 {
+	if (!mVoiceEnabled) 
+		return;
+
+	if (mAccountName.empty())
+	{
+		setState(stateAuthorize);
+	}
+
 	if(getState() >= stateNoChannel)
 	{
 		// If the user is logged in, start a channel lookup.
 		LL_DEBUGS("Voice") << "sending ParcelVoiceInfoRequest (" << mCurrentRegionName << ", " << mCurrentParcelLocalID << ")" << LL_ENDL;
 
 		std::string url = gAgent.getRegion()->getCapability("ParcelVoiceInfoRequest");
-		LLSD data;
-		LLHTTPClient::post(
-			url,
-			data,
-			new LLVivoxVoiceClientCapResponder);
+		if (!url.empty())
+		{
+			LLSD data;
+			LLHTTPClient::post(
+				url,
+				data,
+				new LLVivoxVoiceClientCapResponder);
+		}
 	}
 	else
 	{
@@ -5276,6 +5270,8 @@ void LLVivoxVoiceClient::setVoiceEnabled(bool enabled)
 		
 		if (enabled)
 		{
+			if (mAccountName.empty()) setState(stateAuthorize);
+
 			LLVoiceChannel::getCurrentVoiceChannel()->activate();
 			status = LLVoiceClientStatusObserver::STATUS_VOICE_ENABLED;
 		}
@@ -7169,7 +7165,7 @@ LLIOPipe::EStatus LLVivoxProtocolParser::process_impl(
 		// If this message isn't set to be squelched, output the raw XML received.
 		if(!squelchDebugOutput)
 		{
-			LL_DEBUGS("Voice") << "parsing: " << mInput.substr(start, delim - start) << LL_ENDL;
+			LL_DEBUGS("VivoxProtocolParser") << "parsing: " << mInput.substr(start, delim - start) << LL_ENDL;
 		}
 		
 		start = delim + 3;

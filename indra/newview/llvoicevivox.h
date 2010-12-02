@@ -59,8 +59,7 @@ class LLVivoxVoiceClient :	public LLSingleton<LLVivoxVoiceClient>,
 public:
 	LLVivoxVoiceClient();	
 	virtual ~LLVivoxVoiceClient();
-	
-	
+
 	/// @name LLVoiceModuleInterface virtual implementations
 	///  @see LLVoiceModuleInterface
 	//@{
@@ -372,6 +371,7 @@ protected:
 	{
 		stateDisableCleanup,
 		stateDisabled,				// Voice is turned off.
+		stateAuthorize,				// Username is set
 		stateStart,					// Class is initialized, socket is created
 		stateDaemonLaunched,		// Daemon has been launched
 		stateConnecting,			// connect() call has been issued
@@ -445,7 +445,7 @@ protected:
 	void connectorShutdown();	
 	void closeSocket(void);	
 	
-	void requestVoiceAccountProvision(S32 retries = 3);
+	bool requestVoiceAccountProvision(S32 retries = 3);
 	void login(
 			   const std::string& account_name,
 			   const std::string& password,
@@ -722,7 +722,7 @@ private:
 
 //		std::string mSessionURI;			// URI of the session we're in.
 //		std::string mSessionHandle;		// returned by ?
-	
+
 	S32 mCurrentParcelLocalID;			// Used to detect parcel boundary crossings
 	std::string mCurrentRegionName;		// Used to detect parcel boundary crossings
 	
@@ -752,9 +752,10 @@ private:
 	bool mCaptureDeviceDirty;
 	bool mRenderDeviceDirty;
 	
-	// This should be called when the code detects we have changed parcels.
+	// This is called when we have changed parcels.
 	// It initiates the call to the server that gets the parcel channel.
 	void parcelChanged();
+
 	
 	void switchChannel(std::string uri = std::string(), bool spatial = true, bool no_reconnect = false, bool is_p2p = false, std::string hash = "");
 	void joinSession(sessionState *session);
@@ -933,6 +934,7 @@ private:
 	LLUUID mPreviewVoiceFont;
 	LLUUID mPreviewVoiceFontLast;
 	S32 mPlayRequestCount;
+
 };
 
 /** 
