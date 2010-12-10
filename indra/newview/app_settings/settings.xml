@@ -1347,6 +1347,7 @@
       <key>Value</key>
       <real>1.0</real>
     </map>
+<!-- kokua: removed(annoying)
     <key>CameraPreset</key>
     <map>
       <key>Comment</key>
@@ -1358,6 +1359,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+-->
     <key>CertStore</key>
     <map>
       <key>Comment</key>

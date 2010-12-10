@@ -72,9 +72,8 @@ public:
 	/*switch to one of the camera presets (front, rear, side)*/
 	static void switchToPreset(const std::string& name);
 
-	/* move to CAMERA_CTRL_MODE_PRESETS from CAMERA_CTRL_MODE_FREE_CAMERA if we are on presets panel and
-	   are not in free camera mode*/
-	void fromFreeToPresets();
+	/* move from CAMERA_CTRL_MODE_FREE_CAMERA to CAMERA_CTRL_MODE_PAN if we are not in free camera mode*/
+	void fromFreeToPan();
 
 	virtual void onOpen(const LLSD& key);
 	virtual void onClose(bool app_quitting);
@@ -83,13 +82,17 @@ public:
 	LLPanelCameraZoom*	mZoom;
 	LLJoystickCameraTrack*	mTrack;
 
+	/* return instance if it exists - created by LLFloaterReg */
+	static LLFloaterCamera* findInstance();
+
+	/* update camera modes items selection and camera preset items selection according to the currently selected preset */
+	void updateItemsSelection();
 private:
 
 	LLFloaterCamera(const LLSD& val);
 	~LLFloaterCamera() {};
 
-	/* return instance if it exists - created by LLFloaterReg */
-	static LLFloaterCamera* findInstance();
+
 
 	/*virtual*/ BOOL postBuild();
 
@@ -110,16 +113,15 @@ private:
 	/* updates the state (UI) according to the current mode */
 	void updateState();
 
-	/* update camera modes items selection and camera preset items selection according to the currently selected preset */
-	void updateItemsSelection();
 
+/*
 	void onClickModeBtn(ECameraControlMode mode);
 
 	void assignButton2Mode(ECameraControlMode mode, const std::string& button_name);
-	
+
 	// fills flatlist with items from given panel
 	void fillFlatlistFromPanel (LLFlatListView* list, LLPanel* panel);
-
+*/
 	void handleAvatarEditingAppearance(bool editing);
 
 	// set to true when free camera mode is selected in modes list
@@ -136,6 +138,7 @@ private:
 	LLButton* mBtnViewRear;
 	LLButton* mBtnViewMouselook;
 	LLButton* mBtnViewFree;
+	LLButton* mBtnViewReset;
 };
 
 /**
@@ -162,7 +165,7 @@ public:
 	};
 	/*virtual*/ BOOL postBuild();
 	/** setting on/off background icon to indicate selected state */
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual void setValue(const LLSD& value);*/
 	// sends commit signal
 	void onAnyMouseClick();
 protected:

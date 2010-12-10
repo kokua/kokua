@@ -31,19 +31,19 @@
     </floater.string>
     <floater.string
      name="camera_modes_title">
-
+camera_modes_title
     </floater.string>
     <floater.string
      name="pan_mode_title">
-
+pan_mode_title
     </floater.string>
     <floater.string
      name="presets_mode_title">
-
+presets_mode_title
     </floater.string>
     <floater.string
      name="free_mode_title">
-
+free_mode_title
     </floater.string>
     <panel
      border="false"
@@ -231,7 +231,7 @@
          top_pad="1"
          image_overlay="StopReload_Off"
          image_selected="StopReload_Over"
-         name="cam_mouselook_view_btn"
+         name="cam_reset_view_btn"
          tab_stop="false"
          tool_tip="Reset view"
          width="18">

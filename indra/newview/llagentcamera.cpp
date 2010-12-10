@@ -199,8 +199,10 @@ void LLAgentCamera::init()
 	LLViewerCamera::getInstance()->setViewHeightInPixels(768);			// default, overridden in LLViewerWindow::reshape
 
 	mCameraFocusOffsetTarget = LLVector4(gSavedSettings.getVector3("CameraOffsetBuild"));
-	
-	mCameraPreset = (ECameraPreset) gSavedSettings.getU32("CameraPreset");
+
+//	Kokua: saving this is a (minor) annoyance
+//	mCameraPreset = (ECameraPreset) gSavedSettings.getU32("CameraPreset");
+	mCameraPreset = CAMERA_PRESET_REAR_VIEW;
 
 	mCameraOffsetInitial[CAMERA_PRESET_REAR_VIEW] = gSavedSettings.getControl("CameraOffsetRearView");
 	mCameraOffsetInitial[CAMERA_PRESET_FRONT_VIEW] = gSavedSettings.getControl("CameraOffsetFrontView");
@@ -2327,7 +2329,11 @@ void LLAgentCamera::switchCameraPreset(ECameraPreset preset)
 
 	mCameraPreset = preset;
 
-	gSavedSettings.setU32("CameraPreset", mCameraPreset);
+//	gSavedSettings.setU32("CameraPreset", mCameraPreset);
+
+	LLFloaterCamera* camera_floater = LLFloaterCamera::findInstance();
+	if (camera_floater)
+		camera_floater->updateItemsSelection();
 }
 
 
