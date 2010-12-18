@@ -1,54 +1,61 @@
 #!/usr/bin/env python
 #
-# Print the build information embedded in a header file.
+# Reads and prints the version info from indra/newview/viewerinfo.cpp.
 #
-# Expects to be invoked from the command line with a file name and a
-# list of directories to search.  The file name will be one of the
-# following:
-#
-#   llversionserver.h
-#   llversionviewer.h
-#
-# The directory list that follows will include indra/llcommon, where
-# these files live.
 
-import errno, os, re
+def default_version_file():
+    import os, sys
 
-def get_version(filename):
-    fp = open(filename)
-    data = fp.read()
-    fp.close()
+    scripts_dir = sys.path[0] # directory containing this script
+    viewerinfo = os.path.join('indra', 'newview', 'viewerinfo.cpp')
+    filepath = os.path.join(scripts_dir, '..', viewerinfo)
 
-    vals = {}
-    m = re.search('const S32 LL_VERSION_MAJOR = (\d+);', data)
-    vals['major'] = m.group(1)
-    m = re.search('const S32 LL_VERSION_MINOR = (\d+);', data)
-    vals['minor'] = m.group(1)
-    m = re.search('const S32 LL_VERSION_PATCH = (\d+);', data)
-    vals['patch'] = m.group(1)
-    m = re.search('const S32 LL_VERSION_BUILD = (\d+);', data)
-    vals['build'] = m.group(1)
+    return os.path.abspath(filepath)
 
-    return "%(major)s.%(minor)s.%(patch)s.%(build)s" % vals
+
+def get_version(filepath):
+    f = open(filepath)
+    data = f.read()
+    f.close()
+
+    import re
+
+    vals = {
+        'major':  re.search('MAJOR\s*=\s*(\d+)',     data).group(1),
+        'minor':  re.search('MINOR\s*=\s*(\d+)',     data).group(1),
+        'patch':  re.search('PATCH\s*=\s*(\d+)',     data).group(1),
+        'extra':  re.search('EXTRA\s*=\s*"([^"]*)"', data).group(1)
+    }
+
+    version = "%(major)s.%(minor)s.%(patch)s" % vals
+
+    if len(vals['extra']) > 0:
+        import string
+        # Replace spaces and some puncuation with '-' in extra
+        vals['extra'] = re.sub('[- \t:;,!+/\\"\'`]+', '-', vals['extra'])
+        # Strip any leading or trailing "-"s
+        vals['extra'] = string.strip(vals['extra'], '-')
+        version += "-%(extra)s" % vals
+
+    return version
+
 
 if __name__ == '__main__':
-    import sys
+    import errno, sys
 
     try:
-        for path in sys.argv[2:]:
-            name = os.path.join(path, sys.argv[1])
-            try:
-                print get_version(name)
-                break
-            except OSError, err:
-                if err.errno != errno.ENOENT:
-                    raise
-        else:
-            print >> sys.stderr, 'File not found:', sys.argv[1]
-            sys.exit(1)
-    except AttributeError:
-        print >> sys.stderr, 'Error: malformatted file: ', name
-        sys.exit(1)
+        filepath = sys.argv[1]
     except IndexError:
-        print >> sys.stderr, ('Usage: %s llversion[...].h [directories]' %
-                              sys.argv[0])
+        filepath = default_version_file()
+
+    try:
+        print get_version(filepath)
+    except IOError, err:
+        if err.errno == errno.ENOENT:
+            print >> sys.stderr, 'File not found:', filepath
+            sys.exit(1)
+        else:
+            raise
+    except AttributeError:
+        print >> sys.stderr, 'Error: malformatted file: ', filepath
+        sys.exit(1)
