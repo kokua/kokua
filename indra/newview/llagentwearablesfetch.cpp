@@ -367,7 +367,7 @@ void LLLibraryOutfitsFetch::outfitsDone()
 	gInventory.collectDescendents(mLibraryClothingID, cat_array, wearable_array, 
 								  LLInventoryModel::EXCLUDE_TRASH);
 	
-	if (cat_array.count() > 0);
+	if (cat_array.count() > 0)
 	{
 		for (LLInventoryModel::cat_array_t::const_iterator iter = cat_array.begin();
 			iter != cat_array.end();
