@@ -115,7 +115,7 @@ void LLInitialWearablesFetch::processContents()
 	LLInventoryModel::cat_array_t cat_array;
 	LLInventoryModel::item_array_t wearable_array;
 	LLFindWearables is_wearable;
-	llassert_always(mComplete.size() != 0);
+	llassert_always ( 0 == mIncomplete.size() );
 	gInventory.collectDescendentsIf(mComplete.front(), cat_array, wearable_array, 
 									LLInventoryModel::EXCLUDE_TRASH, is_wearable);
 
@@ -367,22 +367,29 @@ void LLLibraryOutfitsFetch::outfitsDone()
 	gInventory.collectDescendents(mLibraryClothingID, cat_array, wearable_array, 
 								  LLInventoryModel::EXCLUDE_TRASH);
 	
-	llassert(cat_array.count() > 0);
-	for (LLInventoryModel::cat_array_t::const_iterator iter = cat_array.begin();
-		 iter != cat_array.end();
-		 ++iter)
+	if (cat_array.count() > 0);
 	{
-		const LLViewerInventoryCategory *cat = iter->get();
-		
-		// Get the names and id's of every outfit in the library, skip "Ruth"
-		// because it's a low quality legacy outfit
-		if (cat->getName() != "Ruth")
+		for (LLInventoryModel::cat_array_t::const_iterator iter = cat_array.begin();
+			iter != cat_array.end();
+			++iter)
 		{
-			// Get the name of every outfit in the library 
-			folders.push_back(cat->getUUID());
-			mLibraryClothingFolders.push_back(cat->getUUID());
+			const LLViewerInventoryCategory *cat = iter->get();
+			
+			// Get the names and id's of every outfit in the library, skip "Ruth"
+			// because it's a low quality legacy outfit
+			if (cat->getName() != "Ruth")
+			{
+				// Get the name of every outfit in the library 
+				folders.push_back(cat->getUUID());
+				mLibraryClothingFolders.push_back(cat->getUUID());
+			}
 		}
 	}
+	else
+	{
+		llwarns << "OMG no inventory categories!" << llendl;
+	}
+
 	cat_array.clear();
 	wearable_array.clear();
 
