@@ -205,7 +205,7 @@ void LLWearableList::processGetAssetReply( const char* filename, const LLAssetID
 
 LLWearable* LLWearableList::createCopy(const LLWearable* old_wearable, const std::string& new_name)
 {
-	lldebugs << "LLWearableList::createCopy()" << llendl;
+	LL_DEBUGS("Wearable") << "LLWearableList::createCopy()" << llendl;
 
 	LLWearable *wearable = generateNewWearable();
 	wearable->copyDataFrom(old_wearable);
@@ -224,7 +224,7 @@ LLWearable* LLWearableList::createCopy(const LLWearable* old_wearable, const std
 
 LLWearable* LLWearableList::createNewWearable( LLWearableType::EType type )
 {
-	lldebugs << "LLWearableList::createNewWearable()" << llendl;
+	LL_DEBUGS("Wearable") << "LLWearableList::createNewWearable()" << llendl;
 
 	LLWearable *wearable = generateNewWearable();
 	wearable->setType( type );
