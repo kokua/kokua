@@ -295,7 +295,6 @@ void LLFloaterMap::handleZoom(const LLSD& userdata)
 		scale = LLNetMap::MAP_SCALE_MIN;
 	if (scale != 0.0f)
 	{
-		gSavedSettings.setF32("MiniMapScale", scale );
 		mMap->setScale(scale);
 	}
 }
