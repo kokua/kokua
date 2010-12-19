@@ -4,7 +4,7 @@ include(Python)
 
 macro (build_version _target)
   execute_process(
-      COMMAND ${PYTHON_EXECUTABLE} ${SCRIPTS_DIR}/build_version.py 
+      COMMAND ${PYTHON_EXECUTABLE} ${SCRIPTS_DIR}/viewer_info.py --version
       OUTPUT_VARIABLE ${_target}_VERSION
       OUTPUT_STRIP_TRAILING_WHITESPACE
       )
