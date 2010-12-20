@@ -627,7 +627,7 @@ F32 LLVOAvatar::sUnbakedTime = 0.f;
 F32 LLVOAvatar::sUnbakedUpdateTime = 0.f;
 F32 LLVOAvatar::sGreyTime = 0.f;
 F32 LLVOAvatar::sGreyUpdateTime = 0.f;
-
+LLSD LLVOAvatar::sClientInfo;
 //-----------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------
@@ -658,6 +658,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mAppearanceAnimating(FALSE),
 	mNameString(),
 	mTitle(),
+	mClientName(),
 	mNameAway(false),
 	mNameBusy(false),
 	mNameMute(false),
@@ -1152,6 +1153,7 @@ void LLVOAvatar::initClass()
 	gAnimLibrary.animStateSetString(ANIM_AGENT_PELVIS_FIX,"pelvis_fix");
 	gAnimLibrary.animStateSetString(ANIM_AGENT_TARGET,"target");
 	gAnimLibrary.animStateSetString(ANIM_AGENT_WALK_ADJUST,"walk_adjust");
+
 }
 
 
@@ -2850,7 +2852,7 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 					sNumVisibleChatBubbles++;
 					new_name = TRUE;
 				}
-				
+
 	LLVector3 name_position = idleUpdateNameTagPosition(root_pos_last);
 	mNameText->setPositionAgent(name_position);
 				
@@ -2906,6 +2908,13 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 				}
 			}
 
+	static std::string client_name = mClientName;
+	bool has_client = (!client_name.empty());
+	if (client_name != mClientName)
+	{
+		client_name = mClientName;
+		new_name = true;
+	}
 	// Rebuild name tag if state change detected
 	if (mNameString.empty()
 		|| new_name
@@ -2918,11 +2927,12 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 		|| is_friend != mNameFriend
 		|| is_cloud != mNameCloud)
 				{
-		LLColor4 name_tag_color = getNameTagColor(is_friend);
 
+		LLColor4 name_tag_color = has_client ? mClientColor : getNameTagColor(is_friend);
+ 
 		clearNameTag();
 
-		if (is_away || is_muted || is_busy || is_appearance)
+		if (is_away || is_muted || is_busy || is_appearance || has_client)
 				{
 			std::string line;
 					if (is_away)
@@ -2950,6 +2960,13 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 				line += LLTrans::getString("LoadingData");
 				line += ", ";
 			}
+
+			if (has_client)
+			{
+				line += client_name;
+				line += ", ";
+			}
+
 			// trim last ", "
 			line.resize( line.length() - 2 );
 			addNameTagLine(line, name_tag_color, LLFontGL::NORMAL,
@@ -6879,6 +6896,20 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 	mMeshTexturesDirty = TRUE;
 	gPipeline.markGLRebuild(this);
 
+
+	std::string client_uuid_string = getTE(0)->getID().asString();
+	if (LLVOAvatar::sClientInfo.has(client_uuid_string))
+	{
+		LLSD info = LLVOAvatar::sClientInfo[client_uuid_string];
+		mClientName = info["name"].asString();
+		mClientColor.setValue(info["color"]);
+	}
+	else
+	{
+		mClientName.clear();
+		mClientColor =  LLUIColorTable::instance().getColor( "AvatarNameColor" );
+	}
+
 	// ! BACKWARDS COMPATIBILITY !
 	// Non-self avatars will no longer have component textures
 	if (!isSelf())
@@ -6992,6 +7023,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 
 	// If all of the avatars are completely baked, release the global image caches to conserve memory.
 	LLVOAvatar::cullAvatarsByPixelArea();
+
 
 //	llinfos << "processAvatarAppearance end " << mID << llendl;
 }

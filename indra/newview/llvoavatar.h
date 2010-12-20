@@ -835,12 +835,16 @@ private:
 
 public:
 	std::string		getFullname() const; // Returns "FirstName LastName"
+	std::string		getClientName() { return mClientName; }
+	LLColor4		getClientColor() { return mClientColor; }
 protected:
 	static void		getAnimLabels(LLDynamicArray<std::string>* labels);
-	static void		getAnimNames(LLDynamicArray<std::string>* names);	
+	static void		getAnimNames(LLDynamicArray<std::string>* names);
 private:
 	std::string		mNameString;		// UTF-8 title + name + status
 	std::string  	mTitle;
+	std::string	mClientName;
+	LLColor4        mClientColor;
 	bool	  		mNameAway;
 	bool	  		mNameBusy;
 	bool	  		mNameMute;
@@ -922,6 +926,7 @@ public:
 	static F32 			sUnbakedUpdateTime; // Last time stats were updated (to prevent multiple updates per frame) 
 	static F32 			sGreyTime; // Total seconds with >=1 grey avatars	
 	static F32 			sGreyUpdateTime; // Last time stats were updated (to prevent multiple updates per frame) 
+	static LLSD sClientInfo;
 protected:
 	S32					getUnbakedPixelAreaRank();
 	BOOL				mHasGrey;

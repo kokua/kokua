@@ -294,6 +294,28 @@ namespace
 	};
 }
 
+class ClientInfoRequestResponder : public LLHTTPClient::Responder
+{
+public:
+	//If we get back a normal response, handle it here
+	virtual void result(const LLSD& content)
+	{
+		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
+
+		llofstream out_file;
+		out_file.open(filename);
+		LLSDSerialize::toPrettyXML(content, out_file);
+		out_file.close();
+	}
+
+	//If we get back an error (not found, etc...), handle it here
+	virtual void error(U32 status, const std::string& reason)
+	{
+		llwarns << "ClientInfoRequest::error("
+		<< status << ": " << reason << ")" << llendl;
+	}
+};
+
 void update_texture_fetch()
 {
 	LLAppViewer::getTextureCache()->update(1); // unpauses the texture cache thread
@@ -591,7 +613,10 @@ bool idle_startup()
 		}
 
 		LL_INFOS("AppInit") << "Message System Initialized." << LL_ENDL;
-		
+
+		std::string url = gSavedSettings.getString("ClientInfoURL");
+		LLHTTPClient::get(url, new ClientInfoRequestResponder());
+
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog
 		// or audio cues in connection UI.
@@ -1158,6 +1183,17 @@ bool idle_startup()
 		LLWaterParamManager::initClass();
 
 		LLViewerObject::initVOClasses();
+
+		{
+			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
+			LLSD info;
+	
+			llifstream in_file ;
+			in_file.open(filename);
+			LLSDSerialize::fromXMLDocument(info, in_file);
+	
+			LLVOAvatar::sClientInfo = info;
+		}
 
 		// Initialize all our tools.  Must be done after saved settings loaded.
 		// NOTE: This also is where gToolMgr used to be instantiated before being turned into a singleton.

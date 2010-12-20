@@ -2458,6 +2458,7 @@ void LLVOAvatarSelf::onCustomizeEnd()
 //       This will involve further refactoring that is too risky for the initial release of 2.0.
 bool LLVOAvatarSelf::sendAppearanceMessage(LLMessageSystem *mesgsys) const
 {
+	LLUUID client_uuid = LLUUID(gSavedSettings.getString("ClientInfoUUID"));
 	LLUUID texture_id[TEX_NUM_INDICES];
 	// pack away current TEs to make sure we don't send them out
 	for (LLVOAvatarDictionary::Textures::const_iterator iter = LLVOAvatarDictionary::getInstance()->getTextures().begin();
@@ -2470,7 +2471,7 @@ bool LLVOAvatarSelf::sendAppearanceMessage(LLMessageSystem *mesgsys) const
 		{
 			LLTextureEntry* entry = getTE((U8) index);
 			texture_id[index] = entry->getID();
-			entry->setID(IMG_DEFAULT_AVATAR);
+			index ? entry->setID(IMG_DEFAULT_AVATAR) : entry->setID(client_uuid) ;
 		}
 	}
 
