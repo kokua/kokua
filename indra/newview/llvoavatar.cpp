@@ -1154,6 +1154,7 @@ void LLVOAvatar::initClass()
 	gAnimLibrary.animStateSetString(ANIM_AGENT_TARGET,"target");
 	gAnimLibrary.animStateSetString(ANIM_AGENT_WALK_ADJUST,"walk_adjust");
 
+	initCloud();
 }
 
 
@@ -1162,6 +1163,37 @@ void LLVOAvatar::cleanupClass()
 	deleteAndClear(sAvatarXmlInfo);
 	sSkeletonXMLTree.cleanup();
 	sXMLTree.cleanup();
+}
+
+LLPartSysData LLVOAvatar::sCloud;
+void LLVOAvatar::initCloud()
+{
+	// fancy particle cloud designed by Brent
+	sCloud.mPartData.mMaxAge            = 4.f;
+	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
+	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
+	sCloud.mPartData.mStartScale.mV[VY] = 0.8f;
+	sCloud.mPartData.mEndScale.mV[VX]   = 0.02f;
+	sCloud.mPartData.mEndScale.mV[VY]   = 0.02f;
+	sCloud.mPartData.mStartColor = LLUIColorTable::instance().getColor( "AvatarCloudColorStart" );
+	sCloud.mPartData.mEndColor = LLUIColorTable::instance().getColor( "AvatarCloudColorEnd" );
+	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
+	LLViewerTexture* cloud = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
+	sCloud.mPartImageID                 = cloud->getID();
+	sCloud.mMaxAge                      = 0.f;
+	sCloud.mPattern                     = LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE;
+	sCloud.mInnerAngle                  = F_PI;
+	sCloud.mOuterAngle                  = 0.f;
+	sCloud.mBurstRate                   = 0.02f;
+	sCloud.mBurstRadius                 = 0.3f;
+	sCloud.mBurstPartCount              = 1;
+	sCloud.mBurstSpeedMin               = 0.1f;
+	sCloud.mBurstSpeedMax               = 1.f;
+	sCloud.mPartData.mFlags             = (LLPartData::LL_PART_INTERP_COLOR_MASK |
+								LLPartData::LL_PART_INTERP_SCALE_MASK |
+								LLPartData::LL_PART_EMISSIVE_MASK | 
+								// LLPartData::LL_PART_FOLLOW_SRC_MASK |
+								LLPartData::LL_PART_TARGET_POS_MASK );
 }
 
 void LLVOAvatar::initInstance(void)
@@ -2643,52 +2675,24 @@ void LLVOAvatar::idleUpdateLoadingEffect()
 	// update visibility when avatar is partially loaded
 	if (updateIsFullyLoaded()) // changed?
 	{
-		if (isFullyLoaded() && isSelf())
+
+		if (isFullyLoaded())
 		{
 			static bool first_fully_visible = true;
-			if (first_fully_visible)
+			if (first_fully_visible && isSelf())
 			{
 				llinfos << "self isFullyLoaded, first_fully_visible" << llendl;
-
+	
 				first_fully_visible = false;
 				LLAppearanceMgr::instance().onFirstFullyVisible();
 			}
-		}
-		if (isFullyLoaded())
-		{
+
 			deleteParticleSource();
 			updateLOD();
 		}
 		else
 		{
-			LLPartSysData particle_parameters;
-
-			// fancy particle cloud designed by Brent
-			particle_parameters.mPartData.mMaxAge            = 4.f;
-			particle_parameters.mPartData.mStartScale.mV[VX] = 0.8f;
-			particle_parameters.mPartData.mStartScale.mV[VX] = 0.8f;
-			particle_parameters.mPartData.mStartScale.mV[VY] = 1.0f;
-			particle_parameters.mPartData.mEndScale.mV[VX]   = 0.02f;
-			particle_parameters.mPartData.mEndScale.mV[VY]   = 0.02f;
-			particle_parameters.mPartData.mStartColor        = LLColor4(1, 1, 1, 0.5f);
-			particle_parameters.mPartData.mEndColor          = LLColor4(1, 1, 1, 0.0f);
-			particle_parameters.mPartData.mStartScale.mV[VX] = 0.8f;
-			LLViewerTexture* cloud = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
-			particle_parameters.mPartImageID                 = cloud->getID();
-			particle_parameters.mMaxAge                      = 0.f;
-			particle_parameters.mPattern                     = LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE;
-			particle_parameters.mInnerAngle                  = F_PI;
-			particle_parameters.mOuterAngle                  = 0.f;
-			particle_parameters.mBurstRate                   = 0.02f;
-			particle_parameters.mBurstRadius                 = 0.0f;
-			particle_parameters.mBurstPartCount              = 1;
-			particle_parameters.mBurstSpeedMin               = 0.1f;
-			particle_parameters.mBurstSpeedMax               = 1.f;
-			particle_parameters.mPartData.mFlags             = ( LLPartData::LL_PART_INTERP_COLOR_MASK | LLPartData::LL_PART_INTERP_SCALE_MASK |
-																 LLPartData::LL_PART_EMISSIVE_MASK | // LLPartData::LL_PART_FOLLOW_SRC_MASK |
-																 LLPartData::LL_PART_TARGET_POS_MASK );
-			
-			setParticleSource(particle_parameters, getID());
+			setParticleSource(sCloud, getID());
 		}
 	}
 }	

@@ -121,6 +121,11 @@
      name="AlertTextColor"
      value="0.58 0.66 0.84 1" />
     <color
+     name="AvatarCloudColorStart"
+     value="0.9 0.0 0.8 0.9" />
+    <color
+     name="AvatarCloudColorEnd"
+     value="0.75 0.47 0.81 0.0" />
      name="AvatarListItemIconDefaultColor"
      reference="White" />
     <color
