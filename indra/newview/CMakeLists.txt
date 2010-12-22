@@ -1702,33 +1702,16 @@ set(ARTWORK_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH
 if (LINUX)
   set(product Kokua-${ARCH}-${viewer_VERSION})
 
-  add_custom_command(
-      OUTPUT ${product}.tar.bz2
-      COMMAND ${PYTHON_EXECUTABLE}
-      ARGS
-        ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
-        --arch=${ARCH}
-        --artwork=${ARTWORK_DIR}
-        --build=${CMAKE_CURRENT_BINARY_DIR}
-        --buildtype=${CMAKE_BUILD_TYPE}
-        --channel=${VIEWER_CHANNEL}
-        --configuration=${CMAKE_CFG_INTDIR}
-        --dest=${CMAKE_CURRENT_BINARY_DIR}/packaged
-        --grid=${GRID}
-        --installer_name=${product}
-        --login_channel=${VIEWER_LOGIN_CHANNEL}
-        --source=${CMAKE_CURRENT_SOURCE_DIR}
-        --touch=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/.${product}.touched
-      DEPENDS ${VIEWER_BINARY_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
-      )
-
   add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_gstreamer010 media_plugin_webkit)
 
   if (PACKAGE)
-    add_custom_target(package ALL DEPENDS ${product}.tar.bz2)
+    add_custom_target(package 
+      COMMAND ${PYTHON_EXECUTABLE} 
+        ${SCRIPTS_DIR}/package.py --build-dir=${CMAKE_BINARY_DIR}
+      )
+    add_dependencies(package ${VIEWER_BINARY_NAME})
     add_dependencies(package linux-crash-logger-target)
     add_dependencies(package linux-updater-target)
-    check_message_template(package)
   endif (PACKAGE)
 
   add_custom_command(
