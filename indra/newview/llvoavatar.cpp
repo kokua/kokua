@@ -94,7 +94,7 @@
 #include "llgesturemgr.h" //needed to trigger the voice gesticulations
 #include "llvoiceclient.h"
 #include "llvoicevisualizer.h" // Ventrella
-
+#include "llsdserialize.h"
 #include "lldebugmessagebox.h"
 extern F32 SPEED_ADJUST_MAX;
 extern F32 SPEED_ADJUST_MAX_SEC;
@@ -1169,31 +1169,15 @@ LLPartSysData LLVOAvatar::sCloud;
 void LLVOAvatar::initCloud()
 {
 	// fancy particle cloud designed by Brent
-	sCloud.mPartData.mMaxAge            = 4.f;
-	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
-	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
-	sCloud.mPartData.mStartScale.mV[VY] = 0.8f;
-	sCloud.mPartData.mEndScale.mV[VX]   = 0.02f;
-	sCloud.mPartData.mEndScale.mV[VY]   = 0.02f;
-	sCloud.mPartData.mStartColor = LLUIColorTable::instance().getColor( "AvatarCloudColorStart" );
-	sCloud.mPartData.mEndColor = LLUIColorTable::instance().getColor( "AvatarCloudColorEnd" );
-	sCloud.mPartData.mStartScale.mV[VX] = 0.8f;
-	LLViewerTexture* cloud = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
-	sCloud.mPartImageID                 = cloud->getID();
-	sCloud.mMaxAge                      = 0.f;
-	sCloud.mPattern                     = LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE;
-	sCloud.mInnerAngle                  = F_PI;
-	sCloud.mOuterAngle                  = 0.f;
-	sCloud.mBurstRate                   = 0.02f;
-	sCloud.mBurstRadius                 = 0.3f;
-	sCloud.mBurstPartCount              = 1;
-	sCloud.mBurstSpeedMin               = 0.1f;
-	sCloud.mBurstSpeedMax               = 1.f;
-	sCloud.mPartData.mFlags             = (LLPartData::LL_PART_INTERP_COLOR_MASK |
-								LLPartData::LL_PART_INTERP_SCALE_MASK |
-								LLPartData::LL_PART_EMISSIVE_MASK | 
-								// LLPartData::LL_PART_FOLLOW_SRC_MASK |
-								LLPartData::LL_PART_TARGET_POS_MASK );
+
+	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud.xml");
+	LLSD cloud;
+	llifstream in_file(filename);
+	LLSDSerialize::fromXMLDocument(cloud, in_file);
+	sCloud.fromLLSD(cloud);
+	LLViewerTexture* cloud_texture = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
+	sCloud.mPartImageID                 = cloud_texture->getID();
+
 }
 
 void LLVOAvatar::initInstance(void)
