@@ -1136,7 +1136,7 @@ if (DARWIN)
     secondlife.icns
     macview.r
     gpu_table.txt
-    Info-SecondLife.plist
+    Info-Kokua.plist
     SecondLife.nib/
     # CMake doesn't seem to support Xcode language variants well just yet
     English.lproj/InfoPlist.strings
