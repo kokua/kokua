@@ -54,7 +54,9 @@ public:
 	void	pan(F32 right, F32 up);
 	virtual BOOL needsUpdate() { return mNeedsUpdate; }
 
-	LLVOAvatar* getDummyAvatar() { return mDummyAvatar; }
+
+	LLVOAvatar* getPreviewAvatar();
+
 
 protected:
 	BOOL				mNeedsUpdate;
@@ -106,6 +108,7 @@ public:
 									   LLAssetType::EType type,
 									   void* user_data,
 									   S32 status, LLExtStat ext_status);
+	static bool sUseDummy;
 private:
 	void setAnimCallbacks() ;
 	
@@ -124,6 +127,7 @@ protected:
 	LLAssetID			mMotionID;
 	LLTransactionID		mTransactionID;
 	LLAnimPauseRequest	mPauseRequest;
+
 
 	std::map<std::string, LLUUID>	mIDList;
 };
