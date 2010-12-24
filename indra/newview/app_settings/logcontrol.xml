@@ -53,6 +53,11 @@
 
 						<!-- Wearable -->
 
+						<!-- see lltexturefetch -->
+						<string>HTTPGetResponder</string>
+						<string>TextureFetch</string>
+						<string>TextureFetchWorker</string>
+
 						</array>
 				</map>
 			</array>
