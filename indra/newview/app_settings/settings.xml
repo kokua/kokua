@@ -49,6 +49,29 @@
       <string>1</string>
     </map>
 
+  <key>PrivateLookAtTarget</key>
+  <map>
+    <key>Comment</key>
+    <string>If true, viewer shows simulated look-at behavior to others.</string>
+    <key>Persist</key>
+    <integer>1</integer>
+    <key>Type</key>
+    <string>Boolean</string>
+    <key>Value</key>
+    <integer>0</integer>
+  </map>
+  <key>PrivatePointAtTarget</key>
+  <map>
+    <key>Comment</key>
+    <string>If true, viewer won't show the editing arm motion.</string>
+    <key>Persist</key>
+    <integer>1</integer>
+    <key>Type</key>
+    <string>Boolean</string>
+    <key>Value</key>
+    <integer>0</integer>
+  </map>
+
     <key>SidebarEnabled</key>
     <map>
       <key>Comment</key>
