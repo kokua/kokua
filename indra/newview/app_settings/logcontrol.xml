@@ -41,8 +41,18 @@
 						</array>
 					<key>tags</key>
 						<array>
-							<!-- sample entry for debugging a specific item	-->
-<!--						<string>Voice</string>							-->
+						<string>OctreeErrors</string>
+
+
+						<!-- <string>GridManager</string> -->
+
+						<!-- <string>InventoryFetch</string> -->
+
+						<!-- <string>Voice</string> -->
+						<!-- <string>VivoxProtocolParser</string> -->
+
+						<!-- Wearable -->
+
 						</array>
 				</map>
 			</array>

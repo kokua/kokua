@@ -1,7 +1,44 @@
 <?xml version="1.0" ?>
 <llsd>
 <map>
-	<key>CrashHostUrl</key>
+
+<!--Kokua settings-->
+    <key>SidebarEnabled</key>
+    <map>
+      <key>Comment</key>
+      <string>Enables Sidebar.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
+    <key>ShowInventoryButton</key>
+    <map>
+      <key>Comment</key>
+      <string>Shows/Hides Inventory button in the bottom tray.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
+    <key>VoiceExecutableName</key>
+    <map>
+      <key>Comment</key>
+      <string>like SLVoice - platform specific parts (e.g. ".exe") are added by the voice client.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>SLVoice</string>
+    </map>
+
+<!--LL settings-->	
+    <key>CrashHostUrl</key>
     <map>
       <key>Comment</key>
       <string>A URL pointing to a crash report handler; overrides cluster negotiation to locate crash handler.</string>
@@ -1332,6 +1369,7 @@
       <key>Value</key>
       <real>1.0</real>
     </map>
+<!-- kokua: removed(annoying)
     <key>CameraPreset</key>
     <map>
       <key>Comment</key>
@@ -1343,6 +1381,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+-->
     <key>CertStore</key>
     <map>
       <key>Comment</key>

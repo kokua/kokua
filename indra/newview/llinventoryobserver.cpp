@@ -149,7 +149,7 @@ LLInventoryFetchItemsObserver::LLInventoryFetchItemsObserver(const uuid_vec_t& i
 
 void LLInventoryFetchItemsObserver::changed(U32 mask)
 {
-	lldebugs << this << " remaining incomplete " << mIncomplete.size()
+	LL_DEBUGS("InventoryFetch") << this << " remaining incomplete " << mIncomplete.size()
 			 << " complete " << mComplete.size()
 			 << " wait period " << mFetchingPeriod.getRemainingTimeF32()
 			 << llendl;
@@ -191,7 +191,7 @@ void LLInventoryFetchItemsObserver::changed(U32 mask)
 
 	if (mIncomplete.empty())
 	{
-		lldebugs << this << " done at remaining incomplete "
+		LL_DEBUGS("InventoryFetch") << this << " done at remaining incomplete "
 				 << mIncomplete.size() << " complete " << mComplete.size() << llendl;
 		done();
 	}

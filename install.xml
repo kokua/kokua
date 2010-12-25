@@ -30,9 +30,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>9c3dff3817f1105f9054401fdef1fe50</string>
+            <string>bc6fbfd19d45068f4248a8e8c1ceb320</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/GL-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/GL-linux64-20101116.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -60,6 +60,13 @@
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/SDL-1.2.12-linux-20090218.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>214fe53a11b3cdef115d36cb95aae185</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/SDL-1.2.12-linux64-20091230.tar.bz2</uri>
+          </map>
         </map>
       </map>
       <key>apr_suite</key>
@@ -85,9 +92,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>1a7e1186855d48d8316ce86803095f70</string>
+            <string>5ee61e2cffc9b6f2a1bc5027cd51529e</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/apr_suite-1.2.8-linux64-20080909a.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/apr_suite-1.3.9-linux64-20091204.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -125,9 +132,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>c4242416e0b2e642c0bf062a19a250e4</string>
+            <string>c7ec29e8dfe856d74a15b66d557c3010</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/ares-1.3.0-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/ares-1.7.1-linux64-20101115.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -156,6 +163,13 @@
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/artwork-common-20090415.tar.bz2</uri>
           </map>
           <key>linux</key>
+          <map>
+            <key>md5sum</key>
+            <string>5e047437d73d1017bf270a6c6e936f23</string>
+            <key>url</key>
+            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/artwork-common-20090415.tar.bz2</uri>
+          </map>
+          <key>linux64</key>
           <map>
             <key>md5sum</key>
             <string>5e047437d73d1017bf270a6c6e936f23</string>
@@ -207,9 +221,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>af4badd6b2c10bc4db82ff1256695892</string>
+            <string>3fb08fa18c3647db8077744e3d4cc1bf</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/boost-1.39.0-linux64-20100119.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/boost-1.39.0-linux64-PIC-2010115.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -247,9 +261,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>6994192cea7ab2d885a158a3de474273</string>
+            <string>1c9ff00e520748983a9bb0f131c30448</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/curl-7.16.4a-linux64-20090303.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/curl-7.21.2-linux64-20101115.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -296,20 +310,12 @@
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/dbusglib-linux-20080707.tar.bz2</uri>
           </map>
-        </map>
-      </map>
-      <key>elfio</key>
-      <map>
-        <key>license</key>
-        <string>lgpl</string>
-        <key>packages</key>
-        <map>
-          <key>linux</key>
+          <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>82ea408af2f968cfe5f013ab241323ef</string>
+            <string>09be41e3145e1a960e50f2f9ce0a5e7d</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/elfio-1.0.3-linux-20080812.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/dbusglib-linux64-20101007.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -340,9 +346,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>278c61871419b9a4d50a4f88b7922403</string>
+            <string>fe25958da18039faf7a38845f2057561</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/expat-1.95.8-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/expat-2.0.1-linux64-20091204.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -399,6 +405,13 @@
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/fontconfig-2.2.3-linux-20080613.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+           <map>
+             <key>md5sum</key>
+             <string>13b551e5deafbaa6cfd105fa072bdfba</string>
+             <key>url</key>
+             <uri>http://imprudenceviewer.org/download/libs/fontconfig-2.7.3-linux64-20091230.tar.bz2</uri>
+           </map>
         </map>
       </map>
       <key>freeglut</key>
@@ -436,16 +449,16 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>9de3f44be65645c7f6af236139596942</string>
+            <string>efc845cf291073b1e4d381a271f194eb</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/freetype-2.3.9-linux-2010-02-19a-nommap.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/freetype-2.3.11-linux-20091103.tar.bz2</uri>
           </map>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>35f6fa557ba90f9cda0a18d1af2055a4</string>
+            <string>1b4624ab06a7ba30e29d1994424db41e</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/freetype-2.1.5-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/freetype-2.3.11-linux64-20091230.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -514,9 +527,16 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>2f1a9e14f9213c2c9564c1c1cfdd6d47</string>
+            <string>566cc47a572303bc4aef12ca02670902</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glib-2.0-linux-20080817.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/glib-2.20.5-linux32-20100529.tar.bz2</uri>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>58c11add6b275c163950364df5b2964a</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/glib-2.20.5-linux64-20100515.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -561,6 +581,13 @@
             <string>40db900872612615e849f17cbdfd2c27</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/google-linux-20080812.tar.bz2</uri>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>6a83ddce8673acb5057ed3a14769deee</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/google-linux64-20091203.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -607,6 +634,13 @@
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/google_breakpad-0.0.0-rev599-linux-20100521b.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>0300272a1e6ecf64ccb02e94cf18e65b</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/google_breakpad-0.0.0-rev599-linux64-20101117.tar.bz2</uri>
+          </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
@@ -640,6 +674,13 @@
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/googlemock-1.1.0-linux32-20090527.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>71316e5ce1ab4892c5fb369bbee02929</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/googlemock-1.5.0-linux64-20101115.tar.bz2</uri>
+          </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
@@ -665,18 +706,21 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>befc7520fe01250f39458f65c29bc584</string>
+            <string>7e6fc4e185e8444a07b58ba7c0df255a</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gstreamer-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/gstreamer-0.10.24-linux64-20091230.tar.bz2</uri>
           </map>
         </map>
       </map>
-      <key>gtk-atk-pango-glib</key>
+      <key>gtk-etc</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald</string>
+        <string>Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+atk: Copyright 2001 Sun Microsystems Inc.
+cairo: Copyright © 2002 University of Southern California, Copyright © 2005 Red Hat, Inc.
+        </string>
         <key>description</key>
-        <string>Libraries associated with GTK for gui features. atk: interfaces for accessibility; glib: low-level core functionality for using GTK+ and GNOME; pango: layout/rendering of text w/ emphasis on internationalization.</string>
+        <string>GTK+ and associated libraries (atk, cairo, pango, pixman)</string>
         <key>license</key>
         <string>lgpl</string>
         <key>packages</key>
@@ -684,16 +728,16 @@
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>21c16a74f8fc9a62e3ab944a6eb7403d</string>
+            <string>349ee367e0ac1e878b24b66e449c6ff8</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gtk-atk-pango-glib-linux-20080616.tar.bz</uri>
+            <uri>http://imprudenceviewer.org/download/libs/gtk-etc-linux-20101106.1.tar.bz2</uri>
           </map>
-          <key>windows</key>
+          <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>d963750bcd333a108b3697d220c87d09</string>
+            <string>e8cb3f28379b7730004da44f04263936</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gtk-atk-pango-glib-windows-20080613.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/gtk-etc-linux64-20091231.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -763,10 +807,10 @@
           </map>
           <key>linux64</key>
           <map>
-            <key>md5sum</key>
-            <string>0e7facf7d48531d20c0cd6a3c3f04021</string>
+          <key>md5sum</key>
+            <string>64e7fa98568ef52b3b9d4a18b3515090</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/jpeglib-6b-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/jpeglib-7-linux64-20091230.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -918,9 +962,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>5ee1e62bde38520c7f134c4afb9ac9b1</string>
+            <string>4485dc95183c9441042cabebfa72fbea</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libpng-1.2.35-linux64-20090304.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/libpng-1.2.41-linux64-20100227.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -928,25 +972,6 @@ anguage Infrstructure (CLI) international standard</string>
             <string>c781cd9846cf20afb90ac40ad1a0ce9d</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libpng-1.2.35-windows-20090917.tar.bz2</uri>
-          </map>
-        </map>
-      </map>
-      <key>libuuid</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;</string>
-        <key>description</key>
-        <string>Generates UUIDs under Linux. Originally a part of the ext2fs filesystem. Also see lluuid.cpp for all platforms. Part of the e2fsprogs package.</string>
-        <key>license</key>
-        <string>lgpl</string>
-        <key>packages</key>
-        <map>
-          <key>linux</key>
-          <map>
-            <key>md5sum</key>
-            <string>91b194aed4b38bc23493b198009a8c6a</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libuuid-linux-20090417.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -966,9 +991,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>921d7f980519101afb74623e29e9d175</string>
+            <string>631df56daeac6aaf5be4c1e39dba6859</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libxml-2.6.24-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/libxml2-2.7.4-r1-linux64-20091230.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -991,6 +1016,13 @@ anguage Infrstructure (CLI) international standard</string>
             <string>5d743c93b970abe685b185de83001a6e</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/llqtwebkit-linux-qt4.6-20100923.tar.bz2</uri>
+          </map>
+          <key>linux64</key>
+           <map>
+             <key>md5sum</key>
+             <string>d5deaf897fe8effa3d3537c875060379</string>
+             <key>url</key>
+             <uri>http://imprudenceviewer.org/download/libs/llqtwebkit-linux64-20100907.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -1087,6 +1119,13 @@ anguage Infrstructure (CLI) international standard</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/ndofdev-linux-0.2-20080828.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>d1986d287655f159be50d661c125ba19</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/ndofdev-linux64-0.3.1-20100817.tar.bz2</uri>
+          </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
@@ -1123,9 +1162,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>964c71e6ee22be1bcaf6d480e74cdd14</string>
+            <string>83c72b57a95e8c42560fb67955169f19</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/ogg-vorbis-1.2.0-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/ogg-vorbis-linux64-20091202.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -1198,11 +1237,11 @@ anguage Infrstructure (CLI) international standard</string>
           </map>
           <key>linux64</key>
           <map>
-            <key>md5sum</key>
-            <string>5ad0a3ab623356c1ad61394ba238f99f</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-soft-1.6.372-linux64-20081219.tar.bz2</uri>
-          </map>
+             <key>md5sum</key>
+            <string>ea42b868511e2d5fab2df11dceaf2b7e</string>
+             <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/openal-linux64-20100428.tar.bz2</uri>
+           </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
@@ -1237,12 +1276,12 @@ anguage Infrstructure (CLI) international standard</string>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openjpeg-1.3-linux-20081124b.tar.bz2</uri>
           </map>
           <key>linux64</key>
-          <map>
-            <key>md5sum</key>
-            <string>44f1bc9d47e4a54fc274c213f2cb565f</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openjpeg-1.2.0-linux64-20080909.tar.bz2</uri>
-          </map>
+           <map>
+             <key>md5sum</key>
+             <string>5b812951f5a300540a7a51dcf65c39f0</string>
+             <key>url</key>
+             <uri>http://imprudenceviewer.org/download/libs/openjpeg-1.4-linux64-20100526.tar.bz2</uri>
+           </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
@@ -1310,6 +1349,13 @@ anguage Infrstructure (CLI) international standard</string>
         <key>packages</key>
         <map>
           <key>linux</key>
+          <map>
+            <key>md5sum</key>
+            <string>30cb00069fe2a545fbf7be1070386236</string>
+            <key>url</key>
+            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/linux-pulse-headers-0.9.14.tar.bz2</uri>
+          </map>
+          <key>linux64</key>
           <map>
             <key>md5sum</key>
             <string>30cb00069fe2a545fbf7be1070386236</string>
@@ -1430,12 +1476,43 @@ anguage Infrstructure (CLI) international standard</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/slvoice-3.2.0002.9361-linux-20101117a.tar.bz2</uri>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>98f7945755f3ee8e52f685a3eff4d7be</string>
+            <key>url</key>
+            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/vivox-3.1.0001.8821-linux-20100529.tar.bz2</uri>
+          </map>
           <key>windows</key>
           <map>
             <key>md5sum</key>
             <string>940ac55a6d0141c958bf2b14939d8474</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/slvoice-3.2.0002.9361-windows-20101117a.tar.bz2</uri>
+          </map>
+        </map>
+      </map>
+      <key>32bitcompatibilitylibs</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyrights: 	Libidn: Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 
+				Simon Josefsson. License GPL v3.0.
+				Freealut,  openal-soft: see copyright and license of the 
+				openal packages.
+				libuuid see licenses-linux.txt
+	</string>
+        <key>description</key>
+        <string>32bit libraries needed for using voice</string>
+        <key>license</key>
+        <string>gpl</string>
+        <key>packages</key>
+        <map>
+          <key>linux64</key>
+          <map>
+            <key>md5sum</key>
+            <string>cbaafc55fb8b14283541791e82f13462</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/linux64-32bitcompatibilitylibs-20100903.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -1506,9 +1583,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>4bddfb2c6dd7b1470a3ed675ac14bd9a</string>
+            <string>d085a173e3c05ff3bb0ee36ba42deb2c</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/zlib-1.2.3-linux64-20080909.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/zlib-1.2.3-linux64-lenny-20091202.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>

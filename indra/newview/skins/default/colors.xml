@@ -550,7 +550,7 @@
      reference="White" />
     <color
      name="NetMapBackgroundColor"
-     value="0 0 0 1" />
+     value="0 0 0 0" />
     <color
      name="NetMapGroupOwnAboveWater"
      reference="Purple" />

@@ -74,7 +74,7 @@
 #include "llsecondlifeurls.h"
 #include "llstring.h"
 #include "lluserrelations.h"
-#include "llversioninfo.h"
+#include "viewerinfo.h"
 #include "llviewercontrol.h"
 #include "llvfs.h"
 #include "llxorcipher.h"	// saved password, MAC address
@@ -491,9 +491,9 @@ bool idle_startup()
 			if(!start_messaging_system(
 				   message_template_path,
 				   port,
-				   LLVersionInfo::getMajor(),
-				   LLVersionInfo::getMinor(),
-				   LLVersionInfo::getPatch(),
+				   ViewerInfo::versionMajor(),
+				   ViewerInfo::versionMinor(),
+				   ViewerInfo::versionPatch(),
 				   FALSE,
 				   std::string(),
 				   responder,
@@ -814,7 +814,8 @@ bool idle_startup()
 		std::string userid = "unknown";                                                                                
 		if(gUserCredential.notNull())                                                                                  
 		{  
-			userid = gUserCredential->userID();                                                                    
+			userid = gUserCredential->userID();
+			gUserID = userid;
 			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
 		}
 		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);                                                 

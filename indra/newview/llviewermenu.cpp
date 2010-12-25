@@ -435,7 +435,9 @@ void init_menus()
 	{
 		color = LLUIColorTable::instance().getColor( "MenuNonProductionBgColor" );
 	}
-	gMenuBarView = LLUICtrlFactory::getInstance()->createFromFile<LLMenuBarGL>("menu_viewer.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+	gMenuBarView = LLUICtrlFactory::getInstance()->createFromFile<LLMenuBarGL>("menu_viewer_kokua.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+//kokua we could add a legacy menu here
+
 	gMenuBarView->setRect(LLRect(0, top, 0, top - MENU_BAR_HEIGHT));
 	gMenuBarView->setBackgroundColor( color );
 
@@ -472,7 +474,9 @@ void init_menus()
 	// Let land based option enable when parcel changes
 	gMenuParcelObserver = new LLMenuParcelObserver();
 
-	gLoginMenuBarView = LLUICtrlFactory::getInstance()->createFromFile<LLMenuBarGL>("menu_login.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+	gLoginMenuBarView = LLUICtrlFactory::getInstance()->createFromFile<LLMenuBarGL>("menu_login_kokua.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+//kokua we could add a legacy menu here
+
 	gLoginMenuBarView->arrangeAndClear();
 	LLRect menuBarRect = gLoginMenuBarView->getRect();
 	menuBarRect.setLeftTopAndSize(0, menu_bar_holder->getRect().getHeight(), menuBarRect.getWidth(), menuBarRect.getHeight());
@@ -2463,6 +2467,26 @@ bool enable_object_open()
 	return root->allowOpen();
 }
 
+class LLViewShowSidebar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		bool new_value = !gSavedSettings.getBOOL("SidebarEnabled");
+		gSavedSettings.setBOOL("SidebarEnabled", new_value);
+		LLSideTray::getInstance()->getButtonsPanel()->setVisible(new_value);
+		LLSideTray::getInstance()->updateSidetrayVisibility();
+		return true;
+	}
+};
+
+class LLViewCheckShowSidebar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		bool new_value = gSavedSettings.getBOOL("SidebarEnabled");
+		return new_value;
+	}
+};
 
 class LLViewJoystickFlycam : public view_listener_t
 {
@@ -7794,10 +7818,12 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLViewCheckHighlightTransparent(), "View.CheckHighlightTransparent");
 	view_listener_t::addMenu(new LLViewCheckRenderType(), "View.CheckRenderType");
 	view_listener_t::addMenu(new LLViewCheckHUDAttachments(), "View.CheckHUDAttachments");
+	view_listener_t::addMenu(new LLViewShowSidebar(), "View.ShowSidebar");
+	view_listener_t::addMenu(new LLViewCheckShowSidebar(), "View.CheckShowSidebar");
 
 	// Me > Movement
 	view_listener_t::addMenu(new LLAdvancedAgentFlyingInfo(), "Agent.getFlying");
-	
+
 	// World menu
 	commit.add("World.Chat", boost::bind(&handle_chat, (void*)NULL));
 	view_listener_t::addMenu(new LLWorldAlwaysRun(), "World.AlwaysRun");

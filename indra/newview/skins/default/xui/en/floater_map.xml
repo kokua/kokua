@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <floater
- bg_alpha_image_overlay="DkGray_66"
+ bg_alpha_image_overlay="LtGray_50"
  legacy_header_height="0"
  can_minimize="true" 
  can_resize="true"
  follows="top|right"
  height="174"
  layout="topleft"
- min_height="128"
- min_width="128"
+ min_height="64"
+ min_width="64"
  name="Map"
  title=""
  help_topic="map"

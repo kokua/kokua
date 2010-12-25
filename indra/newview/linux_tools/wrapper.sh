@@ -41,9 +41,6 @@
 ##   driver bug, try enabling this option and report whether it helps:
 #export LL_ATI_MOUSE_CURSOR_BUG=x
 
-if [ "`uname -m`" = "x86_64" ]; then
-    echo '64-bit Linux detected.'
-fi
 
 ## Everything below this line is just for advanced troubleshooters.
 ##-------------------------------------------------------------------
@@ -110,9 +107,17 @@ if [ -n "$LL_TCMALLOC" ]; then
     fi
 fi
 
-export SL_ENV='LD_LIBRARY_PATH="`pwd`"/lib:"${LD_LIBRARY_PATH}"'
-export SL_CMD='$LL_WRAPPER bin/do-not-directly-run-secondlife-bin'
+BINARY_TYPE=$(expr match "$(file -b bin/do-not-directly-run-kokua-bin)" '\(.*executable\)')
+if [ "${BINARY_TYPE}" == "ELF 32-bit LSB executable" ]; then
+
+	export SL_ENV='LD_LIBRARY_PATH="`pwd`"/lib:"${LD_LIBRARY_PATH}"'
+else
+	export SL_ENV='LD_LIBRARY_PATH="`pwd`"/lib64:"`pwd`"/lib32:"${LD_LIBRARY_PATH}"'
+fi
+
+export SL_CMD='$LL_WRAPPER bin/do-not-directly-run-kokua-bin'
 export SL_OPT="`cat etc/gridargs.dat` $@"
+
 
 # Run the program
 eval ${SL_ENV} ${SL_CMD} ${SL_OPT} || LL_RUN_ERR=runerr
@@ -123,25 +128,13 @@ if [ -n "$LL_RUN_ERR" ]; then
 	if [ "$LL_RUN_ERR" = "runerr" ]; then
 		# generic error running the binary
 		echo '*** Bad shutdown. ***'
-		if [ "`uname -m`" = "x86_64" ]; then
-			echo
-			cat << EOFMARKER
-You are running the Second Life Viewer on a x86_64 platform.  The
-most common problems when launching the Viewer (particularly
-'bin/do-not-directly-run-secondlife-bin: not found' and 'error while
-loading shared libraries') may be solved by installing your Linux
-distribution's 32-bit compatibility packages.
-For example, on Ubuntu and other Debian-based Linuxes you might run:
-$ sudo apt-get install ia32-libs ia32-libs-gtk ia32-libs-kde ia32-libs-sdl
-EOFMARKER
-		fi
 	fi
 fi
 	
 
 echo
 echo '*******************************************************'
-echo 'This is a BETA release of the Second Life linux client.'
+echo 'This is a ALPHA release of the Kokua Linux client.'
 echo 'Thank you for testing!'
 echo 'Please see README-linux.txt before reporting problems.'
 echo

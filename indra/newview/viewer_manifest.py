@@ -237,8 +237,8 @@ class WindowsManifest(ViewerManifest):
         self.enable_crt_manifest_check()
 
         if self.is_packaging_viewer():
-            # Find secondlife-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
-            self.path(src='%s/secondlife-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            # Find kokua-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
+            self.path(src='%s/kokua-bin.exe' % self.args['configuration'], dst=self.final_exe())
 
         # Plugin host application
         self.path(os.path.join(os.pardir,
@@ -835,7 +835,7 @@ class LinuxManifest(ViewerManifest):
             self.path("client-readme.txt","README-linux.txt")
             self.path("client-readme-voice.txt","README-linux-voice.txt")
             self.path("client-readme-joystick.txt","README-linux-joystick.txt")
-            self.path("wrapper.sh","secondlife")
+            self.path("wrapper.sh","kokua")
             self.path("handle_secondlifeprotocol.sh", "etc/handle_secondlifeprotocol.sh")
             self.path("register_secondlifeprotocol.sh", "etc/register_secondlifeprotocol.sh")
             self.path("refresh_desktop_app_entry.sh", "etc/refresh_desktop_app_entry.sh")
@@ -846,7 +846,7 @@ class LinuxManifest(ViewerManifest):
         # Create an appropriate gridargs.dat for this package, denoting required grid.
         self.put_in_file(self.flags_list(), 'etc/gridargs.dat')
 
-        self.path("secondlife-bin","bin/do-not-directly-run-secondlife-bin")
+        self.path("kokua-bin","bin/do-not-directly-run-kokua-bin")
         self.path("../linux_crash_logger/linux-crash-logger","bin/linux-crash-logger.bin")
         self.path("../linux_updater/linux-updater", "bin/linux-updater.bin")
         self.path("../llplugin/slplugin/SLPlugin", "bin/SLPlugin")
@@ -864,17 +864,14 @@ class LinuxManifest(ViewerManifest):
             self.path("../media_plugins/gstreamer010/libmedia_plugin_gstreamer010.so", "libmedia_plugin_gstreamer.so")
             self.end_prefix("bin/llplugin")
 
-        try:
-            self.path("../llcommon/libllcommon.so", "lib/libllcommon.so")
-        except:
-            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
 
         self.path("featuretable_linux.txt")
 
     def copy_finish(self):
         # Force executable permissions to be set for scripts
         # see CHOP-223 and http://mercurial.selenic.com/bts/issue1802
-        for script in 'secondlife', 'bin/update_install':
+        for script in 'kokua', 'bin/update_install':
             self.run_command("chmod +x %r" % os.path.join(self.get_dst_prefix(), script))
 
     def package_finish(self):
@@ -940,7 +937,12 @@ class Linux_i686Manifest(LinuxManifest):
         except:
             print "Skipping libllkdu.so - not found"
 
-        if self.prefix("../../libraries/i686-linux/lib_release_client", dst="lib"):
+        try:
+            self.path("../llcommon/libllcommon.so", "lib/libllcommon.so")
+        except:
+            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
+	if self.prefix("../../libraries/i686-linux/lib_release_client", dst="lib"):
             self.path("libapr-1.so.0")
             self.path("libaprutil-1.so.0")
             self.path("libbreakpad_client.so.0.0.0", "libbreakpad_client.so.0")
@@ -948,9 +950,7 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libcrypto.so.0.9.7")
             self.path("libexpat.so.1")
             self.path("libssl.so.0.9.7")
-            self.path("libuuid.so.1")
             self.path("libSDL-1.2.so.0")
-            self.path("libELFIO.so")
             self.path("libopenjpeg.so.1.3.0", "libopenjpeg.so.1.3")
             self.path("libalut.so")
             self.path("libopenal.so", "libopenal.so.1")
@@ -987,6 +987,53 @@ class Linux_x86_64Manifest(LinuxManifest):
 
         # support file for valgrind debug tool
         self.path("secondlife-i686.supp")
+
+	try:
+            self.path("../llcommon/libllcommon.so", "lib64/libllcommon.so")
+        except:
+            print "Skipping llcommon.so (assuming llcommon was linked statically)"
+
+        if self.prefix("../../libraries/x86_64-linux/lib_release_client", dst="lib64"):
+            self.path("libapr-1.so.0")
+            self.path("libaprutil-1.so.0")
+            self.path("libbreakpad_client.so.0.0.0", "libbreakpad_client.so.0")
+            self.path("libdb-4.2.so")
+            self.path("libcrypto.so.0.9.8")
+            self.path("libexpat.so.1")
+            self.path("libssl.so.0.9.8")
+            self.path("libSDL-1.2.so.0")
+            self.path("libjpeg.so.7")
+            self.path("libpng12.so.0")
+            self.path("libopenjpeg.so.2")
+
+
+            # OpenAL
+            self.path("libopenal.so.1")
+            self.path("libalut.so.0")
+
+            self.end_prefix("lib64")
+
+            # Vivox runtimes
+            if self.prefix(src="vivox-runtime/i686-linux", dst="bin"):
+                    self.path("SLVoice")
+                    self.end_prefix()
+            if self.prefix(src="vivox-runtime/i686-linux", dst="lib32"):
+                    self.path("libortp.so")
+                    self.path("libsndfile.so.1")
+                    self.path("libvivoxoal.so.1")
+                    self.path("libvivoxsdk.so")
+                    self.path("libvivoxplatform.so")
+                    self.end_prefix("lib32")
+
+            # 32bit libs needed for voice
+            if self.prefix("../../libraries/x86_64-linux/lib_release_client/32bit-compat", dst="lib32"):
+                    self.path("libalut.so")
+                    self.path("libidn.so.11")
+                    #self.path("libopenal.so.1", "libvivoxoal.so.1") # thats ours but vivox doesn't like it
+                    # self.path("libortp.so")
+                    self.path("libuuid.so.1")
+                    self.end_prefix("lib32")
+
 
 ################################################################
 

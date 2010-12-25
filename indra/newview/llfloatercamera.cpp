@@ -138,7 +138,7 @@ void LLPanelCameraItem::onAnyMouseClick()
 {
 	if (mCommitSignal) (*mCommitSignal)(this, LLSD());
 }
-
+/*
 void LLPanelCameraItem::setValue(const LLSD& value)
 {
 	if (!value.isMap()) return;;
@@ -147,6 +147,7 @@ void LLPanelCameraItem::setValue(const LLSD& value)
 	getChildView("picture")->setVisible( !value["selected"]);
 	getChildView("selected_picture")->setVisible( value["selected"]);
 }
+*/
 
 static LLRegisterPanelClassWrapper<LLPanelCameraZoom> t_camera_zoom_panel("camera_zoom_panel");
 
@@ -159,6 +160,7 @@ LLPanelCameraZoom::LLPanelCameraZoom()
 	mMinusBtn( NULL ),
 	mSlider( NULL )
 {
+	llwarns << "LLPanelCameraZoom::LLPanelCameraZoom()" <<  llendl;
 	mCommitCallbackRegistrar.add("Zoom.minus", boost::bind(&LLPanelCameraZoom::onZoomMinusHeldDown, this));
 	mCommitCallbackRegistrar.add("Zoom.plus", boost::bind(&LLPanelCameraZoom::onZoomPlusHeldDown, this));
 	mCommitCallbackRegistrar.add("Slider.value_changed", boost::bind(&LLPanelCameraZoom::onSliderValueChanged, this));
@@ -169,6 +171,7 @@ BOOL LLPanelCameraZoom::postBuild()
 	mPlusBtn  = getChild <LLButton> ("zoom_plus_btn");
 	mMinusBtn = getChild <LLButton> ("zoom_minus_btn");
 	mSlider   = getChild <LLSlider> ("zoom_slider");
+
 	return LLPanel::postBuild();
 }
 
@@ -301,7 +304,6 @@ void LLFloaterCamera::onOpen(const LLSD& key)
 		getDockTongue(), LLDockControl::TOP));
 
 	mZoom->onOpen(key);
-
 	// Returns to previous mode, see EXT-2727(View tool should remember state).
 	// In case floater was just hidden and it isn't reset the mode
 	// just update state to current one. Else go to previous.
@@ -336,6 +338,7 @@ LLFloaterCamera::LLFloaterCamera(const LLSD& val)
 	mCurrMode(CAMERA_CTRL_MODE_PAN),
 	mPrevMode(CAMERA_CTRL_MODE_PAN)
 {
+ 	mCommitCallbackRegistrar.add("Camera.ChangeView", boost::bind(&LLFloaterCamera::onClickCameraItem,this, _2));
 }
 
 // virtual
@@ -349,9 +352,19 @@ BOOL LLFloaterCamera::postBuild()
 	mZoom = findChild<LLPanelCameraZoom>(ZOOM);
 	mTrack = getChild<LLJoystickCameraTrack>(PAN);
 
+//Kokua
+/*
 	assignButton2Mode(CAMERA_CTRL_MODE_MODES,			"avatarview_btn");
 	assignButton2Mode(CAMERA_CTRL_MODE_PAN,				"pan_btn");
 	assignButton2Mode(CAMERA_CTRL_MODE_PRESETS,		"presets_btn");
+*/
+
+	mBtnViewFront = getChild<LLButton>("cam_front_view_btn");
+	mBtnViewSide = getChild<LLButton>("cam_side_view_btn");
+	mBtnViewRear = getChild<LLButton>("cam_rear_view_btn");
+	mBtnViewMouselook = getChild<LLButton>("cam_mouselook_view_btn");
+	mBtnViewFree = getChild<LLButton>("cam_free_view_btn");
+	mBtnViewReset = getChild<LLButton>("cam_reset_view_btn");
 
 	update();
 
@@ -361,6 +374,7 @@ BOOL LLFloaterCamera::postBuild()
 	return LLDockableFloater::postBuild();
 }
 
+/*
 void LLFloaterCamera::fillFlatlistFromPanel (LLFlatListView* list, LLPanel* panel)
 {
 	// copying child list and then iterating over a copy, because list itself
@@ -376,7 +390,7 @@ void LLFloaterCamera::fillFlatlistFromPanel (LLFlatListView* list, LLPanel* pane
 			list->addItem(item);
 	}
 
-}
+}*/
 
 ECameraControlMode LLFloaterCamera::determineMode()
 {
@@ -426,6 +440,7 @@ void LLFloaterCamera::setMode(ECameraControlMode mode)
 void LLFloaterCamera::setModeTitle(const ECameraControlMode mode)
 {
 	std::string title; 
+
 	switch(mode)
 	{
 	case CAMERA_CTRL_MODE_MODES:
@@ -440,6 +455,7 @@ void LLFloaterCamera::setModeTitle(const ECameraControlMode mode)
 	default:
 		break;
 	}
+
 	setTitle(title);
 }
 
@@ -479,8 +495,8 @@ void LLFloaterCamera::switchMode(ECameraControlMode mode)
 	}
 }
 
-
-void LLFloaterCamera::onClickBtn(ECameraControlMode mode)
+/*
+void LLFloaterCamera::onClickModeBtn(ECameraControlMode mode)
 {
 	// check for a click on active button
 	if (mCurrMode == mode) mMode2Button[mode]->setToggleState(TRUE);
@@ -489,16 +505,21 @@ void LLFloaterCamera::onClickBtn(ECameraControlMode mode)
 
 }
 
+
 void LLFloaterCamera::assignButton2Mode(ECameraControlMode mode, const std::string& button_name)
 {
 	LLButton* button = getChild<LLButton>(button_name);
 	
-	button->setClickedCallback(boost::bind(&LLFloaterCamera::onClickBtn, this, mode));
+	button->setClickedCallback(boost::bind(&LLFloaterCamera::onClickModeBtn, this, mode));
 	mMode2Button[mode] = button;
 }
+*/
 
 void LLFloaterCamera::updateState()
 {
+	updateItemsSelection();
+
+/*
 	getChildView(ZOOM)->setVisible(CAMERA_CTRL_MODE_PAN == mCurrMode);
 	
 	bool show_presets = (CAMERA_CTRL_MODE_PRESETS == mCurrMode) || (CAMERA_CTRL_MODE_FREE_CAMERA == mCurrMode
@@ -516,17 +537,19 @@ void LLFloaterCamera::updateState()
 		return;
 	}
 
-	//updating buttons
+	updating buttons
 	std::map<ECameraControlMode, LLButton*>::const_iterator iter = mMode2Button.begin();
 	for (; iter != mMode2Button.end(); ++iter)
 	{
 		iter->second->setToggleState(iter->first == mCurrMode);
 	}
-	setModeTitle(mCurrMode);
+ 	setModeTitle(mCurrMode);
+*/
 }
 
 void LLFloaterCamera::updateItemsSelection()
 {
+/*
 	ECameraPreset preset = (ECameraPreset) gSavedSettings.getU32("CameraPreset");
 	LLSD argument;
 	argument["selected"] = preset == CAMERA_PRESET_REAR_VIEW;
@@ -539,32 +562,61 @@ void LLFloaterCamera::updateItemsSelection()
 	getChild<LLPanelCameraItem>("mouselook_view")->setValue(argument);
 	argument["selected"] = mCurrMode == CAMERA_CTRL_MODE_FREE_CAMERA;
 	getChild<LLPanelCameraItem>("object_view")->setValue(argument);
+*/
+	ECameraPreset preset = gAgentCamera.getCameraPreset();
+	BOOL is_selected;
+	is_selected = preset == CAMERA_PRESET_REAR_VIEW;
+	mBtnViewRear->setToggleState(is_selected);
+	is_selected = preset == CAMERA_PRESET_GROUP_VIEW;
+	mBtnViewSide->setToggleState(is_selected);
+	is_selected = preset == CAMERA_PRESET_FRONT_VIEW;
+	mBtnViewFront->setToggleState(is_selected);
+	is_selected = gAgentCamera.getCameraMode() == CAMERA_MODE_MOUSELOOK;
+	mBtnViewMouselook->setToggleState(is_selected);
+	is_selected = mCurrMode == CAMERA_CTRL_MODE_FREE_CAMERA;
+	mBtnViewFree->setToggleState(is_selected);
 }
 
 void LLFloaterCamera::onClickCameraItem(const LLSD& param)
 {
 	std::string name = param.asString();
+	LLFloaterCamera* camera_floater = LLFloaterCamera::findInstance();
 
-	if ("mouselook_view" == name)
+	if ("reset_view" == name)
+	{
+		gAgentCamera.switchCameraPreset(CAMERA_PRESET_REAR_VIEW);
+		gAgentCamera.changeCameraToDefault();
+		if (camera_floater)
+			camera_floater->switchMode(CAMERA_CTRL_MODE_PAN);
+	}
+	else if ("mouselook_view" == name)
 	{
 		gAgentCamera.changeCameraToMouselook();
 	}
 	else if ("object_view" == name)
 	{
-		LLFloaterCamera* camera_floater = LLFloaterCamera::findInstance();
 		if (camera_floater)
-		camera_floater->switchMode(CAMERA_CTRL_MODE_FREE_CAMERA);
+		{
+			if (mCurrMode == CAMERA_CTRL_MODE_FREE_CAMERA)
+			{
+				camera_floater->switchMode(CAMERA_CTRL_MODE_PAN);	
+			}
+			else
+			{
+				camera_floater->switchMode(CAMERA_CTRL_MODE_FREE_CAMERA);	
+			}
+		}
+
 	}
 	else
 	{
 		switchToPreset(name);
 	}
 
-	LLFloaterCamera* camera_floater = LLFloaterCamera::findInstance();
 	if (camera_floater)
 	{
 		camera_floater->updateItemsSelection();
-		camera_floater->fromFreeToPresets();
+		camera_floater->fromFreeToPan();
 	}
 }
 
@@ -587,10 +639,10 @@ void LLFloaterCamera::switchToPreset(const std::string& name)
 	}
 }
 
-void LLFloaterCamera::fromFreeToPresets()
+void LLFloaterCamera::fromFreeToPan()
 {
-	if (!sFreeCamera && mCurrMode == CAMERA_CTRL_MODE_FREE_CAMERA && mPrevMode == CAMERA_CTRL_MODE_PRESETS)
+	if (!sFreeCamera && mCurrMode == CAMERA_CTRL_MODE_FREE_CAMERA && mPrevMode == CAMERA_CTRL_MODE_PAN)
 	{
-		switchMode(CAMERA_CTRL_MODE_PRESETS);
+		switchMode(CAMERA_CTRL_MODE_PAN);
 	}
 }

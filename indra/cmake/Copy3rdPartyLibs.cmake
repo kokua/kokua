@@ -196,7 +196,7 @@ elseif(LINUX)
     set(SHARED_LIB_STAGING_DIR_RELWITHDEBINFO   "${SHARED_LIB_STAGING_DIR}")
     set(SHARED_LIB_STAGING_DIR_RELEASE          "${SHARED_LIB_STAGING_DIR}")
 
-    set(vivox_src_dir "${CMAKE_SOURCE_DIR}/newview/vivox-runtime/i686-linux")
+    set(vivox_src_dir "${CMAKE_SOURCE_DIR}/newview/vivox-runtime/i686-linux")#voice is always i686
     set(vivox_files
         libsndfile.so.1
         libortp.so
@@ -207,36 +207,61 @@ elseif(LINUX)
        )
     # *TODO - update this to use LIBS_PREBUILT_DIR and LL_ARCH_DIR variables
     # or ARCH_PREBUILT_DIRS
-    set(debug_src_dir "${CMAKE_SOURCE_DIR}/../libraries/i686-linux/lib_debug")
+    set(debug_src_dir "${CMAKE_SOURCE_DIR}/../libraries/${ARCH}-linux/lib_debug")
     set(debug_files
        )
     # *TODO - update this to use LIBS_PREBUILT_DIR and LL_ARCH_DIR variables
     # or ARCH_PREBUILT_DIRS
-    set(release_src_dir "${CMAKE_SOURCE_DIR}/../libraries/i686-linux/lib_release_client")
+    set(release_src_dir "${CMAKE_SOURCE_DIR}/../libraries/${ARCH}-linux/lib_release_client")
     # *FIX - figure out what to do with duplicate libalut.so here -brad
-    set(release_files
-        libapr-1.so.0
-        libaprutil-1.so.0
-        libatk-1.0.so
-        libbreakpad_client.so.0
-        libcrypto.so.0.9.7
-        libdb-4.2.so
-        libexpat.so
-        libexpat.so.1
-        libgmock_main.so
-        libgmock.so.0
-        libgmodule-2.0.so
-        libgobject-2.0.so
-        libgtest_main.so
-        libgtest.so.0
-        libopenal.so
-        libopenjpeg.so
-        libssl.so
-        libstacktrace.so
-        libtcmalloc.so
-        libuuid.so.1
-        libssl.so.0.9.7
-       )
+
+    if(${ARCH} STREQUAL "x86_64")
+      set(release_files
+          libapr-1.so.0
+          libaprutil-1.so.0
+          libatk-1.0.so
+          libbreakpad_client.so.0
+          libcrypto.so.0.9.8
+          libdb-4.2.so
+          libexpat.so
+          libexpat.so.1
+          libgmock_main.so
+          libgmock.so.0
+          libgmodule-2.0.so
+          libgobject-2.0.so
+          libgtest_main.so
+          libgtest.so.0
+          libopenal.so
+          libopenjpeg.so
+          libssl.so
+          libstacktrace.so
+          libtcmalloc.so
+          libssl.so.0.9.8
+         )
+    else(${ARCH} STREQUAL "x86_64")
+      set(release_files
+          libapr-1.so.0
+          libaprutil-1.so.0
+          libatk-1.0.so
+          libbreakpad_client.so.0
+          libcrypto.so.0.9.7
+          libdb-4.2.so
+          libexpat.so
+          libexpat.so.1
+          libgmock_main.so
+          libgmock.so.0
+          libgmodule-2.0.so
+          libgobject-2.0.so
+          libgtest_main.so
+          libgtest.so.0
+          libopenal.so
+          libopenjpeg.so
+          libssl.so
+          libstacktrace.so
+          libtcmalloc.so
+          libssl.so.0.9.7
+         )
+    endif(${ARCH} STREQUAL "x86_64")
 
     if (FMOD)
       set(release_files ${release_files} "libfmod-3.75.so")
@@ -259,15 +284,15 @@ elseif(LINUX)
     endif(NOT EXISTS ${internal_llkdu_path})
 else(WINDOWS)
     message(STATUS "WARNING: unrecognized platform for staging 3rd party libs, skipping...")
-    set(vivox_src_dir "${CMAKE_SOURCE_DIR}/newview/vivox-runtime/i686-linux")
+    set(vivox_src_dir "${CMAKE_SOURCE_DIR}/newview/vivox-runtime/i686-linux")#voice is always i686
     set(vivox_files "")
     # *TODO - update this to use LIBS_PREBUILT_DIR and LL_ARCH_DIR variables
     # or ARCH_PREBUILT_DIRS
-    set(debug_src_dir "${CMAKE_SOURCE_DIR}/../libraries/i686-linux/lib/debug")
+    set(debug_src_dir "${CMAKE_SOURCE_DIR}/../libraries/${ARCH}-linux/lib/debug")
     set(debug_files "")
     # *TODO - update this to use LIBS_PREBUILT_DIR and LL_ARCH_DIR variables
     # or ARCH_PREBUILT_DIRS
-    set(release_src_dir "${CMAKE_SOURCE_DIR}/../libraries/i686-linux/lib/release")
+    set(release_src_dir "${CMAKE_SOURCE_DIR}/../libraries/${ARCH}-linux/lib/release")
     set(release_files "")
 
     set(fmod_files "")

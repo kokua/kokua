@@ -31,14 +31,16 @@ if (STANDALONE)
     add_definitions(${${pkg}_CFLAGS_OTHERS})
   endforeach(pkg)
 else (STANDALONE)
-  use_prebuilt_binary(gtk-atk-pango-glib)
   if (LINUX)
+    use_prebuilt_binary(glib)		# gtk-etc needs glib
+    use_prebuilt_binary(gtk-etc)
     set(UI_LIBRARIES
         atk-1.0
+        cairo
         gdk-x11-2.0
         gdk_pixbuf-2.0
-        Xinerama
         glib-2.0
+        gio-2.0
         gmodule-2.0
         gobject-2.0
         gthread-2.0
@@ -47,11 +49,15 @@ else (STANDALONE)
         pangoft2-1.0
         pangox-1.0
         pangoxft-1.0
+        pixman-1
+        pangocairo-1.0
         )
   endif (LINUX)
 
   include_directories (
       ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/cairo
+      ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/pixman-1
       ${LIBS_PREBUILT_DIR}/include
       )
   foreach(include ${${LL_ARCH}_INCLUDES})

@@ -1,0 +1,75 @@
+# 
+# This file contains names (and wildcards) of files that
+# Git should ignore.
+# 
+# Since we only care about the actual source code files,
+# all the artwork and libraries are ignored, as are the
+# files that are created when you compile.
+# 
+
+
+
+# ARTWORK
+
+LICENSE-logos.txt
+indra/newview/skins/*/textures/
+indra/newview/skins/default/html/btn_purplepill_bg.png
+indra/newview/skins/default/html/en/loading/sl_logo_rotate_black.gif
+indra/newview/skins/default/html/en/loading/Thumbs.db
+indra/newview/skins/default/html/en/loading/imprudence_loading.png
+indra/newview/skins/default/html/unabletoconnect.png
+indra/newview/res/
+indra/newview/res-sdl/
+indra/newview/character/
+indra/newview/app_settings/*.db2
+indra/newview/app_settings/windlight/
+indra/newview/cursors_mac/
+indra/newview/viewer.icns
+indra/newview/installers/windows/README.txt
+indra/newview/installers/windows/imp_icon.ico
+indra/newview/installers/windows/imprudence installer script weekly.iss
+indra/newview/installers/windows/imprudence installer script.iss
+indra/newview/installers/windows/imprudence_installer_icon_left.bmp
+indra/newview/installers/windows/imprudence_installer_icon_right.bmp
+
+# LIBRARIES
+
+LICENSES/
+LICENSE-libraries-*.txt
+libraries/
+indra/newview/fonts/
+indra/newview/lib/
+indra/newview/dbghelp.dll
+indra/newview/linux_tools/client-readme-voice.txt
+indra/newview/vivox-runtime/
+indra/newview/*.lproj/
+indra/newview/mozilla-theme/
+indra/test_apps/
+indra/sharedlibs
+indra/temp
+indra/llplugin/slplugin/lib
+indra/llwindow/glh
+
+
+# COMPILED STUFF
+
+/build
+indra/viewer-*
+indra/build-*
+installed.xml
+*.pyc
+
+
+# PATCHES
+
+*.diff*
+*.patch*
+
+
+# MISCELLANEOUS
+
+*~
+ChangeLog.txt
+.DS_Store
+*.zip
+/dox

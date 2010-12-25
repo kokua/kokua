@@ -285,29 +285,6 @@ slouken@libsdl.org
 
 The GNU Library GPL is available at http://www.gnu.org/copyleft/lesser.html
 
-=============
-ELFIO License
-=============
-
-ELFIO.h - ELF reader and producer.
-Copyright (C) 2001 Serge Lamikhov-Center <to_serge@users.sourceforge.net>
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-The GNU Library GPL is available at http://www.gnu.org/copyleft/lesser.html
-
 ===============
 OpenSSL License
 ===============
@@ -638,7 +615,7 @@ Vivox SDK License
 
 RSA Data Security, Inc. MD5 Message-Digest Algorithm 
 
-Audio coding: Polycom¨ Siren14TM (ITU-T Rec. G.722.1 Annex C) 
+Audio coding: Polycomï¿½ Siren14TM (ITU-T Rec. G.722.1 Annex C) 
 
 Open Source Software Licensing 
 Each open source software component utilized by this product is subject to its own copyright and licensing terms, as listed below. 

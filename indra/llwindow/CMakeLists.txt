@@ -88,14 +88,15 @@ if (DARWIN)
 endif (DARWIN)
 
 if (LINUX AND VIEWER)
-  list(APPEND viewer_SOURCE_FILES 
+  list(APPEND llwindow_SOURCE_FILES 
        llkeyboardsdl.cpp 
        llwindowsdl.cpp
        )
-  list(APPEND viewer_HEADER_FILES
+  list(APPEND llwindow_HEADER_FILES
        llkeyboardsdl.h
        llwindowsdl.h
        )
+  list(APPEND llwindow_LINK_LIBRARIES fontconfig)
 endif (LINUX AND VIEWER)
 
 if (WINDOWS)

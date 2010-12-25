@@ -56,6 +56,7 @@
 #include "llparcel.h"
 #include "llrendersphere.h"
 #include "llsdutil.h"
+#include "llsidetray.h"
 #include "llsky.h"
 #include "llsmoothstep.h"
 #include "llstartup.h"
@@ -1725,6 +1726,9 @@ void LLAgent::endAnimationUpdateUI()
 		}
 
 		LLBottomTray::getInstance()->onMouselookModeOut();
+
+		LLSideTray::getInstance()->getButtonsPanel()->setVisible(gSavedSettings.getBOOL("SidebarEnabled"));
+		LLSideTray::getInstance()->updateSidetrayVisibility();
 
 		LLPanelStandStopFlying::getInstance()->setVisible(TRUE);
 

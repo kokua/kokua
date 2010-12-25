@@ -505,7 +505,7 @@ void LLLineEditor::selectAll()
 	setCursor(mSelectionEnd);
 	//mScrollHPos = 0;
 	mIsSelecting = TRUE;
-	updatePrimary();
+
 }
 
 
@@ -562,9 +562,6 @@ BOOL LLLineEditor::handleDoubleClick(S32 x, S32 y, MASK mask)
 
 	// delay cursor flashing
 	mKeystrokeTimer.reset();
-
-	// take selection to 'primary' clipboard
-	updatePrimary();
 
 	return TRUE;
 }
@@ -974,12 +971,6 @@ BOOL LLLineEditor::handleSelectionKey(KEY key, MASK mask)
 			handled = FALSE;
 			break;
 		}
-	}
-
-	if(handled)
-	{
-		// take selection to 'primary' clipboard
-		updatePrimary();
 	}
  
 	return handled;

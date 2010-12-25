@@ -645,7 +645,6 @@ void LLTextEditor::selectAll()
 	mSelectionStart = getLength();
 	mSelectionEnd = 0;
 	setCursorPos(mSelectionEnd);
-	updatePrimary();
 }
 
 BOOL LLTextEditor::handleMouseDown(S32 x, S32 y, MASK mask)
@@ -880,8 +879,6 @@ BOOL LLTextEditor::handleDoubleClick(S32 x, S32 y, MASK mask)
 		// delay cursor flashing
 		resetCursorBlink();
 
-		// take selection to 'primary' clipboard
-		updatePrimary();
 
 		handled = TRUE;
 	}
@@ -1199,12 +1196,6 @@ BOOL LLTextEditor::handleSelectionKey(const KEY key, const MASK mask)
 		}
 	}
 
-	if( handled )
-	{
-		// take selection to 'primary' clipboard
-		updatePrimary();
-	}
- 
 	return handled;
 }
 
@@ -1552,11 +1543,6 @@ BOOL LLTextEditor::handleControlKey(const KEY key, const MASK mask)
 			handled = FALSE;
 			break;
 		}
-	}
-
-	if (handled)
-	{
-		updatePrimary();
 	}
 
 	return handled;

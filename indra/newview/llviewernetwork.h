@@ -78,7 +78,7 @@ public:
 	// grid list management
 	
 	// add a grid to the list of grids
-	void addGrid(LLSD& grid_info);	
+	void addGrid(LLSD& grid_info, bool is_system = false);	
 
 	// retrieve a map of grid-name <-> label
 	// by default only return the user visible grids
