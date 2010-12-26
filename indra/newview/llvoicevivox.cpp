@@ -814,7 +814,7 @@ void LLVivoxVoiceClient::stateMachine()
 					exe_path += exe_name;
 					exe_path += ".exe";
 #elif LL_DARWIN
-					exe_path += "../Resources/"
+					exe_path += "../Resources/";
 					exe_path += exe_name;
 #else
 					exe_path += exe_name;
