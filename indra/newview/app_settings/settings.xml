@@ -13,7 +13,7 @@
       <key>Type</key>
       <string>String</string>
       <key>Value</key>
-      <string>http://localhost/client_list.xml</string>
+      <string>http://viewertags.com/app/client_list.xml</string>
     </map>
     <key>ClientInfoUUID</key>
     <map>

@@ -440,6 +440,7 @@ bool LLURLRequest::configure()
 	case HTTP_GET:
 		mDetail->mCurlRequest->setopt(CURLOPT_HTTPGET, 1);
 		mDetail->mCurlRequest->setopt(CURLOPT_FOLLOWLOCATION, 1);
+		mDetail->mCurlRequest->setoptString(CURLOPT_ENCODING, "");
 		rv = true;
 		break;
 
