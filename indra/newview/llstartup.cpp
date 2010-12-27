@@ -34,6 +34,8 @@
 #	include <sys/stat.h>		// mkdir()
 #endif
 
+#include <time.h>
+
 #include "llviewermedia_streamingaudio.h"
 #include "llaudioengine.h"
 
@@ -306,13 +308,18 @@ public:
 		out_file.open(filename);
 		LLSDSerialize::toPrettyXML(content, out_file);
 		out_file.close();
+		llinfos << "ClientInfoRequest: got new list." << llendl;
 	}
 
 	//If we get back an error (not found, etc...), handle it here
 	virtual void error(U32 status, const std::string& reason)
 	{
-		llwarns << "ClientInfoRequest::error("
-		<< status << ": " << reason << ")" << llendl;
+		if (304 == status)
+		{
+			llinfos << "ClientInfoRequest: List not modified since last session" << llendl;
+		}
+		else
+			llwarns << "ClientInfoRequest::error("<< status << ": " << reason << ")" << llendl;
 	}
 };
 
@@ -614,8 +621,18 @@ bool idle_startup()
 
 		LL_INFOS("AppInit") << "Message System Initialized." << LL_ENDL;
 
+		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
+
+		llstat file_stat; //platform independent wrapper for stat
+		time_t last_modified = 0;
+
+		if(!LLFile::stat(filename, &file_stat))//exists
+		{
+			last_modified = file_stat.st_mtime;
+		}
+
 		std::string url = gSavedSettings.getString("ClientInfoURL");
-		LLHTTPClient::get(url, new ClientInfoRequestResponder());
+		LLHTTPClient::get(url, new ClientInfoRequestResponder(),last_modified );
 
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog

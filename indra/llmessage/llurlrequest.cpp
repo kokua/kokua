@@ -158,7 +158,8 @@ LLURLRequest::LLURLRequest(LLURLRequest::ERequestAction action) :
 LLURLRequest::LLURLRequest(
 	LLURLRequest::ERequestAction action,
 	const std::string& url) :
-	mAction(action)
+	mAction(action),
+	mModifiedSince(0)
 {
 	LLMemType m1(LLMemType::MTYPE_IO_URL_REQUEST);
 	initialize();
@@ -441,6 +442,11 @@ bool LLURLRequest::configure()
 		mDetail->mCurlRequest->setopt(CURLOPT_HTTPGET, 1);
 		mDetail->mCurlRequest->setopt(CURLOPT_FOLLOWLOCATION, 1);
 		mDetail->mCurlRequest->setoptString(CURLOPT_ENCODING, "");
+		if(mModifiedSince)
+		{
+			mDetail->mCurlRequest->setopt(CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+			mDetail->mCurlRequest->setopt(CURLOPT_TIMEVALUE, mModifiedSince);
+		}
 		rv = true;
 		break;
 
