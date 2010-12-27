@@ -1,6 +1,6 @@
 /**
  * @file viewerinfo.cpp
- * @brief Functions for querying the viewer name and version.
+ * @brief Functions for querying the viewer name, version, and other info.
  * @author Jacek Antonelli
  *
  * Copyright (c) 2010, Jacek Antonelli
@@ -34,6 +34,9 @@ namespace ViewerInfo
 	const S32         MINOR = 1;
 	const S32         PATCH = 0;
 	const std::string EXTRA = "WIP";
+
+	// Mac OS X bundle identifier. Should match the one in Info.plist.
+	const std::string BUNDLE_ID = "org.kokuaviewer.viewer";
 
 
 	const std::string& viewerName()
@@ -89,6 +92,11 @@ namespace ViewerInfo
 	{
 		static std::string s = NAME + " " + versionFull();
 		return s;
+	}
+
+	const std::string& bundleID()
+	{
+		return BUNDLE_ID;
 	}
 
 }

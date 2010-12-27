@@ -1,6 +1,6 @@
 /**
  * @file viewerinfo.h
- * @brief Functions for querying the viewer name and version.
+ * @brief Functions for querying the viewer name, version, and other info.
  * @author Jacek Antonelli
  *
  * Copyright (c) 2010, Jacek Antonelli
@@ -53,6 +53,10 @@ namespace ViewerInfo
 
 	/// Returns a string with the viewer name and full version.
   const std::string& fullInfo();
+
+	/// Returns a string with the viewer's Mac OS X bundle identifier.
+  const std::string& bundleID();
+  
 }
 
 #endif // VERSIONINFO_H
