@@ -1756,19 +1756,18 @@ if (LINUX)
 endif (LINUX)
 
 if (DARWIN)
-  set(product "Second Life")
+  set(product "Kokua")
   set_target_properties(
     ${VIEWER_BINARY_NAME}
     PROPERTIES
     OUTPUT_NAME "${product}"
-    MACOSX_BUNDLE_INFO_STRING "info string - localize me"
     MACOSX_BUNDLE_ICON_FILE "secondlife.icns"
-    MACOSX_BUNDLE_GUI_IDENTIFIER "Second Life"
-    MACOSX_BUNDLE_LONG_VERSION_STRING "ververver"
-    MACOSX_BUNDLE_BUNDLE_NAME "Second Life"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "asdf"
-    MACOSX_BUNDLE_BUNDLE_VERSION "asdf"
-    MACOSX_BUNDLE_COPYRIGHT "copyright linden lab 2007 - localize me and run me through a legal wringer"
+    MACOSX_BUNDLE_GUI_IDENTIFIER "${product}"
+    MACOSX_BUNDLE_BUNDLE_NAME ${product}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${viewer_VERSION}"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${product} ${viewer_VERSION}"
+    # MACOSX_BUNDLE_LONG_VERSION_STRING "${product} ${viewer_VERSION}"
+    # MACOSX_BUNDLE_COPYRIGHT ""
     )
 
   add_custom_command(
@@ -1829,7 +1828,7 @@ if (PACKAGE)
   if (DARWIN)
     set(VIEWER_DIST_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/secondlife-symbols-darwin.tar.bz2")
-    set(VIEWER_EXE_GLOBS "'Second Life' SLPlugin")
+    set(VIEWER_EXE_GLOBS "'Kokua' SLPlugin")
     set(VIEWER_LIB_GLOB "*.dylib")
   endif (DARWIN)
   if (LINUX)
