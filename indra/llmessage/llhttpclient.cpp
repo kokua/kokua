@@ -218,7 +218,7 @@ static void request(
 	LLCurl::ResponderPtr responder,
 	const F32 timeout = HTTP_REQUEST_EXPIRY_SECS,
 	const LLSD& headers = LLSD(),
-	const time_t if_modified_since = 0
+	const time_t &if_modified_since = 0
     )
 {
 	if (!LLHTTPClient::hasPump())
@@ -349,7 +349,7 @@ void LLHTTPClient::get(const std::string& url, ResponderPtr responder, const LLS
 {
 	request(url, LLURLRequest::HTTP_GET, NULL, responder, timeout, headers);
 }
-void LLHTTPClient::get(const std::string& url, ResponderPtr responder, const time_t if_modified_since, const LLSD& headers, const F32 timeout)
+void LLHTTPClient::getIfModified(const std::string& url, ResponderPtr responder, const time_t &if_modified_since, const LLSD& headers, const F32 timeout)
 {
 	request(url, LLURLRequest::HTTP_GET, NULL, responder, timeout, headers,  if_modified_since);
 }

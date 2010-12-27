@@ -296,24 +296,27 @@ namespace
 	};
 }
 
+static bool sClientInfoRequestReady = false;
 class ClientInfoRequestResponder : public LLHTTPClient::Responder
 {
 public:
 	//If we get back a normal response, handle it here
 	virtual void result(const LLSD& content)
 	{
-		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
+		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list_new_format.xml");
 
 		llofstream out_file;
 		out_file.open(filename);
 		LLSDSerialize::toPrettyXML(content, out_file);
 		out_file.close();
 		llinfos << "ClientInfoRequest: got new list." << llendl;
+		sClientInfoRequestReady = true;
 	}
 
 	//If we get back an error (not found, etc...), handle it here
 	virtual void error(U32 status, const std::string& reason)
 	{
+		sClientInfoRequestReady = true;
 		if (304 == status)
 		{
 			llinfos << "ClientInfoRequest: List not modified since last session" << llendl;
@@ -621,18 +624,21 @@ bool idle_startup()
 
 		LL_INFOS("AppInit") << "Message System Initialized." << LL_ENDL;
 
-		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
-
-		llstat file_stat; //platform independent wrapper for stat
-		time_t last_modified = 0;
-
-		if(!LLFile::stat(filename, &file_stat))//exists
+		if(gSavedSettings.getBOOL("ClientInfoDownload"))
 		{
-			last_modified = file_stat.st_mtime;
-		}
+			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list_new_format.xml");
 
-		std::string url = gSavedSettings.getString("ClientInfoURL");
-		LLHTTPClient::get(url, new ClientInfoRequestResponder(),last_modified );
+			llstat file_stat; //platform independent wrapper for stat
+			time_t last_modified = 0;
+
+			if(!LLFile::stat(filename, &file_stat))//exists
+			{
+				last_modified = file_stat.st_mtime;
+			}
+
+			std::string url = gSavedSettings.getString("ClientInfoURL");
+			LLHTTPClient::getIfModified(url, new ClientInfoRequestResponder(), last_modified );
+		}
 
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog
@@ -1202,9 +1208,18 @@ bool idle_startup()
 		LLViewerObject::initVOClasses();
 
 		{
-			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list.xml");
+			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list_new_format.xml");
+
+			llstat file_stat;
+
+			if(LLFile::stat(filename, &file_stat)|| !sClientInfoRequestReady)
+			{//doesn't exists or still downloading
+
+				std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "client_list_new_format.xml");
+			}
+
 			LLSD info;
-	
+
 			llifstream in_file ;
 			in_file.open(filename);
 			LLSDSerialize::fromXMLDocument(info, in_file);

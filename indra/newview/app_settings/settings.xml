@@ -3,7 +3,17 @@
 <map>
 
 <!--Kokua settings-->
-
+    <key>ClientInfoDownload</key>
+    <map>
+      <key>Comment</key>
+      <string>Wether to fetch client infos from the URL specified in ClientInfoURL.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <string>1</string>
+    </map>
     <key>ClientInfoURL</key>
     <map>
       <key>Comment</key>

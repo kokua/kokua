@@ -132,8 +132,7 @@ public:
 	 * than the UNIX time in if_modified_since, if the file on the server was not newer you get a 
 	 * "304 not modified" response.
 	 */
-	void setModifiedSince(const time_t if_modified_since) {mModifiedSince = (long)if_modified_since;}
-	long mModifiedSince;
+	void setModifiedSince(const time_t &if_modified_since);
 
 	/** 
 	 * @brief Add a header to the http post.

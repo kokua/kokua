@@ -158,8 +158,7 @@ LLURLRequest::LLURLRequest(LLURLRequest::ERequestAction action) :
 LLURLRequest::LLURLRequest(
 	LLURLRequest::ERequestAction action,
 	const std::string& url) :
-	mAction(action),
-	mModifiedSince(0)
+	mAction(action)
 {
 	LLMemType m1(LLMemType::MTYPE_IO_URL_REQUEST);
 	initialize();
@@ -251,6 +250,14 @@ void LLURLRequest::allowCookies()
 	mDetail->mCurlRequest->setoptString(CURLOPT_COOKIEFILE, "");
 }
 
+void LLURLRequest::setModifiedSince(const time_t &if_modified_since)
+{
+	if(if_modified_since)
+	{
+		mDetail->mCurlRequest->setopt(CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
+		mDetail->mCurlRequest->setopt(CURLOPT_TIMEVALUE, (long)if_modified_since);
+	}
+}
 // virtual
 LLIOPipe::EStatus LLURLRequest::handleError(
 	LLIOPipe::EStatus status,
@@ -442,11 +449,6 @@ bool LLURLRequest::configure()
 		mDetail->mCurlRequest->setopt(CURLOPT_HTTPGET, 1);
 		mDetail->mCurlRequest->setopt(CURLOPT_FOLLOWLOCATION, 1);
 		mDetail->mCurlRequest->setoptString(CURLOPT_ENCODING, "");
-		if(mModifiedSince)
-		{
-			mDetail->mCurlRequest->setopt(CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
-			mDetail->mCurlRequest->setopt(CURLOPT_TIMEVALUE, mModifiedSince);
-		}
 		rv = true;
 		break;
 
