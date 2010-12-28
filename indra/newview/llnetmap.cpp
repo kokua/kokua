@@ -869,3 +869,20 @@ BOOL LLNetMap::handleHover( S32 x, S32 y, MASK mask )
 
 	return TRUE;
 }
+
+BOOL LLNetMap::handleTeleport( S32 x, S32 y, MASK mask )
+{
+	LLVector3d target = viewPosToGlobal(x,y);
+
+	if (mask & MASK_CONTROL)
+	{
+		target.mdV[VZ] = LLWorld::getInstance()->resolveLandHeightGlobal(target);
+	}
+
+	target.mdV[VZ] += 0.05; 
+
+	gAgent.setControlFlags(AGENT_CONTROL_STAND_UP);
+	gAgent.teleportViaLocationLookAt( target );
+
+	return TRUE;
+}

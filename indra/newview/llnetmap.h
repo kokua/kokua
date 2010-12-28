@@ -76,6 +76,7 @@ public:
 	void			setScale( F32 scale );
 	void			setToolTipMsg(const std::string& msg) { mToolTipMsg = msg; }
 	void			renderScaledPointGlobal( const LLVector3d& pos, const LLColor4U &color, F32 radius );
+	BOOL			handleTeleport( S32 x, S32 y, MASK mask );
 
 private:
 	const LLVector3d& getObjectImageCenterGlobal()	{ return mObjectImageCenterGlobal; }
