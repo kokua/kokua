@@ -422,7 +422,9 @@ bool idle_startup()
 		gSavedSettings.setS32("LastGPUClass", LLFeatureManager::getInstance()->getGPUClass());
 
 		// load dynamic GPU/feature tables from website (S3)
-		LLFeatureManager::getInstance()->fetchHTTPTables();
+		// Kokua: or don't. At least not from LL, their tables
+		// might be bugged (atm at least:  0 particles default for low graphics)
+		// LLFeatureManager::getInstance()->fetchHTTPTables();
 		
 		std::string xml_file = LLUI::locateSkin("xui_version.xml");
 		LLXMLNodePtr root;
