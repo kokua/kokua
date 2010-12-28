@@ -74,6 +74,30 @@
         <key>name</key>
             <string>CryoLife</string>
         </map>
+    <key>14ae222f-cf97-fcff-6b90-21593d824dbd</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.03921568627450999766637096</real>
+                <real>0.01568627450980400114821656</real>
+                <real>0.07843137254901999533274193</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>FuckLife</string>
+        </map>
+    <key>1a1d86b2-edda-aa01-6e23-5b0cc7c2fe35</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.04705882352941199997520272</real>
+                <real>0.003921568627451000287054139</real>
+                <real>0.8823529411764700070008871</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>S3aian</string>
+        </map>
     <key>1c29480c-c608-df87-28bb-964fb64c5366</key>
         <map>
         <key>color</key>
@@ -150,13 +174,13 @@
         <map>
         <key>color</key>
             <array>
+                <real>0.9921568627450999544592491</real>
                 <real>0.7921568627450999988681701</real>
-                <real>0.002156862745100000203907209</real>
                 <real>0.5333333333333299952627726</real>
                 <real>1</real>
             </array>
         <key>name</key>
-            <string>Kokua</string>
+            <string>Meerkat</string>
         </map>
     <key>2b459a3b-5420-21a1-7dda-eccf02de6c37</key>
         <map>
@@ -183,6 +207,18 @@
             <boolean>1</boolean>
         <key>name</key>
             <string>PhoxSL</string>
+        </map>
+    <key>3386a955-641c-1113-18e7-d4a5165a62bd</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.5450980392156900000699693</real>
+                <real>0.5450980392156900000699693</real>
+                <real>0.5137254901960800479443492</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>StreetLife</string>
         </map>
     <key>3ab7e2fa-9572-ef36-1a30-d855dbea4f92</key>
         <map>
@@ -221,6 +257,18 @@
             </array>
         <key>name</key>
             <string>Nano</string>
+        </map>
+    <key>4b6f6b75-bf77-d1ff-0000-000000000000</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.749019607843140033942575</real>
+                <real>0.4666666666666700047372274</real>
+                <real>0.8078431372548999789273694</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>Kokua</string>
         </map>
     <key>4b84e182-f0cc-d8da-94c8-25b59c4e4b99</key>
         <map>
@@ -630,6 +678,18 @@
         <key>name</key>
             <string>$</string>
         </map>
+    <key>9a4d13d4-b36b-ff89-715b-9b53091c1473</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.8823529411764700070008871</real>
+                <real>0.8823529411764700070008871</real>
+                <real>0</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>SuperLife</string>
+        </map>
     <key>9ee02f6b-c244-75d4-1737-da8afb9d8d52</key>
         <map>
         <key>color</key>
@@ -690,6 +750,18 @@
         <key>name</key>
             <string>The Sorcerer</string>
         </map>
+    <key>b2848bed-38b3-3d6b-6ebe-7b4cb7d4994a</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.03921568627450999766637096</real>
+                <real>0.1960784313725499883318548</real>
+                <real>0.07843137254901999533274193</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>KoreDEV-Ghost</string>
+        </map>
     <key>b32f01bc-f9b3-4535-b1f3-99dc38f022db</key>
         <map>
         <key>color</key>
@@ -749,6 +821,18 @@
             </array>
         <key>name</key>
             <string>Apple Life</string>
+        </map>
+    <key>bdef8fc2-df54-fa80-757a-f7f346bbcf77</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0.5450980392156900000699693</real>
+                <real>0.2705882352941200164053726</real>
+                <real>0.07450980392156900111721995</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>KoreDEV</string>
         </map>
     <key>bf33bd15-7020-cce1-3725-48923440b7ee</key>
         <map>
@@ -812,6 +896,18 @@
         <key>name</key>
             <string>Winky</string>
         </map>
+    <key>c58fca06-33b3-827d-d81c-a886a631affc</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>1</real>
+                <real>0.6117647058823499905955146</real>
+                <real>0</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>Whale</string>
+        </map>
     <key>c5b570ca-bb7e-3c81-afd1-f62646b20014</key>
         <map>
         <key>color</key>
@@ -859,6 +955,18 @@
             </array>
         <key>name</key>
             <string>Emerald</string>
+        </map>
+    <key>d0770263-aec5-6a26-f987-37c14e8f6523</key>
+        <map>
+        <key>color</key>
+            <array>
+                <real>0</real>
+                <real>0</real>
+                <real>0.8823529411764700070008871</real>
+                <real>1</real>
+            </array>
+        <key>name</key>
+            <string>HXO-Life</string>
         </map>
     <key>d2fd7988-786f-40bc-54cb-c2ad557a639d</key>
         <map>

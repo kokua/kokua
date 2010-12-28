@@ -12,7 +12,7 @@
       <key>Type</key>
       <string>Boolean</string>
       <key>Value</key>
-      <string>1</string>
+      <integer>1</integer>
     </map>
     <key>ClientInfoURL</key>
     <map>
@@ -45,7 +45,7 @@
       <key>Type</key>
       <string>Boolean</string>
       <key>Value</key>
-      <string>1</string>
+      <integer>1</integer>
     </map>
     <key>ClientInfoShowColorInTag</key>
     <map>
@@ -56,7 +56,18 @@
       <key>Type</key>
       <string>Boolean</string>
       <key>Value</key>
-      <string>1</string>
+      <integer>1</integer>
+    </map>
+    <key>ClientInfoShowToOthers</key>
+    <map>
+      <key>Comment</key>
+      <string>If the client info is made available to other avatars</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
     </map>
 
   <key>PrivateLookAtTarget</key>

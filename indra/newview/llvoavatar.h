@@ -214,7 +214,7 @@ public:
 	void			idleUpdateNameTagText(BOOL new_name);
 	LLVector3		idleUpdateNameTagPosition(const LLVector3& root_pos_last);
 	void			idleUpdateNameTagAlpha(BOOL new_name, F32 alpha);
-	LLColor4		getNameTagColor(bool is_friend);
+	LLColor4		getNameTagColor(bool is_friend, bool has_client);
 	void			clearNameTag();
 	static void		invalidateNameTag(const LLUUID& agent_id);
 	// force all name tags to rebuild, useful when display names turned on/off
@@ -847,6 +847,7 @@ private:
 	std::string  	mTitle;
 	std::string	mClientName;
 	LLColor4        mClientColor;
+	bool		mClientDirty;
 	bool	  		mNameAway;
 	bool	  		mNameBusy;
 	bool	  		mNameMute;

@@ -427,6 +427,9 @@
      name="InventorySearchStatusColor"
      reference="EmphasisColor" />
     <color
+     name="Kokua"
+     value="0.749019607843140033942575 0.4666666666666700047372274 0.8078431372548999789273694 1" />
+    <color
      name="LabelDisabledColor"
 	 reference="White_25" />
     <color

@@ -659,6 +659,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mNameString(),
 	mTitle(),
 	mClientName(),
+	mClientDirty(false),
 	mNameAway(false),
 	mNameBusy(false),
 	mNameMute(false),
@@ -2793,7 +2794,11 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 			mRenderGroupTitles = sRenderGroupTitles;
 			new_name = TRUE;
 		}
-
+		if (mClientDirty)
+		{
+			new_name = TRUE;
+			mClientDirty = false;
+		}
 		// First Calculate Alpha
 		// If alpha > 0, create mNameText if necessary, otherwise delete it
 			F32 alpha = 0.f;
@@ -2895,14 +2900,9 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 					}
 				}
 			}
+	static LLUICachedControl<bool> use_client("ClientInfoShowNameInTag");
+	bool has_client = (!mClientName.empty());
 
-	static std::string client_name = mClientName;
-	bool has_client = (!client_name.empty());
-	if (client_name != mClientName)
-	{
-		client_name = mClientName;
-		new_name = true;
-	}
 	// Rebuild name tag if state change detected
 	if (mNameString.empty()
 		|| new_name
@@ -2916,11 +2916,11 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 		|| is_cloud != mNameCloud)
 				{
 
-		LLColor4 name_tag_color = has_client ? mClientColor : getNameTagColor(is_friend);
+		LLColor4 name_tag_color =  getNameTagColor(is_friend, has_client);
  
 		clearNameTag();
 
-		if (is_away || is_muted || is_busy || is_appearance || has_client)
+		if (is_away || is_muted || is_busy || is_appearance || (has_client && use_client))
 				{
 			std::string line;
 					if (is_away)
@@ -2949,9 +2949,9 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 				line += ", ";
 			}
 
-			if (has_client)
+			if (has_client && use_client)
 			{
-				line += client_name;
+				line += mClientName;
 				line += ", ";
 			}
 
@@ -3185,10 +3185,20 @@ void LLVOAvatar::idleUpdateNameTagAlpha(BOOL new_name, F32 alpha)
 	}
 }
 
-LLColor4 LLVOAvatar::getNameTagColor(bool is_friend)
+LLColor4 LLVOAvatar::getNameTagColor(bool is_friend, bool has_client)
 {
 	static LLUICachedControl<bool> show_friends("NameTagShowFriends");
+	static LLUICachedControl<bool> show_client_color("ClientInfoShowColorInTag");
 	const char* color_name;
+	
+	if (!isSelf() && has_client && show_client_color)
+	{
+		return mClientColor;
+	}
+
+//Kokua TODO: having a text attribute for friends like in Impy is more conveniant.
+
+
 	if (show_friends && is_friend)
 	{
 		color_name = "NameTagFriend";
@@ -3206,7 +3216,11 @@ LLColor4 LLVOAvatar::getNameTagColor(bool is_friend)
 		else
 		{
 			color_name = "NameTagMismatch";
+		}
 	}
+	else if (isSelf())
+	{
+		color_name = "Kokua";
 	}
 	else
 	{
@@ -6895,8 +6909,10 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 	else
 	{
 		mClientName.clear();
-		mClientColor =  LLUIColorTable::instance().getColor( "AvatarNameColor" );
+		mClientColor =  getNameTagColor(LLAvatarTracker::instance().isBuddy(getID()), false);
 	}
+
+	mClientDirty = true;
 
 	// ! BACKWARDS COMPATIBILITY !
 	// Non-self avatars will no longer have component textures
