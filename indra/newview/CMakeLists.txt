@@ -1763,7 +1763,7 @@ if (DARWIN)
     OUTPUT_NAME "${product}"
     MACOSX_BUNDLE_ICON_FILE "secondlife.icns"
     MACOSX_BUNDLE_GUI_IDENTIFIER "${product}"
-    MACOSX_BUNDLE_BUNDLE_NAME ${product}"
+    MACOSX_BUNDLE_BUNDLE_NAME "${product}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${viewer_VERSION}"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${product} ${viewer_VERSION}"
     # MACOSX_BUNDLE_LONG_VERSION_STRING "${product} ${viewer_VERSION}"
