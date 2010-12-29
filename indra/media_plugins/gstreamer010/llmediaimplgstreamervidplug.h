@@ -35,6 +35,7 @@ extern "C" {
 #include <gst/gst.h>
 #include <gst/video/video.h>
 #include <gst/video/gstvideosink.h>
+// #include <glib/gthread.h>
 }
 
 G_BEGIN_DECLS

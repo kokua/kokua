@@ -26,7 +26,7 @@
  * @endcond
  */
 
-#include "linden_common.h"
+// #include "linden_common.h"
 
 #include "llplugininstance.h"
 #include "llpluginmessage.h"

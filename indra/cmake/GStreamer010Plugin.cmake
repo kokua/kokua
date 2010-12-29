@@ -17,9 +17,11 @@ elseif (LINUX)
       ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/glib-2.0
       ${LIBS_PREBUILT_DIR}/${LL_ARCH_DIR}/include/libxml2
       )
-  # We don't need to explicitly link against gstreamer itself, because
-  # LLMediaImplGStreamer probes for the system's copy at runtime.
   set(GSTREAMER010_LIBRARIES
+      gstvideo-0.10
+      gstaudio-0.10
+      gstbase-0.10
+      gstreamer-0.10
       gobject-2.0
       gmodule-2.0
       dl
