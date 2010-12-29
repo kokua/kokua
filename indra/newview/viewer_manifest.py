@@ -595,24 +595,26 @@ class DarwinManifest(ViewerManifest):
                 else:
                     self.path("secondlife_firstlook.icns", "secondlife.icns")
                 self.path("SecondLife.nib")
-                
-                # Translations
-                self.path("English.lproj")
-                self.path("German.lproj")
-                self.path("Japanese.lproj")
-                self.path("Korean.lproj")
-                self.path("da.lproj")
-                self.path("es.lproj")
-                self.path("fr.lproj")
-                self.path("hu.lproj")
-                self.path("it.lproj")
-                self.path("nl.lproj")
-                self.path("pl.lproj")
-                self.path("pt.lproj")
-                self.path("ru.lproj")
-                self.path("tr.lproj")
-                self.path("uk.lproj")
-                self.path("zh-Hans.lproj")
+
+                if self.prefix(src="packaging/mac", dst=""):
+                    # Translations
+                    self.path("English.lproj")
+                    self.path("German.lproj")
+                    self.path("Japanese.lproj")
+                    self.path("Korean.lproj")
+                    self.path("da.lproj")
+                    self.path("es.lproj")
+                    self.path("fr.lproj")
+                    self.path("hu.lproj")
+                    self.path("it.lproj")
+                    self.path("nl.lproj")
+                    self.path("pl.lproj")
+                    self.path("pt.lproj")
+                    self.path("ru.lproj")
+                    self.path("tr.lproj")
+                    self.path("uk.lproj")
+                    self.path("zh-Hans.lproj")
+                    self.end_prefix("packaging/mac")
 
                 # SLVoice and vivox lols
                 self.path("vivox-runtime/universal-darwin/libsndfile.dylib", "libsndfile.dylib")
