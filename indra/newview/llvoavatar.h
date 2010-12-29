@@ -244,7 +244,7 @@ public:
 	static BOOL		sJointDebug; // output total number of joints being touched for each avatar
 	static BOOL		sDebugAvatarRotation;
 	static LLPartSysData sCloud;
-
+	static LLPartSysData sCloudMuted;
 	//--------------------------------------------------------------------
 	// Region state
 	//--------------------------------------------------------------------

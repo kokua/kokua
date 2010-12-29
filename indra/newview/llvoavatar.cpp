@@ -1167,6 +1167,7 @@ void LLVOAvatar::cleanupClass()
 }
 
 LLPartSysData LLVOAvatar::sCloud;
+LLPartSysData LLVOAvatar::sCloudMuted;
 void LLVOAvatar::initCloud()
 {
 	// fancy particle cloud designed by Brent
@@ -1179,6 +1180,14 @@ void LLVOAvatar::initCloud()
 	LLViewerTexture* cloud_texture = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
 	sCloud.mPartImageID                 = cloud_texture->getID();
 
+	//Todo: have own image, de-copy-pasta
+	LLSD cloud_muted;
+	filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud_muted.xml");
+	llifstream in_file_muted(filename);
+	LLSDSerialize::fromXMLDocument(cloud_muted, in_file_muted);
+	sCloudMuted.fromLLSD(cloud_muted);
+	LLViewerTexture* cloud_muted_texture = LLViewerTextureManager::getFetchedTextureFromFile("cloud-particle.j2c");
+	sCloudMuted.mPartImageID                 = cloud_muted_texture->getID();
 }
 
 void LLVOAvatar::initInstance(void)
@@ -2677,7 +2686,10 @@ void LLVOAvatar::idleUpdateLoadingEffect()
 		}
 		else
 		{
-			setParticleSource(sCloud, getID());
+			if (!isSelf() && LLMuteList::getInstance()->isMuted(getID()))
+				setParticleSource(sCloudMuted, getID());
+			else
+				setParticleSource(sCloud, getID());
 		}
 	}
 }	
@@ -2866,15 +2878,8 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 	bool is_away = mSignaledAnimations.find(ANIM_AGENT_AWAY)  != mSignaledAnimations.end();
 	bool is_busy = mSignaledAnimations.find(ANIM_AGENT_BUSY) != mSignaledAnimations.end();
 	bool is_appearance = mSignaledAnimations.find(ANIM_AGENT_CUSTOMIZE) != mSignaledAnimations.end();
-	bool is_muted;
-	if (isSelf())
-	{
-		is_muted = false;
-	}
-	else
-		{
-		is_muted = LLMuteList::getInstance()->isMuted(getID());
-	}
+	bool is_muted = (!isSelf() && LLMuteList::getInstance()->isMuted(getID()));
+
 	bool is_friend = LLAvatarTracker::instance().isBuddy(getID());
 	bool is_cloud = getIsCloud();
 
@@ -2943,7 +2948,7 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 				line += LLTrans::getString("AvatarEditingAppearance");
 				line += ", ";
 					}
-			if (is_cloud)
+			if (is_cloud && !is_muted)
 					{
 				line += LLTrans::getString("LoadingData");
 				line += ", ";
@@ -6085,6 +6090,8 @@ BOOL LLVOAvatar::isVisible() const
 // Determine if we have enough avatar data to render
 BOOL LLVOAvatar::getIsCloud()
 {
+	static LLUICachedControl<bool> muted_as_cloud("ShowMutedAvatarsAsCloud");
+
 	// Do we have a shape?
 	if (visualParamWeightsAreDefault())
 	{
@@ -6097,6 +6104,10 @@ BOOL LLVOAvatar::getIsCloud()
 	{
 		return TRUE;
 	}
+
+	if (muted_as_cloud && !isSelf() &&  LLMuteList::getInstance()->isMuted(getID()))
+		return TRUE;
+
 	return FALSE;
 }
 
