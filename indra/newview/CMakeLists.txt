@@ -1137,7 +1137,7 @@ if (DARWIN)
     macview.r
     gpu_table.txt
     Info-Kokua.plist
-    SecondLife.nib/
+    packaging/mac/SecondLife.nib/
     # CMake doesn't seem to support Xcode language variants well just yet
     packaging/mac/English.lproj/InfoPlist.strings
     packaging/mac/English.lproj/language.txt

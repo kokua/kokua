@@ -586,7 +586,6 @@ class DarwinManifest(ViewerManifest):
 
                 self.path("licenses-mac.txt", dst="licenses.txt")
                 self.path("featuretable_mac.txt")
-                self.path("SecondLife.nib")
 
                 # If we are not using the default channel, use the 'Firstlook
                 # icon' to show that it isn't a stable release.
@@ -594,9 +593,10 @@ class DarwinManifest(ViewerManifest):
                     self.path("secondlife.icns")
                 else:
                     self.path("secondlife_firstlook.icns", "secondlife.icns")
-                self.path("SecondLife.nib")
 
                 if self.prefix(src="packaging/mac", dst=""):
+                    self.path("SecondLife.nib")
+
                     # Translations
                     self.path("English.lproj")
                     self.path("German.lproj")
