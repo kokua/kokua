@@ -569,12 +569,13 @@ class DarwinManifest(ViewerManifest):
         self.path(self.args['configuration'] + "/Kokua.app", dst="")
 
         if self.prefix(src="", dst="Contents"):  # everything goes in Contents
-            self.path("Info-Kokua.plist", dst="Info.plist")
-
             # copy additional libs in <bundle>/Contents/MacOS/
             self.path("../../libraries/universal-darwin/lib_release/libndofdev.dylib", dst="MacOS/libndofdev.dylib")
 
             self.path("../viewer_components/updater/scripts/darwin/update_install", "MacOS/update_install")
+
+            # Info.plist goes directly in Contents
+            self.path("packaging/mac/Info.plist.in", dst="Info.plist")
 
             # most everything goes in the Resources directory
             if self.prefix(src="", dst="Resources"):
