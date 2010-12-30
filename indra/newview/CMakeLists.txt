@@ -67,6 +67,7 @@ include_directories(
     )
 
 set(viewer_SOURCE_FILES
+    kokuastreamingaudio.cpp
     llagent.cpp
     llagentaccess.cpp
     llagentcamera.cpp
@@ -600,6 +601,7 @@ endif (LINUX)
 set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
+    kokuastreamingaudio.h
     llagent.h
     llagentaccess.h
     llagentcamera.h

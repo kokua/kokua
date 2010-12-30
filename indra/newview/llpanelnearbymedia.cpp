@@ -28,7 +28,7 @@
 
 #include "llpanelnearbymedia.h"
 
-#include "llaudioengine.h"
+#include "kokuastreamingaudio.h"
 #include "llcheckboxctrl.h"
 #include "llcombobox.h"
 #include "llresizebar.h"
@@ -602,6 +602,7 @@ void LLPanelNearByMedia::refreshParcelItems()
 			removeListItem(PARCEL_AUDIO_LIST_ITEM_UUID);
 			mParcelAudioItem = NULL;
 			mMediaList->setNeedsSort(true);
+
 		}
 	}
 	
@@ -609,7 +610,6 @@ void LLPanelNearByMedia::refreshParcelItems()
 	if (NULL != mParcelAudioItem)
 	{
 		bool is_playing = LLViewerMedia::isParcelAudioPlaying();
-	
 		std::string url;
 		if (!LLViewerParcelMgr::getInstance()->getAgentParcel()->getObscureMusic())
 		{
@@ -867,10 +867,12 @@ void LLPanelNearByMedia::onClickParcelAudioStart()
 	// playing and updated as they cross to other parcels etc.
 	mParcelAudioAutoStart = true;
 		
-	if (!gAudiop)
+	if (!gAudioStream)
+	{
 		return;
+	}
 	
-	gAudiop->startInternetStream(LLViewerMedia::getParcelAudioURL());
+	gAudioStream->startInternetStream(LLViewerMedia::getParcelAudioURL());
 }
 
 void LLPanelNearByMedia::onClickParcelAudioPlay()
@@ -879,16 +881,16 @@ void LLPanelNearByMedia::onClickParcelAudioPlay()
 	// playing and updated as they cross to other parcels etc.
 	mParcelAudioAutoStart = true;
 
-	if (!gAudiop)
+	if (!gAudioStream)
 		return;
 
-	if (LLAudioEngine::AUDIO_PAUSED == gAudiop->isInternetStreamPlaying())
+	if (KOKUAStreamingAudio::AUDIO_PAUSED == gAudioStream->isInternetStreamPlaying())
 	{
 		// 'false' means unpause
-		gAudiop->pauseInternetStream(false);
+		gAudioStream->pauseInternetStream(false);
 	}
 	else {
-		gAudiop->startInternetStream(LLViewerMedia::getParcelAudioURL());
+		gAudioStream->startInternetStream(LLViewerMedia::getParcelAudioURL());
 	}
 }
 
@@ -899,19 +901,19 @@ void LLPanelNearByMedia::onClickParcelAudioStop()
 	// they explicitly start it again.
 	mParcelAudioAutoStart = false;
 
-	if (!gAudiop)
+	if (!gAudioStream)
 		return;
 
-	gAudiop->stopInternetStream();
+	gAudioStream->stopInternetStream();
 }
 
 void LLPanelNearByMedia::onClickParcelAudioPause()
 {
-	if (!gAudiop)
+	if (!gAudioStream)
 		return;
 
 	// 'true' means pause
-	gAudiop->pauseInternetStream(true);
+	gAudioStream->pauseInternetStream(true);
 }
 
 bool LLPanelNearByMedia::shouldShow(LLViewerMediaImpl* impl)

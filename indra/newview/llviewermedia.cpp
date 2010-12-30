@@ -45,7 +45,7 @@
 #include "llfocusmgr.h"
 #include "llcallbacklist.h"
 #include "llparcel.h"
-#include "llaudioengine.h"  // for gAudiop
+#include "kokuastreamingaudio.h"  // for gAudioStream
 #include "llurldispatcher.h"
 #include "llvoavatar.h"
 #include "llvoavatarself.h"
@@ -906,9 +906,9 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 		// update the audio stream here as well
 		if( !inworld_audio_enabled)
 		{
-			if(LLViewerMedia::isParcelAudioPlaying() && gAudiop && LLViewerMedia::hasParcelAudio())
+			if(LLViewerMedia::isParcelAudioPlaying() && gAudioStream && LLViewerMedia::hasParcelAudio())
 			{
-				gAudiop->stopInternetStream();
+				gAudioStream->stopInternetStream();
 			}
 		}
 		pimpl->setPriority(new_priority);
@@ -1007,16 +1007,16 @@ void LLViewerMedia::setAllMediaEnabled(bool val)
 		
 		if (gSavedSettings.getBOOL("AudioStreamingMusic") &&
 			!LLViewerMedia::isParcelAudioPlaying() &&
-			gAudiop && 
+			gAudioStream && 
 			LLViewerMedia::hasParcelAudio())
 		{
-			gAudiop->startInternetStream(LLViewerMedia::getParcelAudioURL());
+			gAudioStream->startInternetStream(LLViewerMedia::getParcelAudioURL());
 		}
 	}
 	else {
 		// This actually unloads the impl, as opposed to "stop"ping the media
 		LLViewerParcelMedia::stop();
-		if (gAudiop) gAudiop->stopInternetStream();
+		if (gAudioStream) gAudioStream->stopInternetStream();
 	}
 }
 
@@ -1031,7 +1031,7 @@ bool LLViewerMedia::isParcelMediaPlaying()
 // static
 bool LLViewerMedia::isParcelAudioPlaying()
 {
-	return (LLViewerMedia::hasParcelAudio() && gAudiop && LLAudioEngine::AUDIO_PLAYING == gAudiop->isInternetStreamPlaying());
+	return (LLViewerMedia::hasParcelAudio() && gAudioStream && KOKUAStreamingAudio::AUDIO_PLAYING == gAudioStream->isInternetStreamPlaying());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

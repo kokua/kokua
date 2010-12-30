@@ -47,7 +47,8 @@ OpenGL Version: [OPENGL_VERSION]
 
 libcurl Version: [LIBCURL_VERSION]
 J2C Decoder Version: [J2C_VERSION]
-Audio Driver Version: [AUDIO_DRIVER_VERSION]
+Sound Effect Driver Version: [AUDIO_DRIVER_VERSION]
+Streaming Audio Version: [STREAMING_AUDIO_DRIVER_VERSION]
 Qt Webkit Version: [QT_WEBKIT_VERSION]
 Voice Server Version: [VOICE_VERSION]
 </floater.string>

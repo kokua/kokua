@@ -59,6 +59,8 @@ void LLStreamingAudio_MediaPlugins::start(const std::string& url)
 		llinfos << "streaming audio mMediaPlugin is now " << mMediaPlugin << llendl;
 	}
 
+	mVersion = mMediaPlugin ? mMediaPlugin->getPluginVersion() : std::string();
+
 	if(!mMediaPlugin)
 		return;
 
@@ -150,9 +152,14 @@ std::string LLStreamingAudio_MediaPlugins::getURL()
 	return mURL;
 }
 
+std::string LLStreamingAudio_MediaPlugins::getVersion()
+{
+	return mVersion;
+}
+
 LLPluginClassMedia* LLStreamingAudio_MediaPlugins::initializeMedia(const std::string& media_type)
 {
-	LLPluginClassMediaOwner* owner = NULL;
+	LLPluginClassMediaOwner* owner = (LLPluginClassMediaOwner*)this;
 	S32 default_size = 1; // audio-only - be minimal, doesn't matter
 	LLPluginClassMedia* media_source = LLViewerMediaImpl::newSourceFromMediaType(media_type, owner, default_size, default_size);
 

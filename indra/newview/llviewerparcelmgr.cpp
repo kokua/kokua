@@ -29,7 +29,7 @@
 #include "llviewerparcelmgr.h"
 
 // Library includes
-#include "llaudioengine.h"
+#include "kokuastreamingaudio.h"
 #include "indra_constants.h"
 #include "llcachename.h"
 #include "llgl.h"
@@ -1729,7 +1729,7 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 	else
 	{
 		// look for music.
-		if (gAudiop)
+		if (gAudioStream)
 		{
 			if (parcel)
 			{
@@ -1742,12 +1742,12 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 				// On entering a new parcel, stop the last stream if the
 				// new parcel has a different music url.  (Empty URL counts
 				// as different.)
-				const std::string& stream_url = gAudiop->getInternetStreamURL();
+				const std::string& stream_url = gAudioStream->getInternetStreamURL();
 
 				if (music_url.empty() || music_url != stream_url)
 				{
 					// URL is different from one currently playing.
-					gAudiop->stopInternetStream();
+					gAudioStream->stopInternetStream();
 
 					// If there is a new music URL and it's valid, play it.
 					if (music_url.size() > 12)
@@ -1760,22 +1760,22 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 						{
 							llinfos << "Stopping parcel music (invalid audio stream URL)" << llendl;
 							// clears the URL 
-							gAudiop->startInternetStream(LLStringUtil::null); 
+							gAudioStream->startInternetStream(LLStringUtil::null); 
 						}
 					}
-					else if (!gAudiop->getInternetStreamURL().empty())
+					else if (!gAudioStream->getInternetStreamURL().empty())
 					{
 						llinfos << "Stopping parcel music (parcel stream URL is empty)" << llendl;
-						gAudiop->startInternetStream(LLStringUtil::null);
+						gAudioStream->startInternetStream(LLStringUtil::null);
 					}
 				}
 			}
 			else
 			{
 				// Public land has no music
-				gAudiop->stopInternetStream();
+				gAudioStream->stopInternetStream();
 			}
-		}//if gAudiop
+		}//if gAudioStream
 
 		// now check for video
 		LLViewerParcelMedia::update( parcel );
@@ -1798,7 +1798,7 @@ void optionally_start_music(const std::string& music_url)
 			 gSavedSettings.getBOOL("MediaTentativeAutoPlay")))
 		{
 			llinfos << "Starting parcel music " << music_url << llendl;
-			gAudiop->startInternetStream(music_url);
+			gAudioStream->startInternetStream(music_url);
 		}
 	}
 }

@@ -129,6 +129,7 @@
 #include "llassetstorage.h"
 #include "llpolymesh.h"
 #include "llcachename.h"
+#include "kokuastreamingaudio.h"
 #include "llaudioengine.h"
 #include "llstreamingaudio.h"
 #include "llviewermenu.h"
@@ -1399,14 +1400,17 @@ bool LLAppViewer::cleanup()
 	
 	llinfos << "Global stuff deleted" << llendflush;
 
-	if (gAudiop)
+	if (gAudioStream)
 	{
 		// shut down the streaming audio sub-subsystem first, in case it relies on not outliving the general audio subsystem.
 
-		LLStreamingAudioInterface *sai = gAudiop->getStreamingAudioImpl();
+		LLStreamingAudioInterface *sai = gAudioStream->getStreamingAudioImpl();
 		delete sai;
-		gAudiop->setStreamingAudioImpl(NULL);
+// 		gAudioStream->setStreamingAudioImpl(NULL);
+	}
 
+	if (gAudiop)
+	{
 		// shut down the audio subsystem
 
 		bool want_longname = false;
@@ -3982,7 +3986,11 @@ void LLAppViewer::idle()
 			gAudiop->idle(max_audio_decode_time);
 		}
 	}
-	
+
+	// update streaming audio
+	if (gAudioStream)
+		gAudioStream->updateInternetStream();
+
 	// Handle shutdown process, for example, 
 	// wait for floaters to close, send quit message,
 	// forcibly quit if it has taken too long

@@ -30,6 +30,7 @@
 #include "llfloaterabout.h"
 
 // Viewer includes
+#include "kokuastreamingaudio.h"
 #include "llagent.h"
 #include "llappviewer.h" 
 #include "llsecondlifeurls.h"
@@ -258,6 +259,7 @@ LLSD LLFloaterAbout::getInfo()
 	info["J2C_VERSION"] = LLImageJ2C::getEngineInfo();
 	bool want_fullname = true;
 	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(want_fullname)) : LLSD();
+	info["STREAMING_AUDIO_DRIVER_VERSION"] = gAudioStream ? LLSD(gAudioStream->getVersion()) : LLSD();
 	if(LLVoiceClient::getInstance()->voiceEnabled())
 	{
 		LLVoiceVersionInfo version = LLVoiceClient::getInstance()->getVersion();

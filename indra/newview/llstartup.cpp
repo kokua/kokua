@@ -36,6 +36,7 @@
 
 #include <time.h>
 
+#include "kokuastreamingaudio.h"
 #include "llviewermedia_streamingaudio.h"
 #include "llaudioengine.h"
 
@@ -693,18 +694,11 @@ bool idle_startup()
 					delete gAudiop;
 					gAudiop = NULL;
 				}
-
-				if (gAudiop)
-				{
-					// if the audio engine hasn't set up its own preferred handler for streaming audio then set up the generic streaming audio implementation which uses media plugins
-					if (NULL == gAudiop->getStreamingAudioImpl())
-					{
-						LL_INFOS("AppInit") << "Using media plugins to render streaming audio" << LL_ENDL;
-						gAudiop->setStreamingAudioImpl(new LLStreamingAudio_MediaPlugins());
-					}
-				}
 			}
 		}
+
+		if (!gAudioStream)
+			gAudioStream =  new KOKUAStreamingAudio(new LLStreamingAudio_MediaPlugins());
 		
 		LL_INFOS("AppInit") << "Audio Engine Initialized." << LL_ENDL;
 		

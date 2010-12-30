@@ -49,13 +49,15 @@ class LLStreamingAudio_MediaPlugins : public LLStreamingAudioInterface
 	/*virtual*/ void setGain(F32 vol);
 	/*virtual*/ F32 getGain();
 	/*virtual*/ std::string getURL();
-
+	/*virtual*/ std::string getVersion();
 private:
 	LLPluginClassMedia* initializeMedia(const std::string& media_type);
 
 	LLPluginClassMedia *mMediaPlugin;
 
 	std::string mURL;
+	std::string mVersion;
+
 	F32 mGain;
 };
 

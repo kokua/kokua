@@ -64,8 +64,6 @@ class LLAudioData;
 class LLAudioChannel;
 class LLAudioChannelOpenAL;
 class LLAudioBuffer;
-class LLStreamingAudioInterface;
-
 
 //
 //  LLAudioEngine definition
@@ -83,15 +81,6 @@ public:
 		AUDIO_TYPE_UI      = 2,
 		AUDIO_TYPE_AMBIENT = 3,
 		AUDIO_TYPE_COUNT   = 4 // last
-	};
-	
-	enum LLAudioPlayState
-	{
-		// isInternetStreamPlaying() returns an *int*, with
-		// 0 = stopped, 1 = playing, 2 = paused.
-		AUDIO_STOPPED = 0,
-		AUDIO_PLAYING = 1,
-		AUDIO_PAUSED = 2
 	};
 	
 	LLAudioEngine();
@@ -129,7 +118,6 @@ public:
 	F32 getSecondaryGain(S32 type);
 	void setSecondaryGain(S32 type, F32 gain);
 
-	F32 getInternetStreamGain();
 
 	virtual void setDopplerFactor(F32 factor);
 	virtual F32 getDopplerFactor();
@@ -151,19 +139,6 @@ public:
 	LLAudioSource *findAudioSource(const LLUUID &source_id);
 	LLAudioData *getAudioData(const LLUUID &audio_uuid);
 
-	// Internet stream implementation manipulation
-	LLStreamingAudioInterface *getStreamingAudioImpl();
-	void setStreamingAudioImpl(LLStreamingAudioInterface *impl);
-	// Internet stream methods - these will call down into the *mStreamingAudioImpl if it exists
-	void startInternetStream(const std::string& url);
-	void stopInternetStream();
-	void pauseInternetStream(int pause);
-	void updateInternetStream(); // expected to be called often
-	LLAudioPlayState isInternetStreamPlaying();
-	// use a value from 0.0 to 1.0, inclusive
-	void setInternetStreamGain(F32 vol);
-	std::string getInternetStreamURL();
-	
 	// For debugging usage
 	virtual LLVector3 getListenerPos();
 
@@ -248,7 +223,6 @@ protected:
 
 private:
 	void setDefaults();
-	LLStreamingAudioInterface *mStreamingAudioImpl;
 };
 
 
