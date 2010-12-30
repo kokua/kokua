@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-set(FMOD ON CACHE BOOL "Use FMOD sound library.")
+set(FMOD OFF CACHE BOOL "Use FMOD sound library.")
 
 if (FMOD)
   if (STANDALONE)
