@@ -575,7 +575,7 @@ class DarwinManifest(ViewerManifest):
             self.path("../viewer_components/updater/scripts/darwin/update_install", "MacOS/update_install")
 
             # Info.plist goes directly in Contents
-            self.path("packaging/mac/Info.plist.in", dst="Info.plist")
+            self.path("packaging/mac/Info.plist", dst="Info.plist")
 
             # most everything goes in the Resources directory
             if self.prefix(src="", dst="Resources"):

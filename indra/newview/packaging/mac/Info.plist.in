@@ -2,22 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>Kokua</string>
-	<key>CFBundleIconFile</key>
-	<string>secondlife.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>org.kokuaviewer.viewer</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Kokua</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>@APPLE_GUI_BUNDLE_NAME@</string>
+	<key>CFBundleExecutable</key>
+	<string>@APPLE_GUI_EXECUTABLE@</string>
+	<key>CFBundleVersion</key>
+	<string>@APPLE_GUI_BUNDLE_VERSION@</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@APPLE_GUI_SHORT_VERSION_STRING@</string>
+	<key>CFBundleIconFile</key>
+	<string>@APPLE_GUI_ICON@</string>
+	<key>CFBundleIdentifier</key>
+	<string>@APPLE_GUI_IDENTIFIER@</string>
 	<key>CFBundleSignature</key>
-	<string>KOKU</string>
+	<string>@APPLE_GUI_SIGNATURE@</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -59,8 +57,12 @@
 			<true/>
 		</dict>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>2.1.1.0</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
 	<key>CSResourcesFileMapped</key>
 	<true/>
 </dict>
