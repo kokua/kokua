@@ -1138,7 +1138,6 @@ if (DARWIN)
     gpu_table.txt
     packaging/mac/SecondLife.nib/
     # CMake doesn't seem to support Xcode language variants well just yet
-    packaging/mac/English.lproj/InfoPlist.strings
     packaging/mac/English.lproj/language.txt
     packaging/mac/German.lproj/language.txt
     packaging/mac/Japanese.lproj/language.txt
