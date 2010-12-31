@@ -1136,7 +1136,6 @@ if (DARWIN)
     secondlife.icns
     macview.r
     gpu_table.txt
-    packaging/mac/Info.plist.in
     packaging/mac/SecondLife.nib/
     # CMake doesn't seem to support Xcode language variants well just yet
     packaging/mac/English.lproj/InfoPlist.strings
@@ -1739,7 +1738,7 @@ if (LINUX)
 endif (LINUX)
 
 if (DARWIN)
-  set(product "Kokua")
+  set(product "${viewer_NAME}")
 
   set_target_properties(
     ${VIEWER_BINARY_NAME}
@@ -1747,18 +1746,27 @@ if (DARWIN)
     OUTPUT_NAME "${product}"
     )
 
-  # Generate Info.plist from the template, substituting these @VARIABLES@.
-  set(APPLE_GUI_BUNDLE_NAME "${product}")
-  set(APPLE_GUI_EXECUTABLE "${product}")
-  set(APPLE_GUI_BUNDLE_VERSION "${viewer_VERSION}")
-  set(APPLE_GUI_SHORT_VERSION_STRING "${product} version ${viewer_VERSION}")
-  set(APPLE_GUI_ICON "secondlife.icns")
-  set(APPLE_GUI_IDENTIFIER "org.kokuaviewer.viewer")
-  set(APPLE_GUI_SIGNATURE "koku")
-  configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/Info.plist.in
-    ${CMAKE_CURRENT_BINARY_DIR}/packaging/mac/Info.plist
-    @ONLY)
+  # Generate Info.plist from the template.
+  add_custom_target(
+    GenerateInfoPlist
+    ALL
+    COMMENT "Generating Info.plist..."
+    VERBATIM
+    DEPENDS
+      ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/GenerateInfoPlist.cmake
+      ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/Info.plist.in
+      ${CMAKE_CURRENT_SOURCE_DIR}/viewerinfo.cpp
+    COMMAND
+      ${CMAKE_COMMAND}
+      -DSOURCE_DIR=${CMAKE_SOURCE_DIR}
+      -DBINARY_DIR=${CMAKE_BINARY_DIR}
+      -P ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/GenerateInfoPlist.cmake
+  )
+
+  # Ensure that it's generated before the binary is built, so
+  # that it will definitely be ready when viewer_manifest.py runs.
+  add_dependencies(${VIEWER_BINARY_NAME} GenerateInfoPlist)
+  
 
   add_custom_command(
     TARGET ${VIEWER_BINARY_NAME} POST_BUILD

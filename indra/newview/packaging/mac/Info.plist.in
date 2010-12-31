@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>@APPLE_GUI_BUNDLE_NAME@</string>
+	<string>@BUNDLE_NAME@</string>
 	<key>CFBundleExecutable</key>
-	<string>@APPLE_GUI_EXECUTABLE@</string>
+	<string>@EXECUTABLE@</string>
 	<key>CFBundleVersion</key>
-	<string>@APPLE_GUI_BUNDLE_VERSION@</string>
+	<string>@BUNDLE_VERSION@</string>
 	<key>CFBundleShortVersionString</key>
-	<string>@APPLE_GUI_SHORT_VERSION_STRING@</string>
+	<string>@SHORT_VERSION_STRING@</string>
 	<key>CFBundleIconFile</key>
-	<string>@APPLE_GUI_ICON@</string>
+	<string>@ICON_FILE@</string>
 	<key>CFBundleIdentifier</key>
-	<string>@APPLE_GUI_IDENTIFIER@</string>
+	<string>@IDENTIFIER@</string>
 	<key>CFBundleSignature</key>
-	<string>@APPLE_GUI_SIGNATURE@</string>
+	<string>@SIGNATURE@</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
