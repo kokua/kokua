@@ -3,6 +3,19 @@
 <map>
 
 <!--Kokua settings-->
+
+    <key>AudioStreamTitle</key>
+    <map>
+      <key>Comment</key>
+      <string>Show the title of the song playing on the parcel's stream in chat. Options are "toast" for chat toasts "history" for only history and "" to switch off.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>toast</string>
+    </map>
+
     <key>ClientInfoDownload</key>
     <map>
       <key>Comment</key>

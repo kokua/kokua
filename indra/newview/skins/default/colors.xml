@@ -121,6 +121,9 @@
      name="AlertTextColor"
      value="0.58 0.66 0.84 1" />
     <color
+     name="AudioStreamTitle"
+     reference="Kokua" />
+    <color
      name="AvatarListItemIconDefaultColor"
      reference="White" />
     <color

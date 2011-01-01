@@ -42,21 +42,24 @@
 					<key>tags</key>
 						<array>
 						<string>OctreeErrors</string>
-
-
+						
+						<!-- Chat -->
+							<!-- <string>NearbyChat</string> -->
+						
 						<!-- <string>GridManager</string> -->
 
 						<!-- <string>InventoryFetch</string> -->
 
-						<!-- <string>Voice</string> -->
-						<!-- <string>VivoxProtocolParser</string> -->
+						<!-- Voice -->
+							<!-- <string>Voice</string> -->
+							<!-- <string>VivoxProtocolParser</string> -->
 
 						<!-- Wearable -->
 
-						<!-- see lltexturefetch
-						<string>HTTPGetResponder</string>
-						<string>TextureFetch</string>
-						<string>TextureFetchWorker</string> -->
+						<!-- see lltexturefetch -->
+							<!-- <string>HTTPGetResponder</string> -->
+							<!-- <string>TextureFetch</string> -->
+							<!-- <string>TextureFetchWorker</string> -->
 
 						</array>
 				</map>

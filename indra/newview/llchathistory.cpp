@@ -349,6 +349,9 @@ public:
 			case CHAT_SOURCE_SYSTEM:
 				icon->setValue(LLSD("SL_Logo"));
 				break;
+			case CHAT_SOURCE_AUDIO_STREAM:
+				icon->setValue(LLSD("Inv_Sound"));
+				break;
 			case CHAT_SOURCE_UNKNOWN: 
 				icon->setValue(LLSD("Unknown_Icon"));
 		}

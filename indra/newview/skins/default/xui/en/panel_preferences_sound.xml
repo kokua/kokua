@@ -303,6 +303,55 @@
 		label="Allow Media to auto-play"
 		top_pad="1"
 		left="25"/>
+	<text
+	type="string"
+	length="1"
+	follows="left|top"
+	height="20"
+	layout="topleft"
+	left="25"
+	name="audio_stream_title_settings"
+	width="250"
+	top_pad="7">
+		Show Titles of streaming audio when available:
+	</text>
+	<radio_group
+		enabled_control="EnableAudioStreamTitle"
+		control_name="AudioStreamTitle"
+		draw_border="false"
+		follows="left|top"
+		layout="topleft"
+		left_delta="15"
+		top_pad="-10"
+		width="221"
+		height="20"
+		name="AudioStreamTitleStyle">
+		<radio_item
+			height="19"
+			label="Disable"
+			follows="left|top"
+			layout="topleft"
+			name=""
+			width="50"/>
+		<radio_item
+			height="19"
+			follows="left|top"
+			label="As chat toast"
+			layout="topleft"
+			left_pad="16"
+			name="toast"
+			top_delta ="0" 
+			width="80" />
+		<radio_item
+			height="19"
+			follows="left|top"
+			label="In chat history only"
+			layout="topleft"
+			left_pad="16"
+			name="history"
+			top_delta ="0" 
+			width="150" />
+	</radio_group>
  	<check_box
 		name="media_show_on_others_btn"
 		control_name="MediaShowOnOthers"
@@ -312,6 +361,7 @@
 		tool_tip="Uncheck this to hide media attached to other avatars nearby"
 		label="Play media attached to other avatars"
 		left="25"
+		bottom_delta="-27"
     width="230"/>
 
     <text

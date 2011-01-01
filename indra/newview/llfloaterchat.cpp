@@ -73,6 +73,8 @@
 #include "llwindow.h"
 #include "message.h"
 
+WARNING: THIS FILE IS DEAD
+
 //
 // Constants
 //

@@ -28,6 +28,7 @@
 #include "linden_common.h"
 #include "llpluginclassmedia.h"
 #include "llpluginclassmediaowner.h"
+#include "llviewercontrol.h"
 #include "llviewermedia.h"
 
 #include "llviewermedia_streamingaudio.h"
@@ -36,6 +37,11 @@
 #include "llvfs.h"
 #include "lldir.h"
 
+//for stream titles
+#include "llfloaterreg.h"
+#include "llnearbychat.h"
+#include "llnotificationmanager.h"
+#include "lltrans.h"
 
 LLStreamingAudio_MediaPlugins::LLStreamingAudio_MediaPlugins() :
 	mMediaPlugin(NULL),
@@ -155,6 +161,46 @@ std::string LLStreamingAudio_MediaPlugins::getURL()
 std::string LLStreamingAudio_MediaPlugins::getVersion()
 {
 	return mVersion;
+}
+
+void LLStreamingAudio_MediaPlugins::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event)
+{
+	if (event == MEDIA_EVENT_NAME_CHANGED)
+	{
+		std::string title = self->getMediaName();
+		std::string show_title = gSavedSettings.getString("AudioStreamTitle");
+
+		if (!title.empty() && !show_title.empty())
+		{
+			std::transform(show_title.begin(), show_title.end(), show_title.begin(), ::tolower);
+
+			//llinfos << "Playing: " << title << llendl;
+			LLNearbyChat* nearby_chat = LLFloaterReg::getTypedInstance<LLNearbyChat>("nearby_chat", LLSD());
+			if(nearby_chat)
+			{
+				LLChat chat;
+				chat.mFromName = LLTrans::getString("Audio Stream");
+				chat.mSourceType = CHAT_SOURCE_AUDIO_STREAM;
+				chat.mFromID.generate();
+				chat.mText = title;
+				chat.mURL = mURL;
+				if (!mURL.empty() && std::string::npos != show_title.find("debug"))
+				{
+					chat.mText.append("\n"+mURL);
+				}
+				if (std::string::npos != show_title.find("toast"))
+				{
+					LLSD args;
+					args["type"] = LLNotificationsUI::NT_NEARBYCHAT;
+					LLNotificationsUI::LLNotificationManager::instance().onChat(chat, args);
+				}
+				else if (std::string::npos != show_title.find("history"))
+				{
+					nearby_chat->addMessage(chat);
+				}
+			}
+		}
+	}
 }
 
 LLPluginClassMedia* LLStreamingAudio_MediaPlugins::initializeMedia(const std::string& media_type)

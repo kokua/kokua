@@ -49,6 +49,9 @@ void LLViewerChat::getChatColor(const LLChat& chat, LLColor4& r_color)
 			case CHAT_SOURCE_SYSTEM:
 				r_color = LLUIColorTable::instance().getColor("SystemChatColor"); 
 				break;
+			case CHAT_SOURCE_AUDIO_STREAM:
+				r_color = LLUIColorTable::instance().getColor("AudioStreamTitle");
+				break;
 			case CHAT_SOURCE_AGENT:
 				if (chat.mFromID.isNull() || SYSTEM_FROM == chat.mFromName)
 				{
@@ -110,9 +113,11 @@ void LLViewerChat::getChatColor(const LLChat& chat, std::string& r_color_name, F
 		switch(chat.mSourceType)
 		{
 			case CHAT_SOURCE_SYSTEM:
-				r_color_name = "SystemChatColor";
+				r_color_name = "SystemChatColor"; 
 				break;
-				
+			case CHAT_SOURCE_AUDIO_STREAM:
+				r_color_name = "AudioStreamTitle";
+				break;
 			case CHAT_SOURCE_AGENT:
 				if (chat.mFromID.isNull())
 				{

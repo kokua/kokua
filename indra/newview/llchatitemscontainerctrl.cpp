@@ -374,6 +374,8 @@ void LLNearbyChatToastPanel::draw()
 				icon->setValue(LLSD("OBJECT_Icon"));
 			else if(mSourceType == CHAT_SOURCE_SYSTEM)
 				icon->setValue(LLSD("SL_Logo"));
+			else if(mSourceType == CHAT_SOURCE_AUDIO_STREAM)
+				icon->setValue("Inv_Sound");
 			else if(mSourceType == CHAT_SOURCE_AGENT)
 				icon->setValue(mFromID);
 			else if(!mFromID.isNull())

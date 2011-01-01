@@ -24,6 +24,8 @@
  * $/LicenseInfo$
  */
 
+WARNING: THIS FILE IS DEAD
+
 /*
  * Actually the "Chat History" floater.
  * Should be llfloaterchathistory, not llfloaterchat.
