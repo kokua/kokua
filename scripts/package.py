@@ -36,6 +36,7 @@ from viewer_info import ViewerInfo
 
 SCRIPTS_DIR = sys.path[0] # directory containing this script
 TOP_DIR = os.path.abspath(os.path.join(SCRIPTS_DIR,'..'))
+SOURCE_DIR = os.path.abspath(os.path.join(TOP_DIR,'indra'))
 
 
 class PackagerError(Exception): pass
@@ -58,6 +59,7 @@ class Packager:
 
     def __init__(self, build_dir, opts={}):
         options = {'dest_dir': TOP_DIR,
+                   'source_dir': SOURCE_DIR,
                    'verbose': False,
                    }
         options.update(opts)
@@ -67,6 +69,9 @@ class Packager:
 
         self.dest_dir = os.path.abspath(options['dest_dir'])
         self.__check_dest_dir()
+
+        self.source_dir = os.path.abspath(options['source_dir'])
+        self.__check_source_dir()
 
         self.platform = self.__get_platform()
         self.verbose = options['verbose']
@@ -159,6 +164,14 @@ true""" % {'d': packaged_dir})
             raise BadDir('dest dir %(dir)r is not writable.' %
                          {'dir': self.dest_dir})
 
+    def __check_source_dir(self):
+        if not os.path.exists(self.source_dir):
+            raise BadDir('source dir %(dir)r does not exist.' %
+                         {'dir': self.source_dir})
+        if not os.path.isdir(self.source_dir):
+            raise BadDir('source dir %(dir)r is not a directory.' %
+                         {'dir': self.source_dir})
+
     def __get_platform(self):
         platform = sys.platform
         try:
@@ -211,6 +224,12 @@ def main(args=sys.argv[1:]):
                   'package result should be saved. Default: %(TOP_DIR)r'
                   %{ 'TOP_DIR': TOP_DIR } )
 
+    op.add_option('--source-dir', dest='source_dir', nargs=1, metavar='PATH',
+                  default=SOURCE_DIR,
+                  help='optional path to an alternate source directory, '
+                  'i.e. \'indra\'. Default: %(SOURCE_DIR)r'
+                  %{ 'SOURCE_DIR': SOURCE_DIR } )
+
     op.add_option('-v', '--verbose', action='store_true', default=False,
                   help='print all shell commands as they are run')
 
@@ -225,6 +244,7 @@ def main(args=sys.argv[1:]):
         sys.exit(1)
 
     opts_dict = {'dest_dir': options.dest_dir,
+                 'source_dir': options.source_dir,
                  'verbose':  options.verbose}
 
     try:
