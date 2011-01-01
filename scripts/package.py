@@ -37,6 +37,7 @@ from viewer_info import ViewerInfo
 SCRIPTS_DIR = sys.path[0] # directory containing this script
 TOP_DIR = os.path.abspath(os.path.join(SCRIPTS_DIR,'..'))
 SOURCE_DIR = os.path.abspath(os.path.join(TOP_DIR,'indra'))
+BUILD_TYPE = "RelWithDebInfo"
 
 
 class PackagerError(Exception): pass
@@ -60,6 +61,7 @@ class Packager:
     def __init__(self, build_dir, opts={}):
         options = {'dest_dir': TOP_DIR,
                    'source_dir': SOURCE_DIR,
+                   'build_type': BUILD_TYPE,
                    'verbose': False,
                    }
         options.update(opts)
@@ -73,6 +75,7 @@ class Packager:
         self.source_dir = os.path.abspath(options['source_dir'])
         self.__check_source_dir()
 
+        self.build_type = options['build_type']
         self.platform = self.__get_platform()
         self.verbose = options['verbose']
         self.viewer_info = ViewerInfo()
@@ -230,6 +233,12 @@ def main(args=sys.argv[1:]):
                   'i.e. \'indra\'. Default: %(SOURCE_DIR)r'
                   %{ 'SOURCE_DIR': SOURCE_DIR } )
 
+    op.add_option('--build-type', dest='build_type', nargs=1, metavar='TYPE',
+                  default=BUILD_TYPE,
+                  help='\'Debug\', \'RelWithDebInfo\', or \'Release\'. '
+                  'Default: %(BUILD_TYPE)r'
+                  %{ 'BUILD_TYPE': BUILD_TYPE } )
+
     op.add_option('-v', '--verbose', action='store_true', default=False,
                   help='print all shell commands as they are run')
 
@@ -245,6 +254,7 @@ def main(args=sys.argv[1:]):
 
     opts_dict = {'dest_dir': options.dest_dir,
                  'source_dir': options.source_dir,
+                 'build_type': options.build_type,
                  'verbose':  options.verbose}
 
     try:
