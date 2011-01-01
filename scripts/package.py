@@ -54,6 +54,13 @@ def indent(text, amount=4):
     lines = [(' '*amount + line) for line in string.split(text, '\n')]
     return string.join(lines, '\n')
 
+def message(*args):
+    """Prints an informational message with a leading '#'."""
+    print '# ' + ' '.join([str(arg) for arg in args])
+
+def error(*args):
+    """Prints an error message to stderr."""
+    print >> sys.stderr, 'Error: ' + ' '.join([str(arg) for arg in args])
 
 
 class Packager:
@@ -125,7 +132,7 @@ true""" % {'d': packaged_dir})
                                        'inst_name': inst_name,
                                        'dest_file': dest_file})
 
-        print '# Package complete: %r'%dest_file
+        message('Package complete: %r' % dest_file)
 
 
     #######
@@ -191,7 +198,7 @@ true""" % {'d': packaged_dir})
 
 
     def __run_command(self, summary=None, command=None):
-        if summary: print "# " + summary
+        if summary: message(summary)
 
         if not command: return
 
@@ -249,7 +256,7 @@ def main(args=sys.argv[1:]):
     options = op.parse_args(args)[0]
 
     if not options.build_dir:
-        print >> sys.stderr, 'Error: --build-dir=PATH is required.'
+        error('--build-dir=PATH is required.')
         sys.exit(1)
 
     opts_dict = {'dest_dir': options.dest_dir,
@@ -260,7 +267,7 @@ def main(args=sys.argv[1:]):
     try:
         Packager(options.build_dir, opts_dict).make()
     except PackagerError, err:
-        print >> sys.stderr, 'Error: %s' % err.args[0]
+        error(err.args[0])
         sys.exit(1)
 
 
