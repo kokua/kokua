@@ -7,7 +7,7 @@
 # Usage:  package.py --build-dir=PATH [options]
 #
 # Copyright (c) 2007-2009, Linden Research, Inc.
-# Copyright (c) 2010, Jacek Antonelli
+# Copyright (c) 2010-2011, Jacek Antonelli
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -140,7 +140,100 @@ true""" % {'d': packaged_dir})
     #######
 
     def make_mac(self):
-        print "Packaging for Mac OS X is not supported yet."
+        import shutil
+
+        # Where the DMG files (.DS_Store, background image, etc.) come from.
+        dmg_src = os.path.join(self.source_dir, 'newview', 'packaging', 'mac', 'dmg')
+
+        # Staging directory. Everything that will be in the package is
+        # copied to this dir, then a DMG is created from it.
+        dmg_dst = os.path.join(self.build_dir, 'pack')
+
+        if (os.path.exists(dmg_dst)):
+            message("Removing stale staging dir %r..." % dmg_dst)
+            shutil.rmtree(dmg_dst)
+
+        message("Creating staging dir %r..." % dmg_dst)
+        os.makedirs(dmg_dst)
+
+        for src,dst in {"_VolumeIcon.icns": ".VolumeIcon.icns",
+                        "background.jpg":   "background.jpg",
+                        "_DS_Store":        ".DS_Store",
+                        }.items():
+
+            message("Copying %r..." % dst)
+            shutil.copy2( os.path.join(dmg_src, src),
+                          os.path.join(dmg_dst, dst))
+
+            self.__run_command(
+                'Hiding %r...' % dst,
+                'SetFile -a V %r' % os.path.join(dmg_dst, dst))
+
+        
+        # Create the alias file (which is a resource file) from the
+        # .r file, then clean up the .r file.
+        self.__run_command(
+            'Creating Applications alias...',
+            'Rez %r -o %r' % (os.path.join(dmg_src, "Applications-alias.r"),
+                              os.path.join(dmg_dst, "Applications")))
+
+        self.__run_command(
+            "Setting the Applications alias's alias and custom icon bits...",
+            'SetFile -a AC %r' % os.path.join(dmg_dst, "Applications"))
+
+        self.__run_command(
+            "Setting disk image root's custom icon bit...",
+            'SetFile -a C %r' % dmg_dst)
+
+        app_name = self.viewer_info.name + ".app"
+        app_orig = os.path.join(self.build_dir, 'newview', self.build_type, app_name)
+        app_dst = os.path.join(dmg_dst, app_name)
+
+        if (not os.path.exists(app_orig)):
+            error("App does not exist: %r" % app_orig)
+            sys.exit(1)
+
+        # Move the .app to the staging area (temporarily).
+        message("Copying %r (this takes a while)..."%(app_name))
+        shutil.copytree(app_orig, app_dst, symlinks=True)
+
+        dmg_name = "%s-Mac"%(self.viewer_info.combined)
+        temp_dmg = os.path.join(self.build_dir, dmg_name+".temp.dmg")
+        final_dmg = os.path.join(self.dest_dir, dmg_name+".dmg")
+
+        if (os.path.exists(temp_dmg)):
+            message("Removing stale temp disk image...")
+            os.remove(temp_dmg)
+
+        # MBW -- If the mounted volume name changes, it breaks the
+        # .DS_Store's background image and icon positioning. If we
+        # really need differently named volumes, we'll need to create
+        # multiple DS_Store file images, or use some other trick.
+        volname="Second Life Installer"  # DO NOT CHANGE without understanding comment above
+
+        self.__run_command(
+            'Creating temp disk image (this takes a while)...',
+            'hdiutil create %(temp)r -volname %(vol)r -fs HFS+ '
+            '-layout SPUD -srcfolder %(src)s' %
+            {'temp': temp_dmg, 'vol': volname, 'src': dmg_dst})
+
+        if (os.path.exists(final_dmg)):
+            bkp = final_dmg + ".bkp"
+            message("Renaming existing final disk image to %r..." % bkp)
+            shutil.move(final_dmg, bkp)
+
+        self.__run_command(
+            'Creating compressed final disk image (this takes a while)...',
+            'hdiutil convert %(temp)r -format UDBZ -o %(final)r' %
+            {'temp':temp_dmg, 'final':final_dmg})
+
+        message("Removing temp disk image...")
+        os.remove(temp_dmg)
+
+        message("Removing staging dir...")
+        shutil.rmtree(dmg_dst)
+
+        message('Package complete: %r'%final_dmg)
 
 
     ###########
@@ -195,8 +288,6 @@ true""" % {'d': packaged_dir})
             raise WeirdPlatform(
                 "Unrecognized platform/operating system: %r" % platform)
 
-
-
     def __run_command(self, summary=None, command=None):
         if summary: message(summary)
 
@@ -215,7 +306,6 @@ true""" % {'d': packaged_dir})
         if status:
             raise CmdFailed('A command returned non-zero status (%s):\n%s'%
                             (status, indent(command)))
-
 
 
 
