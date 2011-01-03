@@ -58,6 +58,9 @@ indra/viewer-*
 indra/build-*
 installed.xml
 *.pyc
+/Kokua-*.dmg*
+/Kokua-*.tar.bz2*
+/Kokua-*.exe*
 
 
 # PATCHES
