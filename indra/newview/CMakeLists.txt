@@ -3,6 +3,7 @@
 project(viewer)
 
 include(00-Common)
+include(AddPackageTarget)
 include(Boost)
 include(BuildVersion)
 include(DBusGlib)
@@ -1416,6 +1417,9 @@ file(GLOB EVENT_HOST_SCRIPT_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/../viewer_components/*.py)
 list(APPEND EVENT_HOST_SCRIPTS ${EVENT_HOST_SCRIPT_GLOB_LIST})
 
+# NOTE: This variable is DEPRECATED, and should not be used anymore.
+# The package target should always be added. The variable AUTOPACKAGE
+# (in AddPackageTarget.cmake) controls whether package is auto-built.
 set(PACKAGE ON CACHE BOOL
     "Add a package target that builds an installer package.")
 
@@ -1702,15 +1706,11 @@ if (LINUX)
 
   add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_gstreamer010 media_plugin_webkit)
 
-  if (PACKAGE)
-    add_custom_target(package 
-      COMMAND ${PYTHON_EXECUTABLE} 
-        ${SCRIPTS_DIR}/package.py --build-dir=${CMAKE_BINARY_DIR}
-      )
-    add_dependencies(package ${VIEWER_BINARY_NAME})
-    add_dependencies(package linux-crash-logger-target)
-    add_dependencies(package linux-updater-target)
-  endif (PACKAGE)
+  add_package_target()
+  add_dependencies(package 
+                   ${VIEWER_BINARY_NAME}
+                   linux-crash-logger-target
+                   linux-updater-target)
 
   add_custom_command(
     OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/.${product}.copy_touched
@@ -1785,22 +1785,10 @@ if (DARWIN)
 
   add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit mac-updater mac-crash-logger)
 
-  if (PACKAGE)
-      add_custom_target(package ALL DEPENDS ${VIEWER_BINARY_NAME}) 
-      check_message_template(package)
 
-      add_custom_command(
-        TARGET package POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE}
-        ARGS
-          ${SCRIPTS_DIR}/package.py
-          --build-dir=${CMAKE_BINARY_DIR}
-          --build-type=${CMAKE_BUILD_TYPE}
-          --source-dir=${CMAKE_SOURCE_DIR}
-        DEPENDS
-          ${SCRIPTS_DIR}/package.py
-      )
-  endif (PACKAGE)
+  add_package_target()
+  add_dependencies(package ${VIEWER_BINARY_NAME})
+
 endif (DARWIN)
 
 if (INSTALL)
