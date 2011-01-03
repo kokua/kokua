@@ -1793,19 +1793,12 @@ if (DARWIN)
         TARGET package POST_BUILD
         COMMAND ${PYTHON_EXECUTABLE}
         ARGS
-          ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
-          --artwork=${ARTWORK_DIR}
-          --build=${CMAKE_CURRENT_BINARY_DIR}
-          --buildtype=${CMAKE_BUILD_TYPE}
-          --channel=${VIEWER_CHANNEL}
-          --configuration=${CMAKE_CFG_INTDIR}
-          --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app
-          --grid=${GRID}
-          --login_channel=${VIEWER_LOGIN_CHANNEL}
-          --source=${CMAKE_CURRENT_SOURCE_DIR}
-          --touch=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/.${product}.touched
+          ${SCRIPTS_DIR}/package.py
+          --build-dir=${CMAKE_BINARY_DIR}
+          --build-type=${CMAKE_BUILD_TYPE}
+          --source-dir=${CMAKE_SOURCE_DIR}
         DEPENDS
-          ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
+          ${SCRIPTS_DIR}/package.py
       )
   endif (PACKAGE)
 endif (DARWIN)
