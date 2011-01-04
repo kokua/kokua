@@ -877,55 +877,6 @@ class LinuxManifest(ViewerManifest):
         for script in 'kokua', 'bin/update_install':
             self.run_command("chmod +x %r" % os.path.join(self.get_dst_prefix(), script))
 
-    def package_finish(self):
-        if 'installer_name' in self.args:
-            installer_name = self.args['installer_name']
-        else:
-            installer_name_components = ['SecondLife_', self.args.get('arch')]
-            installer_name_components.extend(self.args['version'])
-            installer_name = "_".join(installer_name_components)
-            if self.default_channel():
-                if not self.default_grid():
-                    installer_name += '_' + self.args['grid'].upper()
-            else:
-                installer_name += '_' + self.channel_oneword().upper()
-
-        if self.args['buildtype'].lower() == 'release' and self.is_packaging_viewer():
-            print "* Going strip-crazy on the packaged binaries, since this is a RELEASE build"
-            self.run_command("find %(d)r/bin %(d)r/lib -type f \\! -name update_install | xargs --no-run-if-empty strip -S" % {'d': self.get_dst_prefix()} ) # makes some small assumptions about our packaged dir structure
-
-        # Fix access permissions
-        self.run_command("""
-                find %(dst)s -type d | xargs --no-run-if-empty chmod 755;
-                find %(dst)s -type f -perm 0700 | xargs --no-run-if-empty chmod 0755;
-                find %(dst)s -type f -perm 0500 | xargs --no-run-if-empty chmod 0555;
-                find %(dst)s -type f -perm 0600 | xargs --no-run-if-empty chmod 0644;
-                find %(dst)s -type f -perm 0400 | xargs --no-run-if-empty chmod 0444;
-                true""" %  {'dst':self.get_dst_prefix() })
-        self.package_file = installer_name + '.tar.bz2'
-
-        # temporarily move directory tree so that it has the right
-        # name in the tarfile
-        self.run_command("mv %(dst)s %(inst)s" % {
-            'dst': self.get_dst_prefix(),
-            'inst': self.build_path_of(installer_name)})
-        try:
-            # only create tarball if it's a release build.
-            if self.args['buildtype'].lower() == 'release':
-                # --numeric-owner hides the username of the builder for
-                # security etc.
-                self.run_command('tar -C %(dir)s --numeric-owner -cjf '
-                                 '%(inst_path)s.tar.bz2 %(inst_name)s' % {
-                        'dir': self.get_build_prefix(),
-                        'inst_name': installer_name,
-                        'inst_path':self.build_path_of(installer_name)})
-            else:
-                print "Skipping %s.tar.bz2 for non-Release build (%s)" % \
-                      (installer_name, self.args['buildtype'])
-        finally:
-            self.run_command("mv %(inst)s %(dst)s" % {
-                'dst': self.get_dst_prefix(),
-                'inst': self.build_path_of(installer_name)})
 
 class Linux_i686Manifest(LinuxManifest):
     def construct(self):
