@@ -303,6 +303,17 @@
 		label="Allow Media to auto-play"
 		top_pad="1"
 		left="25"/>
+	<check_box
+		name="media_show_on_others_btn"
+		control_name="MediaShowOnOthers"
+		value="true"
+		follows="left|bottom|right"
+		height="15"
+		tool_tip="Uncheck this to hide media attached to other avatars nearby"
+		label="Play media attached to other avatars"
+		left="170"
+		bottom_delta="0"
+		width="230"/>
 	<text
 	type="string"
 	length="1"
@@ -313,7 +324,7 @@
 	name="audio_stream_title_settings"
 	width="250"
 	top_pad="7">
-		Show Titles of streaming audio when available:
+		Show streaming music titles if available:
 	</text>
 	<radio_group
 		enabled_control="EnableAudioStreamTitle"
@@ -321,8 +332,8 @@
 		draw_border="false"
 		follows="left|top"
 		layout="topleft"
-		left_delta="15"
-		top_pad="-10"
+		left_delta="200"
+		top_delta="-7"
 		width="221"
 		height="20"
 		name="AudioStreamTitleStyle">
@@ -352,17 +363,7 @@
 			top_delta ="0" 
 			width="150" />
 	</radio_group>
- 	<check_box
-		name="media_show_on_others_btn"
-		control_name="MediaShowOnOthers"
-		value="true"
-		follows="left|bottom|right"
-		height="15"
-		tool_tip="Uncheck this to hide media attached to other avatars nearby"
-		label="Play media attached to other avatars"
-		left="25"
-		bottom_delta="-27"
-    width="230"/>
+
 
     <text
      type="string"
@@ -463,22 +464,22 @@
    control_name="PushToTalkButton"
    enabled="false"
    enabled_control="EnableVoiceChat"
-   height="23"
-   left="80"
-   max_length_bytes="200"
+   height="18"
+   left="240"
+   max_length_bytes="150"
    name="modifier_combo"
    label="Push-to-Speak trigger"
-   top_pad="3"
-   width="200" />
+   bottom_delta="0"
+   width="150" />
   <button
    layout="topleft"
    follows="top|left"
    enabled_control="EnableVoiceChat"
-   height="23"
+   height="18"
    label="Set Key"
    left_pad="5"
    name="set_voice_hotkey_button"
-   width="100">
+   width="50">
     <button.commit_callback
     function="Pref.VoiceSetKey" />
   </button>
@@ -486,7 +487,7 @@
      enabled_control="EnableVoiceChat"
      follows="top|left"
      halign="center"
-     height="23"
+     height="18"
      image_overlay="Refresh_Off"
      layout="topleft"
      tool_tip="Reset to Middle Mouse Button"
