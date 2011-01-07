@@ -42,6 +42,7 @@
 
 #ifdef LL_FMOD
 # include "llaudioengine_fmod.h"
+# include "streamingaudio_fmod.h"
 #endif
 
 #ifdef LL_OPENAL
@@ -648,6 +649,14 @@ bool idle_startup()
 		// or audio cues in connection UI.
 		//-------------------------------------------------
 
+
+		// Init streaming audio before gAudiop to make sure the media plugin is used.
+		LLStreamingAudioInterface *audio_stream_impl = NULL;
+		if (!gAudioStream)
+		{
+			audio_stream_impl = new LLStreamingAudio_MediaPlugins();
+		}
+
 		if (FALSE == gSavedSettings.getBOOL("NoAudio"))
 		{
 			gAudiop = NULL;
@@ -694,14 +703,30 @@ bool idle_startup()
 					delete gAudiop;
 					gAudiop = NULL;
 				}
+#ifdef LL_FMOD
+				// if anything else failed set up FMOD streaming audio implementation 
+				if (gAudiop && !audio_stream_impl)
+				{
+					audio_stream_impl = new LLStreamingAudio_FMOD();
+
+				}
+#endif
 			}
 		}
 
-		if (!gAudioStream)
-			gAudioStream =  new KOKUAStreamingAudio(new LLStreamingAudio_MediaPlugins());
-		
-		LL_INFOS("AppInit") << "Audio Engine Initialized." << LL_ENDL;
-		
+		if (audio_stream_impl)
+			gAudioStream =  new KOKUAStreamingAudio(audio_stream_impl);
+		if (!gAudioStream && audio_stream_impl) 
+			delete audio_stream_impl;
+
+		if (gAudiop)
+			LL_INFOS("AppInit") << "Sound Effect Engine Initialized." << LL_ENDL;
+
+		if (gAudioStream)
+			LL_INFOS("AppInit") << "Streaming Audio Initialized." << LL_ENDL;
+		else
+			LL_WARNS("AppInit") << "Unable to initialize streaming audio." << LL_ENDL;
+
 		if (LLTimer::knownBadTimer())
 		{
 			LL_WARNS("AppInit") << "Unreliable timers detected (may be bad PCI chipset)!!" << LL_ENDL;

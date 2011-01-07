@@ -65,8 +65,6 @@ void LLStreamingAudio_MediaPlugins::start(const std::string& url)
 		llinfos << "streaming audio mMediaPlugin is now " << mMediaPlugin << llendl;
 	}
 
-	mVersion = mMediaPlugin ? mMediaPlugin->getPluginVersion() : std::string();
-
 	if(!mMediaPlugin)
 		return;
 
@@ -160,7 +158,12 @@ std::string LLStreamingAudio_MediaPlugins::getURL()
 
 std::string LLStreamingAudio_MediaPlugins::getVersion()
 {
-	return mVersion;
+	if(mMediaPlugin)
+		return mMediaPlugin->getPluginVersion();
+
+	std::string version = LLMIMETypes::implType("audio/mpeg");
+	std::replace(version.begin(), version.end(), '_', ' ');
+	return version;
 }
 
 void LLStreamingAudio_MediaPlugins::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event)

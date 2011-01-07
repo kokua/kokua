@@ -63,7 +63,6 @@ private:
 	LLPluginClassMedia *mMediaPlugin;
 
 	std::string mURL;
-	std::string mVersion;
 
 	F32 mGain;
 };

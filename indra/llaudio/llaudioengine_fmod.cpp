@@ -213,9 +213,7 @@ bool LLAudioEngine_FMOD::init(const S32 num_channels, void* userdata)
 	
 #endif
 
-	// set up our favourite FMOD-native streaming audio implementation if none has already been added
-	if (!getStreamingAudioImpl()) // no existing implementation added
-		setStreamingAudioImpl(new LLStreamingAudio_FMOD());
+
 
 	LL_DEBUGS("AppInit") << "LLAudioEngine_FMOD::init() FMOD initialized correctly" << LL_ENDL;
 

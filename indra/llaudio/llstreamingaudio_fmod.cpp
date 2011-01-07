@@ -271,6 +271,11 @@ void LLStreamingAudio_FMOD::setGain(F32 vol)
 	}
 }
 
+std::string LLStreamingAudio_FMOD::getVersion()
+{
+	F32 version = FSOUND_GetVersion();
+	return llformat("FMOD version %f", version);
+}
 
 ///////////////////////////////////////////////////////
 // manager of possibly-multiple internet audio streams
