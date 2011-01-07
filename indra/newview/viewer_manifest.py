@@ -797,8 +797,8 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libexpat.so.1")
             self.path("libssl.so.0.9.7")
             self.path("libSDL-1.2.so.0")
-            self.path("libopenjpeg.so.1.3.0", "libopenjpeg.so.1.3")
-            self.path("libalut.so")
+            self.path("libopenjpeg.so.2")
+            self.path("libalut.so.0")
             self.path("libopenal.so", "libopenal.so.1")
             #self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
             try:
