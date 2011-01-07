@@ -1231,16 +1231,16 @@ anguage Infrstructure (CLI) international standard</string>
           <key>darwin</key>
           <map>
             <key>md5sum</key>
-            <string>a0757244e3e6688fde2ffeea35cc1f96</string>
+            <string>dfa26aab94c6f1ec09ce432777e18d2f</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-darwin-20080924.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/openal-darwin-20091118.tar.bz2</uri>
           </map>
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>75a7004ab14bea46594b1c652f1a6040</string>
+            <string>9dfdc055297355d04e04b905f92fbfad</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-linux-20100120-3ad86a1c.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/openal-linux32-20100426.tar.bz2</uri>
           </map>
           <key>linux64</key>
           <map>
@@ -1252,9 +1252,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>windows</key>
           <map>
             <key>md5sum</key>
-            <string>a0757244e3e6688fde2ffeea35cc1f96</string>
+            <string>79bb92dcc79e310ff9aebf7fbe6b10e5</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-windows-20080924.tar.bz2</uri>
+            <uri>http://imprudenceviewer.org/download/libs/openal-soft-1.12.854-windows-20100822.tar.bz2</uri>
           </map>
         </map>
       </map>

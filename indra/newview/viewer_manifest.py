@@ -303,7 +303,7 @@ class WindowsManifest(ViewerManifest):
             self.path("libsndfile-1.dll")
             self.path("zlib1.dll")
             self.path("vivoxplatform.dll")
-            self.path("vivoxoal.dll")
+            #self.path("vivoxoal.dll")# probably not re-distributable
 
             # For google-perftools tcmalloc allocator.
             try:
@@ -619,7 +619,7 @@ class DarwinManifest(ViewerManifest):
 
                 # SLVoice and vivox lols
                 self.path("vivox-runtime/universal-darwin/libsndfile.dylib", "libsndfile.dylib")
-                self.path("vivox-runtime/universal-darwin/libvivoxoal.dylib", "libvivoxoal.dylib")
+                #self.path("vivox-runtime/universal-darwin/libvivoxoal.dylib", "libvivoxoal.dylib")# probably not re-distributable
                 self.path("vivox-runtime/universal-darwin/libortp.dylib", "libortp.dylib")
                 self.path("vivox-runtime/universal-darwin/libvivoxsdk.dylib", "libvivoxsdk.dylib")
                 self.path("vivox-runtime/universal-darwin/libvivoxplatform.dylib", "libvivoxplatform.dylib")
@@ -800,7 +800,7 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libopenjpeg.so.1.3.0", "libopenjpeg.so.1.3")
             self.path("libalut.so")
             self.path("libopenal.so", "libopenal.so.1")
-            self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
+            #self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
             try:
                     self.path("libkdu.so")
                     pass
@@ -822,7 +822,7 @@ class Linux_i686Manifest(LinuxManifest):
             if self.prefix(src="vivox-runtime/i686-linux", dst="lib"):
                     self.path("libortp.so")
                     self.path("libsndfile.so.1")
-                    #self.path("libvivoxoal.so.1") # no - we'll re-use the viewer's own OpenAL lib
+                    #self.path("libvivoxoal.so.1") # probably not re-distributable
                     self.path("libvivoxsdk.so")
                     self.path("libvivoxplatform.so")
                     self.end_prefix("lib")
@@ -866,7 +866,7 @@ class Linux_x86_64Manifest(LinuxManifest):
             if self.prefix(src="vivox-runtime/i686-linux", dst="lib32"):
                     self.path("libortp.so")
                     self.path("libsndfile.so.1")
-                    self.path("libvivoxoal.so.1")
+                    #self.path("libvivoxoal.so.1") # probably not re-distributable
                     self.path("libvivoxsdk.so")
                     self.path("libvivoxplatform.so")
                     self.end_prefix("lib32")
