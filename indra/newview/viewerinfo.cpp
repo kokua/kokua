@@ -97,6 +97,12 @@ namespace ViewerInfo
 		return s;
 	}
 
+	const std::string& versionNumber4()
+	{
+		static std::string s = llformat("%d.%d.%d.0", MAJOR, MINOR, PATCH);
+		return s;
+	}
+
 	const std::string& versionFull()
 	{
 		static std::string s;

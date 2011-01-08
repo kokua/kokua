@@ -55,6 +55,11 @@ namespace ViewerInfo
 	/// Returns a dot-separated string with all three version numbers.
 	const std::string& versionNumber();
 
+	/// Returns a dot-separated string with all three version numbers
+	/// plus a dummy number. This is for cases where a four-segment
+	/// version number is expected, e.g. the login channel version.
+	const std::string& versionNumber4();
+
 	/// Returns a string with the version number and extra version
 	/// string (if not empty).
 	const std::string& versionFull();
