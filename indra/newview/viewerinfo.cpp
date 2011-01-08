@@ -3,7 +3,7 @@
  * @brief Functions for querying the viewer name, version, and other info.
  * @author Jacek Antonelli
  *
- * Copyright (c) 2010, Jacek Antonelli
+ * Copyright (c) 2010-2011, Jacek Antonelli
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,6 +31,7 @@ namespace ViewerInfo
 	// These are intentionally defined here instead of in the header,
 	// because they should NOT be read directly. Use the functions.
 	const std::string NAME  = "Kokua";
+	const std::string VARNT = "";
 	const S32         MAJOR = 0;
 	const S32         MINOR = 1;
 	const S32         PATCH = 0;
@@ -43,6 +44,31 @@ namespace ViewerInfo
 	const std::string& viewerName()
 	{
 		return NAME;
+	}
+
+	const std::string& viewerVariant()
+	{
+		return VARNT;
+	}
+
+	const std::string& nameWithVariant()
+	{
+		static std::string s;
+		if (!s.empty())
+		{
+			return s;
+		}
+
+		if (VARNT.empty())
+		{
+			s = NAME;
+		}
+		else
+		{
+			s = NAME + " " + VARNT;
+		}
+
+		return s;
 	}
 
 	S32 versionMajor()
@@ -91,7 +117,7 @@ namespace ViewerInfo
 
 	const std::string& fullInfo()
 	{
-		static std::string s = NAME + " " + versionFull();
+		static std::string s = nameWithVariant() + " " + versionFull();
 		return s;
 	}
 

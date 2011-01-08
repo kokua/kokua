@@ -3,7 +3,7 @@
  * @brief Functions for querying the viewer name, version, and other info.
  * @author Jacek Antonelli
  *
- * Copyright (c) 2010, Jacek Antonelli
+ * Copyright (c) 2010-2011, Jacek Antonelli
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,6 +31,14 @@ namespace ViewerInfo
 	/// Returns the name of the viewer.
 	const std::string& viewerName();
 
+	/// Returns the viewer variant (e.g. "Experimental").
+	/// May be empty, if no variant string was set.
+	const std::string& viewerVariant();
+
+	/// Returns a string with the viewer name and variant
+	/// (if it has one).
+	const std::string& nameWithVariant();
+
 	/// Returns the major (first) version number.
 	S32 versionMajor();
 
@@ -51,7 +59,8 @@ namespace ViewerInfo
 	/// string (if not empty).
 	const std::string& versionFull();
 
-	/// Returns a string with the viewer name and full version.
+	/// Returns a string with the viewer name, variant (if it has one),
+	/// and full version.
 	const std::string& fullInfo();
 
 	/// Returns a string with the viewer's Mac OS X bundle identifier.
