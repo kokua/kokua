@@ -96,6 +96,7 @@ private:
 	
 	std::vector<LLChat> mMessageArchive;
 	LLLineEditor* mInputEditor;
+	LLUIString mTypingStart;
 };
 
 #endif
