@@ -89,6 +89,7 @@ private:
 	static void		onInputEditorFocusReceived( LLFocusableElement* caller, void* userdata );
 	static void		onInputEditorFocusLost(LLFocusableElement* caller, void* userdata);
 	static void		onInputEditorKeystroke(LLLineEditor* caller, void* userdata);
+	static BOOL		matchChatTypeTrigger(const std::string& in_str, std::string* out_str);
 
 private:
 	LLHandle<LLView>	mPopupMenuHandle;
@@ -96,7 +97,6 @@ private:
 	
 	std::vector<LLChat> mMessageArchive;
 	LLLineEditor* mInputEditor;
-	LLUIString mTypingStart;
 };
 
 #endif
