@@ -230,7 +230,7 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 
 	getChild<LLPanel>("login")->setDefaultBtn("connect_btn");
 
-	std::string version = ViewerInfo::versionNumber();
+	std::string version = ViewerInfo::prettyInfo();
 	//LLTextBox* channel_text = getChild<LLTextBox>("channel_text");
 	//channel_text->setTextArg("[CHANNEL]", channel); // though not displayed
 	//channel_text->setTextArg("[VERSION]", version);
@@ -810,8 +810,8 @@ void LLPanelLogin::loadLoginPage()
 	}
 
 	// Channel and Version
-	char* curl_channel = curl_escape(ViewerInfo::viewerName().c_str(), 0);
-	char* curl_version = curl_escape(ViewerInfo::versionNumber().c_str(), 0);
+	char* curl_channel = curl_escape(ViewerInfo::nameWithVariant().c_str(), 0);
+	char* curl_version = curl_escape(ViewerInfo::versionNumbers4().c_str(), 0);
 
 	oStr << "&channel=" << curl_channel;
 	oStr << "&version=" << curl_version;

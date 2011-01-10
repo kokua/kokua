@@ -210,10 +210,10 @@ LLSD LLFloaterAbout::getInfo()
 	version.append(ViewerInfo::versionMinor());
 	version.append(ViewerInfo::versionPatch());
 	info["VIEWER_VERSION"] = version;
-	info["VIEWER_VERSION_STR"] = ViewerInfo::versionFull();
+	info["VIEWER_VERSION_STR"] = ViewerInfo::prettyVersion();
 	info["BUILD_DATE"] = __DATE__;
 	info["BUILD_TIME"] = __TIME__;
-	info["CHANNEL"] = ViewerInfo::viewerName();
+	info["CHANNEL"] = ViewerInfo::viewerVariant();
 
 	info["VIEWER_RELEASE_NOTES_URL"] = get_viewer_release_notes_url();
 
@@ -294,7 +294,7 @@ static std::string get_viewer_release_notes_url()
 	{
 		url += "/";
 	}
-	url += ViewerInfo::versionFull();
+	url += ViewerInfo::prettyVersion();
 	return LLWeb::escapeURL(url);
 }
 

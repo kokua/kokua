@@ -63,7 +63,7 @@ void LLTranslate::translateMessage(LLHTTPClient::ResponderPtr &result, const std
 	std::string url;
 	getTranslateUrl(url, from_lang, to_lang, mesg);
 
-	std::string user_agent = ViewerInfo::fullInfo();
+	std::string user_agent = ViewerInfo::terseInfo();
 
 	if (!m_Header.size())
 	{

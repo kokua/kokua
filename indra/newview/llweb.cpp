@@ -170,11 +170,12 @@ std::string LLWeb::expandURLSubstitutions(const std::string &url,
 										  const LLSD &default_subs)
 {
 	LLSD substitution = default_subs;
-	substitution["VERSION"] = ViewerInfo::versionFull();
+	substitution["VERSION"] = ViewerInfo::versionNumbers4();
 	substitution["VERSION_MAJOR"] = ViewerInfo::versionMajor();
 	substitution["VERSION_MINOR"] = ViewerInfo::versionMinor();
 	substitution["VERSION_PATCH"] = ViewerInfo::versionPatch();
-	substitution["CHANNEL"] = ViewerInfo::viewerName();
+	substitution["VERSION_RELEASE"] = ViewerInfo::versionRelease();
+	substitution["CHANNEL"] = ViewerInfo::nameWithVariant();
 	substitution["GRID"] = LLGridManager::getInstance()->getGridLabel();
 	substitution["OS"] = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
 	substitution["SESSION_ID"] = gAgent.getSessionID();

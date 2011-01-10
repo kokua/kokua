@@ -40,33 +40,50 @@ namespace ViewerInfo
 	const std::string& nameWithVariant();
 
 	/// Returns the major (first) version number.
+	/// This number increases for each major release, and the
+	/// minor, patch, and release numbers are reset to zero.
 	S32 versionMajor();
 
 	/// Returns the minor (second) version number.
+	/// This number increases for each minor release, and the
+	/// patch and release numbers are reset to zero.
 	S32 versionMinor();
 
 	/// Returns the patch (third) version number.
+	/// This number increases for each patch (bugfix) release,
+	/// and the release number is reset to zero.
 	S32 versionPatch();
+
+	/// Returns the release (fourth) version number.
+	/// This number increases for each beta, release candidate,
+	/// and final release.
+	S32 versionRelease();
 
 	/// Returns the extra version string (e.g. "beta 1", "RC1").
 	/// May be empty, if no extra string was set.
 	const std::string& versionExtra();
 
-	/// Returns a dot-separated string with all three version numbers.
-	const std::string& versionNumber();
+	/// Returns a three-segment dot-separated version string
+  /// ("major.minor.patch"). Intended for human reading.
+	const std::string& versionNumbers3();
 
-	/// Returns a dot-separated string with all three version numbers
-	/// plus a dummy number. This is for cases where a four-segment
-	/// version number is expected, e.g. the login channel version.
-	const std::string& versionNumber4();
+	/// Returns a four-segment dot-separated version string
+  /// ("major.minor.patch.release"). Intended for computer use, e.g.
+  /// login channel or version number comparison.
+	const std::string& versionNumbers4();
 
-	/// Returns a string with the version number and extra version
-	/// string (if not empty).
-	const std::string& versionFull();
+	/// Returns the three-segment version number with extra version
+	/// string (if not empty). Intended for human reading.
+	const std::string& prettyVersion();
 
-	/// Returns a string with the viewer name, variant (if it has one),
-	/// and full version.
-	const std::string& fullInfo();
+	/// Returns the viewer name, variant (if not empty), and pretty
+	/// version. Intended for human reading.
+	const std::string& prettyInfo();
+
+	/// Returns the the viewer name, variant (if not empty), and
+	/// 4-segment version. Intended for computer use, e.g. login channel
+	/// or version number comparison.
+	const std::string& terseInfo();
 
 	/// Returns a string with the viewer's Mac OS X bundle identifier.
 	const std::string& bundleID();

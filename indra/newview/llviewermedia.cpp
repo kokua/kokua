@@ -502,7 +502,7 @@ std::string LLViewerMedia::getCurrentUserAgent()
 	// http://www.mozilla.org/build/revised-user-agent-strings.html
 	std::ostringstream codec;
 	codec << ViewerInfo::viewerName() << "/";
-	codec << ViewerInfo::versionFull();
+	codec << ViewerInfo::versionNumbers4();
 	codec << " (" << skin_name << " skin)";
 	llinfos << codec.str() << llendl;
 	

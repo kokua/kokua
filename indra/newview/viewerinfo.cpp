@@ -35,6 +35,7 @@ namespace ViewerInfo
 	const S32         MAJOR = 0;
 	const S32         MINOR = 1;
 	const S32         PATCH = 0;
+	const S32         RLEAS = 0; // increment for each beta/RC/release
 	const std::string EXTRA = "WIP";
 
 	// Mac OS X bundle identifier. Should match the one in Info.plist.
@@ -86,24 +87,30 @@ namespace ViewerInfo
 		return PATCH;
 	}
 
+	S32 versionRelease()
+	{
+		return RLEAS;
+	}
+
 	const std::string& versionExtra()
 	{
 		return EXTRA;
 	}
 
-	const std::string& versionNumber()
+	const std::string& versionNumbers3()
 	{
 		static std::string s = llformat("%d.%d.%d", MAJOR, MINOR, PATCH);
 		return s;
 	}
 
-	const std::string& versionNumber4()
+	const std::string& versionNumbers4()
 	{
-		static std::string s = llformat("%d.%d.%d.0", MAJOR, MINOR, PATCH);
+		static std::string s = llformat("%d.%d.%d.%d",
+		                                MAJOR, MINOR, PATCH, RLEAS);
 		return s;
 	}
 
-	const std::string& versionFull()
+	const std::string& prettyVersion()
 	{
 		static std::string s;
 		if (s.length() > 0)
@@ -111,7 +118,7 @@ namespace ViewerInfo
 			return s;
 		}
 
-		s = versionNumber();
+		s = versionNumbers3();
 
 		if (EXTRA.length() > 0)
 		{
@@ -121,9 +128,15 @@ namespace ViewerInfo
 		return s;
 	}
 
-	const std::string& fullInfo()
+	const std::string& prettyInfo()
 	{
-		static std::string s = nameWithVariant() + " " + versionFull();
+		static std::string s = nameWithVariant() + " " + prettyVersion();
+		return s;
+	}
+
+	const std::string& terseInfo()
+	{
+		static std::string s = nameWithVariant() + " " + versionNumbers4();
 		return s;
 	}
 

@@ -166,10 +166,11 @@ void LLCurrencyUIManager::Impl::updateCurrencyInfo()
 		gAgent.getSecureSessionID().asString());
 	keywordArgs.appendString("language", LLUI::getLanguage());
 	keywordArgs.appendInt("currencyBuy", mUserCurrencyBuy);
-	keywordArgs.appendString("viewerChannel", ViewerInfo::viewerName());
+	keywordArgs.appendString("viewerChannel", ViewerInfo::nameWithVariant());
 	keywordArgs.appendInt("viewerMajorVersion", ViewerInfo::versionMajor());
 	keywordArgs.appendInt("viewerMinorVersion", ViewerInfo::versionMinor());
 	keywordArgs.appendInt("viewerPatchVersion", ViewerInfo::versionPatch());
+	keywordArgs.appendInt("viewerBuildVersion", 0);
 	
 	LLXMLRPCValue params = LLXMLRPCValue::createArray();
 	params.append(keywordArgs);
@@ -240,10 +241,11 @@ void LLCurrencyUIManager::Impl::startCurrencyBuy(const std::string& password)
 	{
 		keywordArgs.appendString("password", password);
 	}
-	keywordArgs.appendString("viewerChannel", ViewerInfo::viewerName());
+	keywordArgs.appendString("viewerChannel", ViewerInfo::nameWithVariant());
 	keywordArgs.appendInt("viewerMajorVersion", ViewerInfo::versionMajor());
 	keywordArgs.appendInt("viewerMinorVersion", ViewerInfo::versionMinor());
 	keywordArgs.appendInt("viewerPatchVersion", ViewerInfo::versionPatch());
+	keywordArgs.appendInt("viewerBuildVersion", 0);
 
 	LLXMLRPCValue params = LLXMLRPCValue::createArray();
 	params.append(keywordArgs);
