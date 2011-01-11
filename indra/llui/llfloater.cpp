@@ -57,6 +57,8 @@
 #include "llhelp.h"
 #include "llmultifloater.h"
 #include "llsdutil.h"
+//Kokua:FIXME:
+#include "../newview/llviewercontrol.h"
 
 // use this to control "jumping" behavior when Ctrl-Tabbing
 const S32 TABBED_FLOATER_OFFSET = 0;
@@ -2404,7 +2406,20 @@ void LLFloaterView::getMinimizePosition(S32 *left, S32 *bottom)
 		col < snap_rect_local.getWidth() - minimized_width;
 		col += minimized_width)
 	{	
-		for(S32 row = snap_rect_local.mTop - floater_header_size;
+
+		
+		// AO: offset minimized windows to not obscure title bars. Yes, this is a quick and dirty hack.
+		int offset = 0;
+		//LLFavoritesBarCtrl* fb = getChild<LLFavoritesBarCtrl>("favorite");
+		bool fbVisible = gSavedSettings.getBOOL("ShowNavbarFavoritesPanel");
+		bool nbVisible = gSavedSettings.getBOOL("ShowNavbarNavigationPanel");
+		// TODO: Make this introspect controls to get the dynamic size.
+		if (fbVisible)
+			offset += 15;
+		if (nbVisible)
+			offset += 35;
+		
+		for(S32 row = snap_rect_local.mTop - (floater_header_size + offset);
 		row > floater_header_size;
 		row -= floater_header_size ) //loop rows
 		{
