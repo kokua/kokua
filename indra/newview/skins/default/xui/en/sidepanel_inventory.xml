@@ -102,7 +102,7 @@
                      user_resize="false" 
                      auto_resize="true"
                      width="102">
-                    <button
+<!--                   <button
                          enabled="true"
                          follows="bottom|left|right"
                          height="23"
@@ -113,6 +113,7 @@
                          tool_tip="Open Marketplace webpage"
                          top="0"
                          width="102" />
+ -->
                     <button
                          enabled="false"
                          follows="bottom|left|right"

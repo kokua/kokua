@@ -69,9 +69,11 @@ BOOL LLSidepanelInventory::postBuild()
 		
 		mShareBtn = mInventoryPanel->getChild<LLButton>("share_btn");
 		mShareBtn->setClickedCallback(boost::bind(&LLSidepanelInventory::onShareButtonClicked, this));
-		
+//Kokua
+/*		
 		mShopBtn = mInventoryPanel->getChild<LLButton>("shop_btn");
 		mShopBtn->setClickedCallback(boost::bind(&LLSidepanelInventory::onShopButtonClicked, this));
+*/
 
 		mWearBtn = mInventoryPanel->getChild<LLButton>("wear_btn");
 		mWearBtn->setClickedCallback(boost::bind(&LLSidepanelInventory::onWearButtonClicked, this));
@@ -163,12 +165,13 @@ void LLSidepanelInventory::onShareButtonClicked()
 {
 	LLAvatarActions::shareWithAvatars();
 }
-
+//Kokua
+/*
 void LLSidepanelInventory::onShopButtonClicked()
 {
 	LLWeb::loadURLExternal(gSavedSettings.getString("MarketplaceURL"));
 }
-
+*/
 void LLSidepanelInventory::performActionOnSelection(const std::string &action)
 {
 	LLPanelMainInventory *panel_main_inventory = mInventoryPanel->findChild<LLPanelMainInventory>("panel_main_inventory");
@@ -286,7 +289,7 @@ void LLSidepanelInventory::updateVerbs()
 	mPlayBtn->setEnabled(FALSE);
  	mTeleportBtn->setVisible(FALSE);
  	mTeleportBtn->setEnabled(FALSE);
- 	mShopBtn->setVisible(TRUE);
+//Kokua 	mShopBtn->setVisible(TRUE);
 
 	mShareBtn->setEnabled(canShare());
 
@@ -305,19 +308,19 @@ void LLSidepanelInventory::updateVerbs()
 		case LLInventoryType::IT_ATTACHMENT:
 			mWearBtn->setVisible(TRUE);
 			mWearBtn->setEnabled(canWearSelected());
-		 	mShopBtn->setVisible(FALSE);
+//Kokua		 	mShopBtn->setVisible(FALSE);
 			break;
 		case LLInventoryType::IT_SOUND:
 		case LLInventoryType::IT_GESTURE:
 		case LLInventoryType::IT_ANIMATION:
 			mPlayBtn->setVisible(TRUE);
 			mPlayBtn->setEnabled(TRUE);
-		 	mShopBtn->setVisible(FALSE);
+//Kokua		 	mShopBtn->setVisible(FALSE);
 			break;
 		case LLInventoryType::IT_LANDMARK:
 			mTeleportBtn->setVisible(TRUE);
 			mTeleportBtn->setEnabled(TRUE);
-		 	mShopBtn->setVisible(FALSE);
+//Kokua		 	mShopBtn->setVisible(FALSE);
 			break;
 		default:
 			break;

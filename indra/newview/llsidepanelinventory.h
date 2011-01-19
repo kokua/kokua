@@ -79,7 +79,7 @@ private:
 protected:
 	void 						onInfoButtonClicked();
 	void 						onShareButtonClicked();
-	void 						onShopButtonClicked();
+//Kokua	void 						onShopButtonClicked();
 	void 						onWearButtonClicked();
 	void 						onPlayButtonClicked();
 	void 						onTeleportButtonClicked();
@@ -92,7 +92,7 @@ private:
 	LLButton*					mPlayBtn;
 	LLButton*					mTeleportBtn;
 	LLButton*					mOverflowBtn;
-	LLButton*					mShopBtn;
+//Kokua	LLButton*					mShopBtn;
 
 };
 

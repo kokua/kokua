@@ -161,7 +161,7 @@ public:
 	void onEditWearableClicked(void);
 	void onAddWearableClicked(void);
 	void onReplaceMenuItemClicked(LLUUID selected_item_id);
-	void onShopButtonClicked();
+// 	void onShopButtonClicked();
 
 	void displayCurrentOutfit();
 	void updateCurrentOutfitName();

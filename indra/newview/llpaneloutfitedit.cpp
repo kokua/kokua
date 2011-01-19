@@ -82,7 +82,7 @@ const U64 ALL_ITEMS_MASK = WEARABLE_MASK | ATTACHMENT_MASK;
 
 static const std::string REVERT_BTN("revert_btn");
 
-
+/*
 ///////////////////////////////////////////////////////////////////////////////
 // LLShopURLDispatcher
 ///////////////////////////////////////////////////////////////////////////////
@@ -144,7 +144,7 @@ std::string LLShopURLDispatcher::resolveURL(LLAssetType::EType asset_type, ESex 
 	}
 
 	return gSavedSettings.getString(setting_name);
-}
+}*/
 
 ///////////////////////////////////////////////////////////////////////////////
 // LLPanelOutfitEditGearMenu
@@ -484,9 +484,11 @@ BOOL LLPanelOutfitEdit::postBuild()
 	childSetCommitCallback("folder_view_btn", boost::bind(&LLPanelOutfitEdit::saveListSelection, this), NULL);
 	childSetCommitCallback("list_view_btn", boost::bind(&LLPanelOutfitEdit::showWearablesListView, this), NULL);
 	childSetCommitCallback("list_view_btn", boost::bind(&LLPanelOutfitEdit::saveListSelection, this), NULL);
+//Kokua
+/*
 	childSetCommitCallback("shop_btn_1", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), NULL);
 	childSetCommitCallback("shop_btn_2", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), NULL);
-
+*/
 	setVisibleCallback(boost::bind(&LLPanelOutfitEdit::onVisibilityChange, this, _2));
 
 	mWearablesGearMenuBtn = getChild<LLMenuButton>("wearables_gear_menu_btn");
@@ -804,7 +806,8 @@ void LLPanelOutfitEdit::onReplaceMenuItemClicked(LLUUID selected_item_id)
 		showFilteredWearablesListView(item->getWearableType());
 	}
 }
-
+//Kokua
+/*
 void LLPanelOutfitEdit::onShopButtonClicked()
 {
 	static LLShopURLDispatcher url_resolver;
@@ -856,6 +859,7 @@ void LLPanelOutfitEdit::onShopButtonClicked()
 
 	LLWeb::loadURLExternal(url);
 }
+*/
 
 LLWearableType::EType LLPanelOutfitEdit::getCOFWearablesSelectionType() const
 {
