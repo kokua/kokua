@@ -102,7 +102,7 @@ LLGestureComboList::LLGestureComboList(const LLGestureComboList::Params& p)
 :	LLUICtrl(p)
 	, mLabel(p.label)
 	, mViewAllItemIndex(0)
-	, mGetMoreItemIndex(0)
+//Kokua 	, mGetMoreItemIndex(0)
 {
 	LLBottomtrayButton::Params button_params = p.combo_button;
 	button_params.follows.flags(FOLLOWS_LEFT|FOLLOWS_BOTTOM|FOLLOWS_RIGHT);
@@ -286,11 +286,12 @@ void LLGestureComboList::refreshGestures()
 	sortByName();
 
 	// store indices for Get More and View All items (idx is the index followed by the last added Gesture)
-	mGetMoreItemIndex = idx;
-	mViewAllItemIndex = idx + 1;
+//Kokua 	mGetMoreItemIndex = idx;
+//		mViewAllItemIndex = idx + 1;
+	mViewAllItemIndex = idx;
 
 	// add Get More and View All items at the bottom
-	mList->addSimpleElement(LLTrans::getString("GetMoreGestures"), ADD_BOTTOM, LLSD(mGetMoreItemIndex));
+//Kokua	mList->addSimpleElement(LLTrans::getString("GetMoreGestures"), ADD_BOTTOM, LLSD(mGetMoreItemIndex));
 	mList->addSimpleElement(LLTrans::getString("ViewAllGestures"), ADD_BOTTOM, LLSD(mViewAllItemIndex));
 
 	// Insert label after sorting, at top, with separator below it
@@ -356,11 +357,12 @@ void LLGestureComboList::onCommitGesture()
 			return;
 		}
 
-		if (mGetMoreItemIndex == index)
+		// gestures, gestures and spam , egg and spam, egg bacon and spam, egg bacon gestures and spam
+		/*if (mGetMoreItemIndex == index)
 		{
 			LLWeb::loadURLExternal(gSavedSettings.getString("GesturesMarketplaceURL"));
 			return;
-		}
+		}*/
 
 		if (index<0 || index >= (S32)mGestures.size())
 		{

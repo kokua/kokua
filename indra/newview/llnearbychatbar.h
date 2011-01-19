@@ -57,7 +57,7 @@ protected:
 	std::vector<LLMultiGesture*> mGestures;
 	std::string mLabel;
 	LLSD::Integer mViewAllItemIndex;
-	LLSD::Integer mGetMoreItemIndex;
+// 	LLSD::Integer mGetMoreItemIndex;
 
 public:
 
