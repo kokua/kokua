@@ -141,6 +141,17 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>SidebarDefaultTab</key>
+    <map>
+      <key>Comment</key>
+      <string>Sidebar tab that gets activated after login. Possible values see values of name of sidetray_tab widgets in  panel_side_tray.xml.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>sidebar_people</string>
+    </map>
     <key>ShowInventoryButton</key>
     <map>
       <key>Comment</key>

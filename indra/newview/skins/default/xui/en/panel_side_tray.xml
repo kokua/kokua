@@ -26,7 +26,8 @@
     <panel /> <!-- dummy panel, never to actually be seen -->
   </sidetray_tab>
 
-  <sidetray_tab
+<!--
+    <sidetray_tab
     name="sidebar_home"
     help_topic="sidebar_home"
     tab_title="Home"
@@ -43,6 +44,7 @@
         label="home"
       />
   </sidetray_tab>
+  -->
 
   <sidetray_tab
     name="sidebar_me"

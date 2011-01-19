@@ -118,4 +118,76 @@
      name="show_develop_menu_check"
      top_pad="5"
      width="237"/>
+  <text
+   type="string"
+   length="1"
+   follows="left|top"
+   height="12"
+   layout="topleft"
+   left="33"
+   name="Default Sidebar Tab:"
+   top_pad="15"
+   width="100">
+    Default Sidebar Tab:
+  </text>
+    <radio_group
+     enabled_control="SidebarEnabled"
+     control_name="SidebarDefaultTab"
+     follows="top|left"
+     draw_border="false"
+     height="16"
+     layout="topleft"
+     left="100"
+     name="SidebarDefaultTab"
+     top_delta="15"
+     width="400">
+<!--        <radio_item
+         height="16"
+         label="Home Tab"
+         layout="topleft"
+         left="3"
+         name="sidebar_home"
+         top="0"
+         width="315" />-->
+        <radio_item
+         height="16"
+         label="Profile"
+         layout="topleft"
+         left_delta="0"
+         name="sidebar_me"
+         top_delta="18"
+         width="215" />
+        <radio_item
+         height="16"
+         label="People"
+         layout="topleft"
+         left_delta="80"
+         name="sidebar_people"
+         top_delta="0"
+         width="115" />
+        <radio_item
+         height="16"
+         label="Places"
+         layout="topleft"
+         left_delta="75"
+         name="sidebar_places"
+         top_delta="0"
+         width="115" />
+        <radio_item
+         height="16"
+         label="Inventory"
+         layout="topleft"
+         left_delta="75"
+         name="sidebar_inventory"
+         top_delta="0"
+         width="115" />
+        <radio_item
+         height="16"
+         label="Appearance"
+         layout="topleft"
+         left_delta="75"
+         name="sidebar_appearance"
+         top_delta="0"
+         width="115" />
+    </radio_group>
 </panel>

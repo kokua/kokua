@@ -536,7 +536,8 @@ BOOL LLSideTray::postBuild()
 	createButtons();
 
 	arrange();
-	selectTabByName("sidebar_home");
+	std::string default_tab = gSavedSettings.getString("SidebarDefaultTab");
+	selectTabByName(default_tab);
 
 	if(mCollapsed)
 		collapseSideBar();
@@ -568,8 +569,9 @@ BOOL LLSideTray::postBuild()
 
 void LLSideTray::handleLoginComplete()
 {
-	//reset tab to "home" tab if it was changesd during login process
-	selectTabByName("sidebar_home");
+	//reset tab to default tab if it was changesd during login process
+	std::string default_tab = gSavedSettings.getString("SidebarDefaultTab");
+	selectTabByName(default_tab);
 
 	detachTabs();
 }
