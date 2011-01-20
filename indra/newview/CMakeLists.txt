@@ -67,6 +67,7 @@ include_directories(
     )
 
 set(viewer_SOURCE_FILES
+    fscontactsfloater.cpp
     kokuastreamingaudio.cpp
     llagent.cpp
     llagentaccess.cpp
@@ -601,6 +602,7 @@ endif (LINUX)
 set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
+    fscontactsfloater.h
     kokuastreamingaudio.h
     llagent.h
     llagentaccess.h
