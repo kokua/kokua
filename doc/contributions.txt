@@ -358,6 +358,14 @@ Jonathan Yap
 	VWR-17801
 	STORM-616
 	STORM-726
+	STORM-737
+	STORM-869
+	STORM-785
+	STORM-812
+	VWR-17801
+	VWR-24347
+	STORM-844
+	STORM-643
 Kage Pixel
 	VWR-11
 Ken March
@@ -731,6 +739,8 @@ Tue Torok
 Twisted Laws
 	SNOW-352
 	STORM-467
+	STORM-844
+	STORM-643
 Vadim Bigbear
 	VWR-2681
 Vector Hastings
