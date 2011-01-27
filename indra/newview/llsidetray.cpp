@@ -250,7 +250,18 @@ void LLSideTrayTab::toggleTabDocked()
 	LLFloater* floater_tab = LLFloaterReg::getInstance("side_bar_tab", tab_name);
 	if (!floater_tab) return;
 
-	bool docking = LLFloater::isShown(floater_tab);
+//	bool docking = LLFloater::isShown(floater_tab);
+// [RLVa:KB] - Checked: 2010-12-14 (RLVa-1.2.2c) | Added: RLVa-1.2.2c
+
+// 	AO: Don't change minimized state. We want it preserved.
+//	if (floater_tab->isMinimized())
+//		floater_tab->setMinimized(FALSE);
+
+	LLSideTray* pSideTray = getSideTray();
+	if (!pSideTray) return;
+
+	bool docking = !pSideTray->isTabAttached(this);
+// [/RLVa:KB]
 
 	// Hide the "Tear Off" button when a tab gets undocked
 	// and show "Dock" button instead.
