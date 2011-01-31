@@ -39,6 +39,15 @@
 #include "llvorbisencode.h"
 
 #include "vorbis/codec.h"
+
+#if LL_LINUX	// Kokua: actually atm only linux64, does nothing on linux32
+		// if we ever change to a non-linden  vorbisfile we'll need it also for 32bit
+  #ifndef OV_EXCLUDE_STATIC_CALLBACKS
+    // Kokua: LL instead uses a hacked vorbisfile.h
+    // OV_EXCLUDE_STATIC_CALLBACKS has the same effect as the LL hack.
+    #define OV_EXCLUDE_STATIC_CALLBACKS
+  #endif
+#endif //LL_LINUX
 #include "vorbis/vorbisfile.h"
 
 extern LLAudioEngine *gAudiop;

@@ -207,9 +207,9 @@ endif (DARWIN)
 if (LINUX OR DARWIN)
   set(GCC_WARNINGS "-Wall -Wno-sign-compare -Wno-trigraphs")
 
-#   if (NOT GCC_DISABLE_FATAL_WARNINGS)       # linux64 is currently unhappy with unused 
-#     set(GCC_WARNINGS "${GCC_WARNINGS} -Werror")# inlines from vorbis
-#   endif (NOT GCC_DISABLE_FATAL_WARNINGS)
+   if (NOT GCC_DISABLE_FATAL_WARNINGS)
+     set(GCC_WARNINGS "${GCC_WARNINGS} -Werror")
+   endif (NOT GCC_DISABLE_FATAL_WARNINGS)
 
   set(GCC_CXX_WARNINGS "${GCC_WARNINGS} -Wno-reorder -Wno-non-virtual-dtor -Woverloaded-virtual")
 

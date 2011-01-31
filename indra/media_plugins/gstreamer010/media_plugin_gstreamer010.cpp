@@ -835,16 +835,10 @@ MediaPluginGStreamer010::startup()
 		g_type_init();
 		set_gst_plugin_path();
 
-
-
-		// Latest stable gstreamer at the time writing this: 0.10.31
-		gst_segtrap_set_enabled(FALSE);// Since 0.10.10
-
-
+		// Kokua: removed case gst_segtrap_set_enabled doesn't exist
+		// Because: Latest stable gstreamer at the time writing this: 0.10.31
+		gst_segtrap_set_enabled(FALSE);// Since 0.10.10	, was released Sep 2006
 #if LL_LINUX
-		// Gstreamer tries a fork during init, waitpid-ing on it,
-		// which conflicts with any installed SIGCHLD handler...
-		struct sigaction tmpact, oldact;
 
 		// if we can disable SIGCHLD-using forking behaviour,
 		// do it.
@@ -863,9 +857,7 @@ MediaPluginGStreamer010::startup()
 		// restore old locale
 		setlocale(LC_ALL, saved_locale.c_str() );
 
-#if LL_LINUX
-		sigaction(SIGCHLD, &oldact, NULL);
-#endif // LL_LINUX
+
 
 		if (!init_gst_success) // fail
 		{
