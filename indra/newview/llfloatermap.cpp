@@ -38,13 +38,13 @@
 #include "llagentcamera.h"
 #include "llviewercontrol.h"
 #include "llnetmap.h"
-#include "lltracker.h"
 #include "llviewercamera.h"
 #include "lldraghandle.h"
 #include "lltextbox.h"
-#include "llviewermenu.h"
-#include "llfloaterworldmap.h"
-#include "llagent.h"
+//
+//Kokua: Note for future merge conflicts:
+//we handle popup menu, rightclick, zoom, tracking, teleport and most of doubleclick in llnetmap.
+//git blame this line for the commit
 
 //
 // Constants
@@ -63,7 +63,6 @@ const S32 MAP_PADDING_BOTTOM = 0;
 
 LLFloaterMap::LLFloaterMap(const LLSD& key) 
 	: LLFloater(key),
-	  mPopupMenu(NULL),
 	  mTextBoxEast(NULL),
 	  mTextBoxNorth(NULL),
 	  mTextBoxWest(NULL),
@@ -83,7 +82,7 @@ LLFloaterMap::~LLFloaterMap()
 BOOL LLFloaterMap::postBuild()
 {
 	mMap = getChild<LLNetMap>("Net Map");
-	mMap->setToolTipMsg(gSavedSettings.getBOOL("DoubleClickTeleport") ? 
+	mMap->setToolTipMsg(gSavedSettings.getBOOL("MiniMapTeleport") ? 
 		getString("AltToolTipMsg") : getString("ToolTipMsg"));
 	sendChildToBack(mMap);
 	
@@ -97,15 +96,6 @@ BOOL LLFloaterMap::postBuild()
 	mTextBoxNorthWest = getChild<LLTextBox> ("floater_map_northwest");
 
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
-	
-	registrar.add("Minimap.Zoom", boost::bind(&LLFloaterMap::handleZoom, this, _2));
-	registrar.add("Minimap.Tracker", boost::bind(&LLFloaterMap::handleStopTracking, this, _2));
-
-	mPopupMenu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>("menu_mini_map.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
-	if (mPopupMenu && !LLTracker::isTracking(0))
-	{
-		mPopupMenu->setItemEnabled ("Stop Tracking", false);
-	}
 
 	stretchMiniMap(getRect().getWidth() - MAP_PADDING_LEFT - MAP_PADDING_RIGHT
 		,getRect().getHeight() - MAP_PADDING_TOP - MAP_PADDING_BOTTOM);
@@ -130,41 +120,10 @@ BOOL LLFloaterMap::handleDoubleClick(S32 x, S32 y, MASK mask)
 	if (isMinimized())
 	{
 		setMinimized(FALSE);
-		return TRUE;
 	}
 
-	if (gSavedSettings.getBOOL("MiniMapTeleport"))
-	{
-		return mMap->handleTeleport(x, y, mask);
-	}
-	else
-	{
-		LLVector3d pos_global = mMap->viewPosToGlobal(x, y);
-	
-		// If we're not tracking a beacon already, double-click will set one 
-		if (!LLTracker::isTracking(NULL))
-		{
-			LLFloaterWorldMap* world_map = LLFloaterWorldMap::getInstance();
-			if (world_map)
-			{
-				world_map->trackLocation(pos_global);
-			}
-		}
-
-		LLFloaterReg::showInstance("world_map");
-	}
-	return TRUE;
-}
-
-BOOL LLFloaterMap::handleRightMouseDown(S32 x, S32 y, MASK mask)
-{
-	if (mPopupMenu)
-	{
-		mPopupMenu->buildDrawLabels();
-		mPopupMenu->updateParent(LLMenuGL::sMenuContainer);
-		LLMenuGL::showPopup(this, mPopupMenu, x, y);
-	}
-	return TRUE;
+	//Kokua: handle anything both minimaps share in llnetmap:
+	return mMap->handleDoubleClick(x, y, mask);
 }
 
 void LLFloaterMap::setDirectionPos( LLTextBox* text_box, F32 rotation )
@@ -237,11 +196,6 @@ void LLFloaterMap::draw()
 		getDragHandle()->setMouseOpaque(TRUE);
 	}
 	
-	if (LLTracker::isTracking(0))
-	{
-		mPopupMenu->setItemEnabled ("Stop Tracking", true);
-	}
-	
 	LLFloater::draw();
 }
 
@@ -282,40 +236,6 @@ void LLFloaterMap::reshape(S32 width, S32 height, BOOL called_from_parent)
 	updateMinorDirections();
 }
 
-void LLFloaterMap::handleZoom(const LLSD& userdata)
-{
-	std::string level = userdata.asString();
-	
-	F32 scale = 0.0f;
-	if (level == std::string("default"))
-	{
-		LLControlVariable *pvar = gSavedSettings.getControl("MiniMapScale");
-		if(pvar)
-		{
-			pvar->resetToDefault();
-			scale = gSavedSettings.getF32("MiniMapScale");
-		}
-	}
-	else if (level == std::string("close"))
-		scale = LLNetMap::MAP_SCALE_MAX;
-	else if (level == std::string("medium"))
-		scale = LLNetMap::MAP_SCALE_MID;
-	else if (level == std::string("far"))
-		scale = LLNetMap::MAP_SCALE_MIN;
-	if (scale != 0.0f)
-	{
-		mMap->setScale(scale);
-	}
-}
-
-void LLFloaterMap::handleStopTracking (const LLSD& userdata)
-{
-	if (mPopupMenu)
-	{
-		mPopupMenu->setItemEnabled ("Stop Tracking", false);
-		LLTracker::stopTracking ((void*)LLTracker::isTracking(NULL));
-	}
-}
 void	LLFloaterMap::setMinimized(BOOL b)
 {
 	LLFloater::setMinimized(b);

@@ -74,6 +74,9 @@ const F32 DOT_SCALE = 0.75f;
 const F32 MIN_PICK_SCALE = 2.f;
 const S32 MOUSE_DRAG_SLOP = 2;		// How far the mouse needs to move before we think it's a drag
 
+//static
+uuid_vec_t LLNetMap::sSelected;
+
 LLNetMap::LLNetMap (const Params & p)
 :	LLUICtrl (p),
 	mBackgroundColor (p.bg_color()),
@@ -143,6 +146,10 @@ void LLNetMap::setScale( F32 scale )
 	mUpdateNow = true;
 }
 
+void LLNetMap::setSelected(uuid_vec_t &uuids) 
+{ 
+	sSelected=uuids; 
+};
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -335,7 +342,7 @@ void LLNetMap::draw()
 		LLUI::getMousePositionLocal(this, &local_mouse_x, &local_mouse_y);
 		mClosestAgentToCursor.setNull();
 		F32 closest_dist = F32_MAX;
-		F32 min_pick_dist = mDotRadius * MIN_PICK_SCALE; 
+		F32 min_pick_dist = mDotRadius * MIN_PICK_SCALE;
 
 		// Draw avatars
 		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
@@ -388,8 +395,8 @@ void LLNetMap::draw()
 				if(uuid.notNull())
 				{
 					bool selected = false;
-					uuid_vec_t::iterator sel_iter = gmSelected.begin();
-					for (; sel_iter != gmSelected.end(); sel_iter++)
+					uuid_vec_t::iterator sel_iter = sSelected.begin();
+					for (; sel_iter != sSelected.end(); sel_iter++)
 					{
 						if(*sel_iter == uuid)
 						{
@@ -511,11 +518,12 @@ void LLNetMap::draw()
 
 	LLUICtrl::draw();
 
-	if (LLTracker::isTracking(0))
+
+	if (mPopupMenu)
 	{
-		mPopupMenu->setItemEnabled ("Stop Tracking", true);
+		bool tracking = sSelected.size() || LLTracker::isTracking(0);
+		mPopupMenu->setItemEnabled ("Stop Tracking", tracking);
 	}
-	
 
 }
 
@@ -915,10 +923,10 @@ BOOL LLNetMap::handleDoubleClick(S32 x, S32 y, MASK mask)
 		}
 	}
 	
-	if (gSavedSettings.getBOOL("DoubleClickTeleport"))
+	if (gSavedSettings.getBOOL("MiniMapTeleport"))
 	{
-		// If DoubleClickTeleport is on, double clicking the minimap will teleport there
-		gAgent.teleportViaLocationLookAt(pos_global);
+		// If MiniMapTeleport is on, double clicking the minimap will teleport there
+		handleTeleport(x, y, mask);
 	}
 	else 
 	{
@@ -994,6 +1002,7 @@ BOOL LLNetMap::handleTeleport( S32 x, S32 y, MASK mask )
 
 	return TRUE;
 }
+
 void LLNetMap::handleZoom(const LLSD& userdata)
 {
 	std::string level = userdata.asString();
@@ -1026,5 +1035,6 @@ void LLNetMap::handleStopTracking (const LLSD& userdata)
 	{
 		mPopupMenu->setItemEnabled ("Stop Tracking", false);
 		LLTracker::stopTracking ((void*)LLTracker::isTracking(NULL));
+		sSelected.clear(); //Kokua: should we de-select them in the nearby people list?
 	}
 }

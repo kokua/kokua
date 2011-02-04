@@ -544,7 +544,7 @@ BOOL LLPanelPeople::postBuild()
 	mNearbyList->setNoFilteredItemsMsg(getString("no_one_filtered_near"));
 	mNearbyList->setShowIcons("NearbyListShowIcons");
 	mMiniMap = (LLNetMap*)getChildView("Net Map",true);
-	mMiniMap->setToolTipMsg(gSavedSettings.getBOOL("DoubleClickTeleport") ? 
+	mMiniMap->setToolTipMsg(gSavedSettings.getBOOL("MiniMapTeleport") ? 
 		getString("AltMiniMapToolTipMsg") :	getString("MiniMapToolTipMsg"));
 
 	mRecentList = getChild<LLPanel>(RECENT_TAB_NAME)->getChild<LLAvatarList>("avatar_list");

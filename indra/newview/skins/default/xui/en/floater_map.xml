@@ -20,11 +20,11 @@
  width="200">
     <floater.string
      name="ToolTipMsg">
-        [REGION](Double-click to teleport (+ctrl to ground), shift-drag to pan, right click for more options.)
+        [REGION](Double-click to open World Map, right click for more options.)
     </floater.string>
 	<floater.string
      name="AltToolTipMsg">
-		[REGION](Double-click to teleport, shift-drag to pan)
+		[REGION](Double-click to teleport (+ctrl to ground), shift-drag to pan, right click for more options.)
 	</floater.string>
 	<floater.string name="mini_map_caption">
 	MINIMAP

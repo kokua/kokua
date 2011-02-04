@@ -28,8 +28,10 @@
 #define LL_LLFLOATERMAP_H
 
 #include "llfloater.h"
-
-class LLMenuGL;
+//
+//Kokua: Note for future merge conflicts:
+//we handle popup menu, rightclick, zoom, tracking, teleport and most of doubleclick in llnetmap.
+//git blame this line for the commit
 class LLNetMap;
 class LLTextBox;
 
@@ -44,7 +46,6 @@ public:
 	
 	/*virtual*/ BOOL 	postBuild();
 	/*virtual*/ BOOL	handleDoubleClick( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL	handleRightMouseDown( S32 x, S32 y, MASK mask );
 	/*virtual*/ void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
 	/*virtual*/ void	draw();
 	/*virtual*/ void	onFocusLost();
@@ -53,14 +54,12 @@ public:
 	/*virtual*/ void	setMinimized(BOOL b);
 	
 private:
-	void handleZoom(const LLSD& userdata);
-	void handleStopTracking (const LLSD& userdata);
+
 	void setDirectionPos( LLTextBox* text_box, F32 rotation );
 	void updateMinorDirections();
 
 	void stretchMiniMap(S32 width,S32 height);
 	
-	LLMenuGL*		mPopupMenu;
 
 	LLTextBox*		mTextBoxEast;
 	LLTextBox*		mTextBoxNorth;
