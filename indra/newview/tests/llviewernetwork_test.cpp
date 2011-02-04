@@ -142,18 +142,22 @@ namespace tut
 		manager->initialize("grid_test.xml");
 		// validate that some of the defaults are available.
 		std::map<std::string, std::string> known_grids = manager->getKnownGrids();
-		ensure_equals("Known grids is a string-string map of size 23", known_grids.size(), 23);
+
+//Kokua: do we want "System Grids" at all? And if: really all Vedic gods?
+
+		ensure_equals("Known grids is a string-string map of size 23", known_grids.size(), KNOWN_GRIDS_SIZE);
 		ensure_equals("Agni has the right name and label", 
-					  known_grids[std::string("util.agni.lindenlab.com")], std::string("Agni"));
+					  known_grids[std::string("util.agni.lindenlab.com")], std::string(AGNI));
+
 		ensure_equals("None exists", known_grids[""], "None");
-		
+	
 		LLSD grid;
 		LLGridManager::getInstance()->getGridInfo("util.agni.lindenlab.com", grid);
 		ensure("Grid info for agni is a map", grid.isMap());
 		ensure_equals("name is correct for agni", 
 					  grid[GRID_VALUE].asString(), std::string("util.agni.lindenlab.com"));
 		ensure_equals("label is correct for agni", 
-					  grid[GRID_LABEL_VALUE].asString(), std::string("Agni"));
+					  grid[GRID_LABEL_VALUE].asString(), std::string(AGNI));
 		ensure("Login URI is an array", 
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
 		ensure_equals("Agni login uri is correct", 
@@ -169,6 +173,7 @@ namespace tut
 			   grid.has(GRID_IS_FAVORITE_VALUE));
 		ensure("Agni is a system grid", 
 			   grid.has(GRID_IS_SYSTEM_GRID_VALUE));
+
 		ensure("Grid file wasn't greated as it wasn't saved", 
 			   !LLFile::isfile("grid_test.xml"));
 	}
@@ -184,9 +189,9 @@ namespace tut
 		LLGridManager::getInstance()->initialize("grid_test.xml");
 		std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
 		ensure_equals("adding a grid via a grid file increases known grid size", 
-					  known_grids.size(), 24);
+					  known_grids.size(), (KNOWN_GRIDS_SIZE +1));
 		ensure_equals("Agni is still there after we've added a grid via a grid file", 
-					  known_grids["util.agni.lindenlab.com"], std::string("Agni"));
+					  known_grids["util.agni.lindenlab.com"], std::string(AGNI));
 	
 		
 		// assure Agni doesn't get overwritten
@@ -194,7 +199,7 @@ namespace tut
 		LLGridManager::getInstance()->getGridInfo("util.agni.lindenlab.com", grid);
 
 		ensure_equals("Agni grid label was not modified by grid file", 
-					  grid[GRID_LABEL_VALUE].asString(), std::string("Agni"));
+					  grid[GRID_LABEL_VALUE].asString(), std::string(AGNI));
 		
 		ensure_equals("Agni name wasn't modified by grid file",
 					  grid[GRID_VALUE].asString(), std::string("util.agni.lindenlab.com"));
@@ -248,24 +253,24 @@ namespace tut
 		// USE --grid command line
 		// initialize with a known grid
 		LLSD grid;
-		gCmdLineGridChoice = "Aditi";
+		gCmdLineGridChoice = ADITI;
 		LLGridManager::getInstance()->initialize("grid_test.xml");
 		// with single login uri specified.
 		std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
 		ensure_equals("Using a known grid via command line doesn't increase number of known grids", 
-					  known_grids.size(), 23);
-		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string("Aditi"));
+					  known_grids.size(), KNOWN_GRIDS_SIZE);
+		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string(ADITI));
 		// initialize with a known grid in lowercase
-		gCmdLineGridChoice = "agni";
+		gCmdLineGridChoice = AGNI;
 		LLGridManager::getInstance()->initialize("grid_test.xml");
-		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string("Agni"));		
+		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string(AGNI));		
 		
 		// now try a command line with a custom grid identifier
 		gCmdLineGridChoice = "mycustomgridchoice";		
 		LLGridManager::getInstance()->initialize("grid_test.xml");
 		known_grids = LLGridManager::getInstance()->getKnownGrids();
 		ensure_equals("adding a command line grid with custom name increases known grid size", 
-					  known_grids.size(), 24);
+					  known_grids.size(), (KNOWN_GRIDS_SIZE + 1));
 		ensure_equals("Custom Command line grid is added to the list of grids", 
 					  known_grids["mycustomgridchoice"], std::string("mycustomgridchoice"));
 		LLGridManager::getInstance()->getGridInfo("mycustomgridchoice", grid);
@@ -299,12 +304,12 @@ namespace tut
 		// Override with loginuri
 		// override known grid
 		LLSD grid;
-		gCmdLineGridChoice = "Aditi";
+		gCmdLineGridChoice = ADITI;
 		gCmdLineLoginURI = "https://my.login.uri/cgi-bin/login.cgi";		
 		LLGridManager::getInstance()->initialize("grid_test.xml");		
 		std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();		
 		ensure_equals("Override known grid login uri: No grids are added", 
-					  known_grids.size(), 23);
+					  known_grids.size(), KNOWN_GRIDS_SIZE);
 		LLGridManager::getInstance()->getGridInfo(grid);
 		ensure("Override known grid login uri: login uri is an array",
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
@@ -326,7 +331,7 @@ namespace tut
 		known_grids = LLGridManager::getInstance()->getKnownGrids();
 		LLGridManager::getInstance()->getGridInfo(grid);
 		ensure_equals("Override custom grid login uri: Grid is added", 
-					  known_grids.size(), 24);		
+					  known_grids.size(), (KNOWN_GRIDS_SIZE + 1));		
 		ensure("Override custom grid login uri: login uri is an array",
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
 //Kokua FIXME: see above
@@ -350,13 +355,13 @@ namespace tut
 		// Override with helperuri
 		// override known grid
 		LLSD grid;
-		gCmdLineGridChoice = "Aditi";
+		gCmdLineGridChoice = ADITI;
 		gCmdLineLoginURI = "";
 		gCmdLineHelperURI = "https://my.helper.uri/mycustomhelpers";		
 		LLGridManager::getInstance()->initialize("grid_test.xml");		
 		std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();		
 		ensure_equals("Override known grid helper uri: No grids are added", 
-					  known_grids.size(), 23);
+					  known_grids.size(), KNOWN_GRIDS_SIZE);
 		LLGridManager::getInstance()->getGridInfo(grid);
 		ensure("Override known known helper uri: login uri is an array",
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
@@ -377,7 +382,7 @@ namespace tut
 		LLGridManager::getInstance()->initialize("grid_test.xml");	
 		known_grids = LLGridManager::getInstance()->getKnownGrids();
 		ensure_equals("Override custom grid helper uri: grids is added", 
-					  known_grids.size(), 24);
+					  known_grids.size(), (KNOWN_GRIDS_SIZE + 1));
 		LLGridManager::getInstance()->getGridInfo(grid);
 		ensure("Override custom helper uri: login uri is an array",
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
@@ -402,13 +407,13 @@ namespace tut
 		// Override with login page
 		// override known grid
 		LLSD grid;
-		gCmdLineGridChoice = "Aditi";
+		gCmdLineGridChoice = ADITI;
 		gCmdLineHelperURI = "";
 		gLoginPage = "myloginpage";		
 		LLGridManager::getInstance()->initialize("grid_test.xml");		
 		std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();				
 		ensure_equals("Override known grid login page: No grids are added", 
-					  known_grids.size(), 23);
+					  known_grids.size(), KNOWN_GRIDS_SIZE);
 		LLGridManager::getInstance()->getGridInfo(grid);
 		ensure("Override known grid login page: Command line grid login uri is an array",
 			   grid[GRID_LOGIN_URI_VALUE].isArray());
@@ -429,7 +434,7 @@ namespace tut
 		LLGridManager::getInstance()->initialize("grid_test.xml");		
 		known_grids = LLGridManager::getInstance()->getKnownGrids();
 		ensure_equals("Override custom grid login page: grids are added", 
-					  known_grids.size(), 24);
+					  known_grids.size(), (KNOWN_GRIDS_SIZE + 1));
 		LLGridManager::getInstance()->getGridInfo(grid);
 
 //Kokua FIXME: see above
@@ -461,7 +466,7 @@ namespace tut
 		LLGridManager::getInstance()->initialize("grid_test.xml");
 		LLGridManager::getInstance()->addGrid(grid);
 		LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");	
-		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string("Agni"));
+		ensure_equals("getGridLabel", LLGridManager::getInstance()->getGridLabel(), std::string(AGNI));
 		ensure_equals("getGrid", LLGridManager::getInstance()->getGrid(), 
 					  std::string("util.agni.lindenlab.com"));
 		ensure_equals("getHelperURI", LLGridManager::getInstance()->getHelperURI(), 

@@ -29,7 +29,11 @@
 #define LL_LLVIEWERNETWORK_H
                                                                                                        
 extern const char* DEFAULT_LOGIN_PAGE;
-      
+//Kokua: for llviewernetwork_test
+#define KNOWN_GRIDS_SIZE 3
+#define AGNI "Agni"
+#define ADITI "Aditi"
+
 #define GRID_VALUE "name"
 #define GRID_LABEL_VALUE "label"
 #define GRID_ID_VALUE "grid_login_id"
