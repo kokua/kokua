@@ -46,7 +46,7 @@
 						<!-- Chat -->
 							<!-- <string>NearbyChat</string> -->
 						
-						<!-- <string>GridManager</string> -->
+						<string>GridManager</string>
 
 						<!-- <string>InventoryFetch</string> -->
 

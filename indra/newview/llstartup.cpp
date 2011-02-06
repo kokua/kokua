@@ -644,6 +644,10 @@ bool idle_startup()
 			LLHTTPClient::getIfModified(url, new ClientInfoRequestResponder(), last_modified );
 		}
 
+		// Fetch grid infos as needed
+		LLGridManager::getInstance()->initGrids();
+
+
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog
 		// or audio cues in connection UI.
@@ -1038,6 +1042,8 @@ bool idle_startup()
 		// This call to LLLoginInstance::connect() starts the 
 		// authentication process.
 		login->connect(gUserCredential);
+		
+		LLGridManager::getInstance()->saveGridList();
 
 		LLStartUp::setStartupState( STATE_LOGIN_CURL_UNSTUCK );
 		return FALSE;

@@ -65,14 +65,14 @@ public:
 
 	static void getFields(LLPointer<LLCredential>& credential, BOOL& remember);
 
-	static BOOL isGridComboDirty();
+// 	static BOOL isGridComboDirty();
 	static BOOL areCredentialFieldsDirty();
 	static void setLocation(const LLSLURL& slurl);
 	
 	static void updateLocationCombo(bool force_visible);  // simply update the combo box
 	static void closePanel();
 
-	void setSiteIsAlive( bool alive );
+// 	void setSiteIsAlive( bool alive );
 
 	static void loadLoginPage();	
 	static void giveFocus();
@@ -111,6 +111,8 @@ private:
 	static LLPanelLogin* sInstance;
 	static BOOL		sCapslockDidNotification;
 	BOOL			mHtmlAvailable;
+	int mGridEntries;
+	std::string mLoginPage;
 };
 
 std::string load_password_from_disk(void);

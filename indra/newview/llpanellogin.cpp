@@ -81,7 +81,7 @@ const S32 MAX_PASSWORD = 16;
 LLPanelLogin *LLPanelLogin::sInstance = NULL;
 BOOL LLPanelLogin::sCapslockDidNotification = FALSE;
 
-
+/*//not used
 class LLLoginRefreshHandler : public LLCommandHandler
 {
 public:
@@ -98,8 +98,9 @@ public:
 };
 
 LLLoginRefreshHandler gLoginRefreshHandler;
+*/
 
-
+/*
 // helper class that trys to download a URL from a web site and calls a method 
 // on parent class indicating if the web server is working or not
 class LLIamHereLogin : public LLHTTPClient::Responder
@@ -147,6 +148,7 @@ class LLIamHereLogin : public LLHTTPClient::Responder
 namespace {
 	boost::intrusive_ptr< LLIamHereLogin > gResponsePtr = 0;
 };
+*/
 
 
 //---------------------------------------------------------------------------
@@ -161,6 +163,7 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	mCallback(callback),
 	mCallbackData(cb_data),
 	mHtmlAvailable( TRUE ),
+	mGridEntries(0),
 	mListener(new LLPanelLoginListener(this))
 {
 	setFocusRoot(TRUE);
@@ -244,21 +247,26 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 
 	LLTextBox* need_help_text = getChild<LLTextBox>("login_help");
 	need_help_text->setClickedCallback(onClickHelp, NULL);
-#endif    
+#endif
 	
 	// get the web browser control
 	LLMediaCtrl* web_browser = getChild<LLMediaCtrl>("login_html");
 	web_browser->addObserver(this);
-	
+
+
+
 	// Clear the browser's cache to avoid any potential for the cache messing up the login screen.
-	web_browser->clearCache();
+	// web_browser->clearCache(); // Kokua: we don't need to get rid of other viewers hijacking of the login page
 
 	reshapeBrowser();
 
-	// kick off a request to grab the url manually
-	gResponsePtr = LLIamHereLogin::build( this );
+	web_browser->setVisible(true);
+	web_browser->navigateToLocalPage( "loading", "loading.html" );
 
-	LLHTTPClient::head( LLGridManager::getInstance()->getLoginPage(), gResponsePtr );
+	// kick off a request to grab the url manually
+// 	gResponsePtr = LLIamHereLogin::build( this );
+// 	LLHTTPClient::head( LLGridManager::getInstance()->getLoginPage(), gResponsePtr );
+
 	
 	updateLocationCombo(false);
 
@@ -285,6 +293,7 @@ void LLPanelLogin::reshapeBrowser()
 	reshape( rect.getWidth(), rect.getHeight(), 1 );
 }
 
+/*
 void LLPanelLogin::setSiteIsAlive( bool alive )
 {
 	LLMediaCtrl* web_browser = getChild<LLMediaCtrl>("login_html");
@@ -302,17 +311,6 @@ void LLPanelLogin::setSiteIsAlive( bool alive )
 	else
 	// the site is not available (missing page, server down, other badness)
 	{
-#if !USE_VIEWER_AUTH
-		if ( web_browser )
-		{
-			// hide browser control (revealing default one)
-			web_browser->setVisible( FALSE );
-
-			// mark as unavailable
-			mHtmlAvailable = FALSE;
-		}
-#else
-
 		if ( web_browser )
 		{	
 			web_browser->navigateToLocalPage( "loading-error" , "index.html" );
@@ -320,18 +318,17 @@ void LLPanelLogin::setSiteIsAlive( bool alive )
 			// mark as available
 			mHtmlAvailable = TRUE;
 		}
-#endif
 	}
 }
-
+*/
 
 LLPanelLogin::~LLPanelLogin()
 {
 	LLPanelLogin::sInstance = NULL;
 
 	// tell the responder we're not here anymore
-	if ( gResponsePtr )
-		gResponsePtr->setParent( 0 );
+// 	if ( gResponsePtr )
+// 		gResponsePtr->setParent( 0 );
 
 	//// We know we're done with the image, so be rid of it.
 	//gTextureList.deleteImage( mLogoImage );
@@ -379,6 +376,19 @@ void LLPanelLogin::draw()
 		};
 	}
 	glPopMatrix();
+
+	if(mGridEntries != LLGridManager::getInstance()->mGridEntries)
+	{
+		mGridEntries = LLGridManager::getInstance()->mGridEntries;
+		updateServerCombo();
+	}
+
+	std::string login_page = LLGridManager::getInstance()->getLoginPage();
+ 	if(mLoginPage != login_page)
+	{
+		mLoginPage = login_page;
+		loadLoginPage();
+	}
 
 	LLPanel::draw();
 }
@@ -630,6 +640,7 @@ void LLPanelLogin::getFields(LLPointer<LLCredential>& credential,
 	remember = sInstance->getChild<LLUICtrl>("remember_check")->getValue();
 }
 
+/* //not used
 // static
 BOOL LLPanelLogin::isGridComboDirty()
 {
@@ -645,6 +656,7 @@ BOOL LLPanelLogin::isGridComboDirty()
 	}
 	return user_picked;
 }
+*/
 
 // static
 BOOL LLPanelLogin::areCredentialFieldsDirty()
@@ -783,13 +795,22 @@ void LLPanelLogin::setAlwaysRefresh(bool refresh)
 void LLPanelLogin::loadLoginPage()
 {
 	if (!sInstance) return;
-	
-	std::ostringstream oStr;
+
+	LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
+	if (!web_browser) return;
+
 
 	std::string login_page = LLGridManager::getInstance()->getLoginPage();
 
+	if (login_page.empty()) 
+	{
+		web_browser->navigateToLocalPage( "loading-error" , "index.html" );
+		return;
+	}
+
+	std::ostringstream oStr;
 	oStr << login_page;
-	
+
 	// Use the right delimeter depending on how LLURI parses the URL
 	LLURI login_page_uri = LLURI(login_page);
 	
@@ -819,11 +840,14 @@ void LLPanelLogin::loadLoginPage()
 	curl_free(curl_channel);
 	curl_free(curl_version);
 
+
 	// Grid
 	char* curl_grid = curl_escape(LLGridManager::getInstance()->getGridLabel().c_str(), 0);
 	oStr << "&grid=" << curl_grid;
 	curl_free(curl_grid);
-	gViewerWindow->setMenuBackgroundColor(false, !LLGridManager::getInstance()->isInProductionGrid());
+
+
+	gViewerWindow->setMenuBackgroundColor(false, LLGridManager::getInstance()->isInSLBeta());
 	gLoginMenuBarView->setBackgroundColor(gMenuBarView->getBackgroundColor());
 
 
@@ -850,19 +874,18 @@ void LLPanelLogin::loadLoginPage()
 	
 	std::string username;
 
-    if(gSavedSettings.getLLSD("UserLoginInfo").size() == 3)
-    {
-        LLSD cmd_line_login = gSavedSettings.getLLSD("UserLoginInfo");
+	if(gSavedSettings.getLLSD("UserLoginInfo").size() == 3)
+	{
+		LLSD cmd_line_login = gSavedSettings.getLLSD("UserLoginInfo");
 		username = cmd_line_login[0].asString() + " " + cmd_line_login[1];
-        password = cmd_line_login[2].asString();
-    }
-    	
+		password = cmd_line_login[2].asString();
+	}
 	
 	char* curl_region = curl_escape(region.c_str(), 0);
 
 	oStr <<"username=" << username <<
 		 "&location=" << location <<	"&region=" << curl_region;
-	
+
 	curl_free(curl_region);
 
 	if (!password.empty())
@@ -892,8 +915,6 @@ void LLPanelLogin::loadLoginPage()
 		oStr << "&show_grid=TRUE";
 #endif
 #endif
-	
-	LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
 
 	// navigate to the "real" page
 	if (gSavedSettings.getBOOL("RegInClient"))
@@ -937,8 +958,9 @@ void LLPanelLogin::onClickConnect(void *)
 	if (sInstance && sInstance->mCallback)
 	{
 		// tell the responder we're not here anymore
-		if ( gResponsePtr )
-			gResponsePtr->setParent( 0 );
+//
+// 		if ( gResponsePtr )
+// 			gResponsePtr->setParent( 0 );
 
 		// JC - Make sure the fields all get committed.
 		sInstance->setFocus(FALSE);
@@ -1038,7 +1060,15 @@ bool LLPanelLogin::newAccountAlertCallback(const LLSD& notification, const LLSD&
 // static
 void LLPanelLogin::onClickNewAccount(void*)
 {
-	LLWeb::loadURLExternal(sInstance->getString("create_account_url"));
+	if ( !sInstance ) return;
+
+	LLSD grid_info;
+	LLGridManager::getInstance()->getGridData(grid_info);
+
+	if (LLGridManager::getInstance()->isInOpenSim() && grid_info.has(GRID_REGISTER_NEW_ACCOUNT))
+		LLWeb::loadURLInternal(grid_info[GRID_REGISTER_NEW_ACCOUNT]);
+	else
+		LLWeb::loadURLInternal(sInstance->getString("create_account_url"));
 }
 
 
@@ -1051,10 +1081,16 @@ void LLPanelLogin::onClickVersion(void*)
 //static
 void LLPanelLogin::onClickForgotPassword(void*)
 {
-	if (sInstance )
-	{
-		LLWeb::loadURLExternal(sInstance->getString( "forgot_password_url" ));
-	}
+	if (!sInstance) return;
+
+	LLSD grid_info;
+	LLGridManager::getInstance()->getGridData(grid_info);
+
+	if (LLGridManager::getInstance()->isInOpenSim() && grid_info.has(GRID_FORGOT_PASSWORD))
+		LLWeb::loadURLInternal(grid_info[GRID_FORGOT_PASSWORD]);
+	else
+		LLWeb::loadURLInternal(sInstance->getString( "forgot_password_url" ));
+
 }
 
 //static
@@ -1093,8 +1129,10 @@ void LLPanelLogin::updateServer()
 			bool remember = sInstance->getChild<LLUICtrl>("remember_check")->getValue();
 			sInstance->setFields(credential, remember);
 		}
-		// grid changed so show new splash screen (possibly)
-		loadLoginPage();
+		// grid changed so show "loading..." until the new page is loaded
+		LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
+		web_browser->navigateToLocalPage( "loading", "loading.html" );
+
 		updateLocationCombo(LLStartUp::getStartSLURL().getType() == LLSLURL::LOCATION);
 	}
 	catch (LLInvalidGridName ex)
@@ -1199,12 +1237,18 @@ void LLPanelLogin::onServerComboLostFocus(LLFocusableElement* fe)
 
 void LLPanelLogin::updateLoginPanelLinks()
 {
-	LLSD grid_data;
-	LLGridManager::getInstance()->getGridInfo(grid_data);
-	bool system_grid = grid_data.has(GRID_IS_SYSTEM_GRID_VALUE);
-	
+	if(!sInstance) return;
+
+	LLSD grid_info;
+	LLGridManager::getInstance()->getGridData(grid_info);
+
+	bool system_grid = grid_info.has(GRID_IS_SYSTEM_GRID_VALUE);
+	bool has_register = LLGridManager::getInstance()->isInOpenSim() 
+				&& grid_info.has(GRID_REGISTER_NEW_ACCOUNT);
+	bool has_password = LLGridManager::getInstance()->isInOpenSim() 
+				&& grid_info.has(GRID_FORGOT_PASSWORD);
 	// need to call through sInstance, as it's called from onSelectServer, which
 	// is static.
-	sInstance->getChildView("create_new_account_text")->setVisible( system_grid);
-	sInstance->getChildView("forgot_password_text")->setVisible( system_grid);
+	sInstance->getChildView("create_new_account_text")->setVisible( system_grid || has_register);
+	sInstance->getChildView("forgot_password_text")->setVisible( system_grid || has_password);
 }

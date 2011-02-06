@@ -155,8 +155,13 @@ font="SansSerifSmall"
 layout="topleft"
 top_pad="2"
 name="server_combo"
+
 width="135"
-  visible="false" />
+  visible="false" >
+<combo_box.item
+label="&lt;type.custom.loginuri.org&gt;"
+name="Typeloginuri"   value="" />
+</combo_box>
 </layout_panel>
 <layout_panel
 tab_stop="false"

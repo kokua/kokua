@@ -27,6 +27,8 @@
 
 #ifndef LL_LLVIEWERNETWORK_H
 #define LL_LLVIEWERNETWORK_H
+
+#include "llxmlnode.h"
                                                                                                        
 extern const char* DEFAULT_LOGIN_PAGE;
 //Kokua: for llviewernetwork_test
@@ -35,13 +37,15 @@ extern const char* DEFAULT_LOGIN_PAGE;
 #define ADITI "Aditi"
 
 #define GRID_VALUE "name"
-#define GRID_LABEL_VALUE "label"
+#define GRID_LABEL_VALUE "gridname"
 #define GRID_ID_VALUE "grid_login_id"
-#define GRID_LOGIN_URI_VALUE "login_uri"
-#define GRID_HELPER_URI_VALUE "helper_uri"
-#define GRID_LOGIN_PAGE_VALUE "login_page"
+#define GRID_LOGIN_URI_VALUE "loginuri"
+#define GRID_HELPER_URI_VALUE "helperuri"
+#define GRID_LOGIN_PAGE_VALUE "loginpage"
 #define GRID_IS_SYSTEM_GRID_VALUE "system_grid"
 #define GRID_IS_FAVORITE_VALUE "favorite"
+#define GRID_REGISTER_NEW_ACCOUNT "register"
+#define GRID_FORGOT_PASSWORD "password"
 #define MAINGRID "util.agni.lindenlab.com"
 #define GRID_LOGIN_IDENTIFIER_TYPES "login_identifier_types"
 // defines slurl formats associated with various grids.
@@ -50,6 +54,13 @@ extern const char* DEFAULT_LOGIN_PAGE;
 // forms.
 #define GRID_SLURL_BASE "slurl_base"
 #define GRID_APP_SLURL_BASE "app_slurl_base"
+
+struct GridEntry
+{
+	LLSD grid;
+	LLXMLNodePtr info_root;
+	bool set_current;
+};
 
 class LLInvalidGridName
 {
@@ -71,6 +82,15 @@ protected:
 class LLGridManager : public LLSingleton<LLGridManager>
 {
 public:
+	typedef enum 
+	{
+		FETCH,
+		SYSTEM,
+		RETRY,
+		FINISH,
+		FAIL
+	} AddState;
+public:
 	
 	// when the grid manager is instantiated, the default grids are automatically
 	// loaded, and the grids favorites list is loaded from the xml file.
@@ -79,16 +99,20 @@ public:
 	~LLGridManager();
 	
 	void initialize(const std::string& grid_file);
+	void initGrids();
+
 	// grid list management
-	
+	void gridInfoResponderCB(GridEntry* grid_data);
 	// add a grid to the list of grids
-	void addGrid(LLSD& grid_info, bool is_system = false);	
+	void addGrid(GridEntry* grid_info, AddState state);	
 
 	// retrieve a map of grid-name <-> label
 	// by default only return the user visible grids
 	std::map<std::string, std::string> getKnownGrids(bool favorites_only=FALSE);
 	
-	void getGridInfo(const std::string& grid, LLSD &grid_info);
+	// this was getGridInfo - renamed to avoid ambiguity with the OpenSim grid_info
+	void getGridData(const std::string& grid, LLSD &grid_info);
+	void getGridData(LLSD &grid_info) { getGridData(mGrid, grid_info); }
 	
 	// current grid management
 
@@ -113,9 +137,7 @@ public:
 	
 	std::string getAppSLURLBase(const std::string& grid);
 	std::string getAppSLURLBase() { return getAppSLURLBase(mGrid); }	
-	
-	void getGridInfo(LLSD &grid_info) { getGridInfo(mGrid, grid_info); }
-	
+
 	std::string getGridByLabel( const std::string &grid_label, bool case_sensitive = false);
 	
 	bool isSystemGrid(const std::string& grid) 
@@ -129,10 +151,13 @@ public:
 	// this is currently used to persist a grid after a successful login
 	void setFavorite() { mGridList[mGrid][GRID_IS_FAVORITE_VALUE] = TRUE; }
 	
-	bool isInProductionGrid();
-	void saveFavorites();
+	bool isInSLMain();
+	bool isInSLBeta();
+	bool isInOpenSim();
+	void saveGridList();
 	void clearFavorites();
 
+	int mGridEntries;
 protected:
 
 	void updateIsInProductionGrid();
@@ -149,7 +174,9 @@ protected:
 	std::string mGrid;
 	std::string mGridFile;
 	LLSD mGridList;
-	bool mIsInProductionGrid;
+	bool mIsInSLMain;
+	bool mIsInSLBeta;
+	bool mIsInOpenSim;
 };
 
 const S32 MAC_ADDRESS_BYTES = 6;

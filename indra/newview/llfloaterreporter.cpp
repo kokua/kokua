@@ -555,7 +555,7 @@ LLSD LLFloaterReporter::gatherReport()
 	mCopyrightWarningSeen = FALSE;
 
 	std::ostringstream summary;
-	if (!LLGridManager::getInstance()->isInProductionGrid())
+	if (LLGridManager::getInstance()->isInSLBeta())
 	{
 		summary << "Preview ";
 	}
