@@ -1,0 +1,5 @@
+From slviewer-artwork-viewer-rc-frozen-1.23.5.136274.zip package provided by Linden Lab under the http://creativecommons.org/licenses/by-sa/3.0/ license, see LICENSE-logos.txt for further details.
+Changes to the original package:
+* it only contains the local texture assets (<uuid>.j2c)
+* trademarked logos are removed.
+* <add future change here>
