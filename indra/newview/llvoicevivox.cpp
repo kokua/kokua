@@ -847,7 +847,7 @@ void LLVivoxVoiceClient::stateMachine()
 						memset(&sinfo, 0, sizeof(sinfo));
 						
 						std::string exe_dir = gDirUtilp->getAppRODataDir();
-						cmd = exe_name
+						cmd = exe_name;
 						cmd += ".exe";
 						cmd += args;
 
