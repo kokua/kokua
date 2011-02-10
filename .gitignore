@@ -12,12 +12,12 @@
 # ARTWORK
 
 LICENSE-logos.txt
-indra/newview/skins/*/textures/
-indra/newview/skins/default/html/btn_purplepill_bg.png
-indra/newview/skins/default/html/en/loading/sl_logo_rotate_black.gif
-indra/newview/skins/default/html/en/loading/Thumbs.db
-indra/newview/skins/default/html/en/loading/imprudence_loading.png
-indra/newview/skins/default/html/unabletoconnect.png
+# indra/newview/skins/*/textures/
+# indra/newview/skins/default/html/btn_purplepill_bg.png
+# indra/newview/skins/default/html/en/loading/sl_logo_rotate_black.gif
+# indra/newview/skins/default/html/en/loading/Thumbs.db
+# indra/newview/skins/default/html/en/loading/imprudence_loading.png
+# indra/newview/skins/default/html/unabletoconnect.png
 indra/newview/res/
 indra/newview/res-sdl/
 indra/newview/character/
