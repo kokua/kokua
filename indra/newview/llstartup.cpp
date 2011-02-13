@@ -646,8 +646,24 @@ bool idle_startup()
 
 		// Fetch grid infos as needed
 		LLGridManager::getInstance()->initGrids();
+		LLStartUp::setStartupState( STATE_FETCH_GRID_INFO );
+	}
 
+	if (STATE_FETCH_GRID_INFO == LLStartUp::getStartupState())
+	{
+		if(LLGridManager::getInstance()->isReadyToLogin())
+		{
+			LLStartUp::setStartupState( STATE_AUDIO_INIT );
+		}
+		else
+		{
+			ms_sleep(1);
+			return FALSE;
+		}
+	}
 
+	if (STATE_AUDIO_INIT == LLStartUp::getStartupState())
+	{
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog
 		// or audio cues in connection UI.
@@ -763,21 +779,22 @@ bool idle_startup()
 		return FALSE;
 	}
 
-	
+//Kokua: fixme this state isn't used anymore, seems to be left from mozlib times
 	if (STATE_BROWSER_INIT == LLStartUp::getStartupState())
 	{
-		LL_DEBUGS("AppInit") << "STATE_BROWSER_INIT" << LL_ENDL;
-		std::string msg = LLTrans::getString("LoginInitializingBrowser");
-		set_startup_status(0.03f, msg.c_str(), gAgent.mMOTD.c_str());
-		display_startup();
-		// LLViewerMedia::initBrowser();
+// 		LL_DEBUGS("AppInit") << "STATE_BROWSER_INIT" << LL_ENDL;
+// 		std::string msg = LLTrans::getString("LoginInitializingBrowser");
+// 		set_startup_status(0.03f, msg.c_str(), gAgent.mMOTD.c_str());
+// 		display_startup();
+// 		// LLViewerMedia::initBrowser();
 		LLStartUp::setStartupState( STATE_LOGIN_SHOW );
-		return FALSE;
+// 		return FALSE;
 	}
 
 
 	if (STATE_LOGIN_SHOW == LLStartUp::getStartupState())
 	{
+
 		LL_DEBUGS("AppInit") << "Initializing Window" << LL_ENDL;
 		
 		gViewerWindow->getWindow()->setCursor(UI_CURSOR_ARROW);
@@ -867,6 +884,7 @@ bool idle_startup()
 
 	if (STATE_LOGIN_CLEANUP == LLStartUp::getStartupState())
 	{
+
 		//reset the values that could have come in from a slurl
 		// DEV-42215: Make sure they're not empty -- gUserCredential
 		// might already have been set from gSavedSettings, and it's too bad
@@ -2657,6 +2675,8 @@ std::string LLStartUp::startupStateToString(EStartupState state)
 #define RTNENUM(E) case E: return #E
 	switch(state){
 		RTNENUM( STATE_FIRST );
+		RTNENUM( STATE_FETCH_GRID_INFO);
+		RTNENUM( STATE_AUDIO_INIT);
 		RTNENUM( STATE_BROWSER_INIT );
 		RTNENUM( STATE_LOGIN_SHOW );
 		RTNENUM( STATE_LOGIN_WAIT );

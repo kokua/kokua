@@ -111,7 +111,7 @@ void LLCredential::authenticatorType(std::string &idType)
 LLGridManager::~LLGridManager()
 {
 }
-void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry, LLXMLNodePtr& root)
+void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 {
 }
 
@@ -132,12 +132,12 @@ void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
 	uris.push_back(VIEWERLOGIN_URI);
 }
 
-void LLGridManager::addSystemGrid(const std::string& label, 
-								  const std::string& name, 
-								  const std::string& login, 
-								  const std::string& helper,
-								  const std::string& login_page,
-								  const std::string& login_id)
+void LLGridManager::addSystemGrid(	const std::string& label, 
+					const std::string& name, 
+					const std::string& login, 
+					const std::string& helper,
+					const std::string& login_page,
+					const std::string& login_id)
 {
 }
 std::map<std::string, std::string> LLGridManager::getKnownGrids(bool favorite_only)

@@ -33,11 +33,12 @@
 extern const char* DEFAULT_LOGIN_PAGE;
 //Kokua: for llviewernetwork_test
 #define KNOWN_GRIDS_SIZE 3
-#define AGNI "Agni"
-#define ADITI "Aditi"
+#define AGNI "Second Life"
+#define ADITI "Second Life Beta"
 
 #define GRID_VALUE "name"
 #define GRID_LABEL_VALUE "gridname"
+#define GRID_NICK_VALUE "gridnick"
 #define GRID_ID_VALUE "grid_login_id"
 #define GRID_LOGIN_URI_VALUE "loginuri"
 #define GRID_HELPER_URI_VALUE "helperuri"
@@ -87,6 +88,7 @@ public:
 		FETCH,
 		SYSTEM,
 		RETRY,
+		LOCAL,
 		FINISH,
 		FAIL
 	} AddState;
@@ -100,8 +102,12 @@ public:
 	
 	void initialize(const std::string& grid_file);
 	void initGrids();
+	void initCmdLineGrids();
 
 	// grid list management
+	bool isReadyToLogin(){return mReadyToLogin;}
+	void incResponderCount(){++mResponderCount;}
+	void decResponderCount(){--mResponderCount;}
 	void gridInfoResponderCB(GridEntry* grid_data);
 	// add a grid to the list of grids
 	void addGrid(GridEntry* grid_info, AddState state);	
@@ -138,8 +144,10 @@ public:
 	std::string getAppSLURLBase(const std::string& grid);
 	std::string getAppSLURLBase() { return getAppSLURLBase(mGrid); }	
 
+	std::string getGridByAttribute(const std::string &attribute, const std::string &attribute_value, bool case_sensitive );
 	std::string getGridByLabel( const std::string &grid_label, bool case_sensitive = false);
-	
+	std::string getGridByGridNick( const std::string &grid_nick, bool case_sensitive = false);
+
 	bool isSystemGrid(const std::string& grid) 
 	{ 
 		return mGridList.has(grid) &&
@@ -156,7 +164,7 @@ public:
 	bool isInOpenSim();
 	void saveGridList();
 	void clearFavorites();
-
+	
 	int mGridEntries;
 protected:
 
@@ -177,6 +185,8 @@ protected:
 	bool mIsInSLMain;
 	bool mIsInSLBeta;
 	bool mIsInOpenSim;
+	int mResponderCount;
+	bool mReadyToLogin;
 };
 
 const S32 MAC_ADDRESS_BYTES = 6;

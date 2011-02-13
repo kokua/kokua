@@ -1889,7 +1889,9 @@ if (LL_TESTS)
     "${CMAKE_SOURCE_DIR}/llmessage/tests/test_llsdmessage_peer.py"
     )
 
-  set(test_libs 
+  set(test_libs
+    ${LLXML_LIBRARIES}
+    ${LLXUIXML_LIBRARIES}
     ${LLMESSAGE_LIBRARIES} 
     ${WINDOWS_LIBRARIES} 
     ${LLVFS_LIBRARIES}
