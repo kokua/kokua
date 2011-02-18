@@ -49,9 +49,10 @@ public:
 	static const char* SIM_LOCATION_HOME;
 	static const char* SIM_LOCATION_LAST;
 	static const char* SLURL_APP_PATH;
-	static const char* SLURL_REGION_PATH;	
-	
-	enum SLURL_TYPE { 
+	static const char* SLURL_REGION_PATH; 
+ 
+	enum SLURL_TYPE
+	{
 		INVALID, 
 		LOCATION,
 		HOME_LOCATION,
@@ -59,8 +60,7 @@ public:
 		APP,
 		HELP 
 	};
-		
-	
+
 	LLSLURL(): mType(INVALID)  { }
 	LLSLURL(const std::string& slurl);
 	LLSLURL(const std::string& grid, const std::string& region);
@@ -69,9 +69,9 @@ public:
 	LLSLURL(const std::string& grid, const std::string& region, const LLVector3d& global_position);
 	LLSLURL(const std::string& region, const LLVector3d& global_position);
 	LLSLURL(const std::string& command, const LLUUID&id, const std::string& verb);
-	
+
 	SLURL_TYPE getType() const { return mType; }
-	
+
 	std::string getSLURLString() const;
 	std::string getLoginString() const;
 	std::string getLocationString() const; 
@@ -82,24 +82,24 @@ public:
 	std::string getAppQuery() const { return mAppQuery; }
 	LLSD        getAppQueryMap() const { return mAppQueryMap; }
 	LLSD        getAppPath() const { return mAppPath; }
-	
+
 	bool        isValid() const { return mType != INVALID; }
 	bool        isSpatial() const { return (mType == LAST_LOCATION) || (mType == HOME_LOCATION) || (mType == LOCATION); }
-	
+
 	bool operator==(const LLSLURL& rhs);
 	bool operator!=(const LLSLURL&rhs);
 
-    std::string asString() const ;
+	std::string asString() const ;
 
 protected:
 	SLURL_TYPE mType;
-	
+
 	// used for Apps and Help
 	std::string mAppCmd;
 	LLSD        mAppPath;
 	LLSD        mAppQueryMap;
 	std::string mAppQuery;
-	
+
 	std::string mGrid;  // reference to grid manager grid
 	std::string mRegion;
 	LLVector3  mPosition;
