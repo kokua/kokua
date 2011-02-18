@@ -180,18 +180,20 @@ void LLGridManager::initGrids()
 
 	// as we don't want an attacker to override our grid list
 	// to point the default grid to an invalid grid
-	addSystemGrid(LLTrans::getString("loading..."), "", "", "", DEFAULT_LOGIN_PAGE);
+	addSystemGrid(LLTrans::getString("loading..."), "", "", "", "", DEFAULT_LOGIN_PAGE);
 // 	addSystemGrid("None", "", "", "", DEFAULT_LOGIN_PAGE);
 	
 
 
 	addSystemGrid(	AGNI,
 			MAINGRID,
+			"agni",
 			"https://login.agni.lindenlab.com/cgi-bin/login.cgi",
 			"https://secondlife.com/helpers/",
 			 DEFAULT_LOGIN_PAGE);
 	addSystemGrid(	ADITI,
 			"util.aditi.lindenlab.com",
+			"aditi",
 			"https://login.aditi.lindenlab.com/cgi-bin/login.cgi",
 			"http://aditi-secondlife.webdev.lindenlab.com/helpers/",
 			DEFAULT_LOGIN_PAGE);
@@ -622,18 +624,20 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 
 //
 // LLGridManager::addSystemGrid - helper for adding a system grid.
-void LLGridManager::addSystemGrid(const std::string& label, 
-								  const std::string& name, 
-								  const std::string& login, 
-								  const std::string& helper,
-								  const std::string& login_page,
-								  const std::string& login_id)
+void LLGridManager::addSystemGrid(const std::string& label,
+					  const std::string& name,
+					  const std::string& nick,
+					  const std::string& login,
+					  const std::string& helper,
+					  const std::string& login_page,
+					  const std::string& login_id)
 {
 	GridEntry* grid_entry = new GridEntry;
 	grid_entry->set_current = false;
 	grid_entry->grid = LLSD::emptyMap();
 	grid_entry->grid[GRID_VALUE] = name;
 	grid_entry->grid[GRID_LABEL_VALUE] = label;
+	grid_entry->grid[GRID_NICK_VALUE] = nick;
 	grid_entry->grid[GRID_HELPER_URI_VALUE] = helper;
 	grid_entry->grid[GRID_LOGIN_URI_VALUE] = LLSD::emptyArray();
 	grid_entry->grid[GRID_LOGIN_URI_VALUE].append(login);
@@ -656,8 +660,8 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	// if we're building a debug version.
 	if (name == std::string(MAINGRID))
 	{
-		grid_entry->grid[GRID_SLURL_BASE] = MAIN_GRID_SLURL_BASE;		
-		grid_entry->grid[GRID_IS_FAVORITE_VALUE] = TRUE;		
+		grid_entry->grid[GRID_SLURL_BASE] = MAIN_GRID_SLURL_BASE;
+		grid_entry->grid[GRID_IS_FAVORITE_VALUE] = TRUE;
 	}
 	else
 	{

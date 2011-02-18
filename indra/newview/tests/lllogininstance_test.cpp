@@ -134,6 +134,7 @@ void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
 
 void LLGridManager::addSystemGrid(	const std::string& label, 
 					const std::string& name, 
+					const std::string& nick, 
 					const std::string& login, 
 					const std::string& helper,
 					const std::string& login_page,

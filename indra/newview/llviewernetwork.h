@@ -172,7 +172,8 @@ protected:
 
 	// helper function for adding the predefined grids
 	void addSystemGrid(const std::string& label, 
-					   const std::string& name, 
+					   const std::string& name,
+					   const std::string& nick,
 					   const std::string& login, 
 					   const std::string& helper,
 					   const std::string& login_page,

@@ -53,12 +53,12 @@ public:
  
 	enum SLURL_TYPE
 	{
-		INVALID, 
+		INVALID,
 		LOCATION,
 		HOME_LOCATION,
 		LAST_LOCATION,
 		APP,
-		HELP 
+		HELP
 	};
 
 	LLSLURL(): mType(INVALID)  { }
@@ -71,6 +71,8 @@ public:
 	LLSLURL(const std::string& command, const LLUUID&id, const std::string& verb);
 
 	SLURL_TYPE getType() const { return mType; }
+	std::string getTypeHumanReadable() { return getTypeHumanReadable(mType); }
+	static std::string getTypeHumanReadable(SLURL_TYPE type);
 
 	std::string getSLURLString() const;
 	std::string getLoginString() const;
