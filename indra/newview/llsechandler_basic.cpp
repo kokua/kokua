@@ -30,7 +30,6 @@
 #include "llsecapi.h"
 #include "llsechandler_basic.h"
 #include "llsdserialize.h"
-#include "llviewernetwork.h"
 #include "llxorcipher.h"
 #include "llfile.h"
 #include "lldir.h"

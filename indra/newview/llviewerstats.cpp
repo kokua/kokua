@@ -58,8 +58,7 @@
 #include "llviewerwindow.h"		// *TODO: remove, only used for width/height
 #include "llworld.h"
 #include "llfeaturemanager.h"
-#include "llviewernetwork.h"
-
+#include "llmachineid.h"
 
 class StatAttributes
 {
