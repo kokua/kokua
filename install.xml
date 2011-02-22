@@ -1022,6 +1022,21 @@ anguage Infrstructure (CLI) international standard</string>
           </map>
         </map>
       </map>
+      <key>llqtwebkit-templinux64hack</key>
+      <map>
+        <key>license</key>
+        <string>lgpl</string>
+        <key>packages</key>
+        <map>
+          <key>linux64</key>
+           <map>
+             <key>md5sum</key>
+             <string>480eb86fe018eac9925905a877cabdff</string>
+             <key>url</key>
+             <uri>http://download.kokuaviewer.org/files/libs/llqtwebkit-linux64-20110214.tar.bz2</uri>
+          </map>
+        </map>
+      </map>
       <key>llqtwebkit</key>
       <map>
         <key>license</key>
@@ -1042,13 +1057,13 @@ anguage Infrstructure (CLI) international standard</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/llqtwebkit-linux-qt4.6-20100923.tar.bz2</uri>
           </map>
-          <key>linux64</key>
+<!--          <key>linux64</key>
            <map>
              <key>md5sum</key>
              <string>480eb86fe018eac9925905a877cabdff</string>
              <key>url</key>
              <uri>http://download.kokuaviewer.org/files/libs/llqtwebkit-linux64-20110214.tar.bz2</uri>
-          </map>
+          </map>-->
           <key>windows</key>
           <map>
             <key>md5sum</key>

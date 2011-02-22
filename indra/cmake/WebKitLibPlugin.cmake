@@ -12,9 +12,11 @@ else (STANDALONE)
 						# of llqtwebkit, that is overridden by the one downloaded by
 						# "use_prebuilt_binary(llqtwebkit)", which is actually used.
 						# TODO: unhack with the next update of Qt
+     use_prebuilt_binary(llqtwebkit-templinux64hack)
+  else(LINUX AND ${ARCH} STREQUAL "x86_64")
+    use_prebuilt_binary(llqtwebkit)
   endif(LINUX AND ${ARCH} STREQUAL "x86_64")
 
-  use_prebuilt_binary(llqtwebkit)
   set(WEBKITLIBPLUGIN ON CACHE BOOL
       "WEBKITLIBPLUGIN support for the llplugin/llmedia test apps.")
 endif (STANDALONE)
