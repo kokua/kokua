@@ -227,6 +227,7 @@ static bool gUseCircuitCallbackCalled = false;
 
 EStartupState LLStartUp::gStartupState = STATE_FIRST;
 LLSLURL LLStartUp::sStartSLURL;
+std::string LLStartUp::sStartSLURLString;
 
 static LLPointer<LLCredential> gUserCredential;
 static std::string gDisplayName;
@@ -664,6 +665,16 @@ bool idle_startup()
 
 	if (STATE_AUDIO_INIT == LLStartUp::getStartupState())
 	{
+
+		// parsing slurls depending on the grid obviously 
+		// only works after we have a grid list
+		// Anyway this belongs into the gridmanager as soon as 
+		// it is cleaner
+		if(!LLStartUp::sStartSLURLString.empty())
+		{
+			LLStartUp::setStartSLURL(LLStartUp::sStartSLURLString);
+		}
+
 		//-------------------------------------------------
 		// Init audio, which may be needed for prefs dialog
 		// or audio cues in connection UI.
