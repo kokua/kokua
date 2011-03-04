@@ -455,6 +455,8 @@ void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 		}
 	}
 
+	grid_entry->grid[GRID_SLURL_BASE] = grid_entry->grid[GRID_VALUE];
+
 	LLDate now = LLDate::now();
 	grid_entry->grid["LastModified"] = now;
 
@@ -503,6 +505,13 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 					grid_entry = NULL;
 				}
 				throw LLInvalidGridName(grid);
+			}
+
+			size_t find_last_slash = grid.find_last_of("/");
+			if ( (grid.length()-1) == find_last_slash )
+			{
+				grid.erase(find_last_slash);
+				grid_entry->grid[GRID_VALUE]  = grid;
 			}
 		}
 	}
