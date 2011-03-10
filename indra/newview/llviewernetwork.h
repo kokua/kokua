@@ -193,6 +193,5 @@ protected:
 	bool mReadyToLogin;
 };
 
-const S32 MAC_ADDRESS_BYTES = 6;
 
 #endif

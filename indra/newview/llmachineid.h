@@ -44,7 +44,7 @@ private:
 };
 
 
-
+const S32 MAC_ADDRESS_BYTES = 6;
 
 
 #endif // LL_LLMACHINEID_H
