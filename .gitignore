@@ -18,8 +18,8 @@ LICENSE-logos.txt
 # indra/newview/skins/default/html/en/loading/Thumbs.db
 # indra/newview/skins/default/html/en/loading/imprudence_loading.png
 # indra/newview/skins/default/html/unabletoconnect.png
-indra/newview/res/
-indra/newview/res-sdl/
+#indra/newview/res/
+#indra/newview/res-sdl/
 indra/newview/character/
 indra/newview/app_settings/*.db2
 indra/newview/app_settings/windlight/
