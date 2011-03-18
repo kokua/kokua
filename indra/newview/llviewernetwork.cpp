@@ -247,6 +247,14 @@ void LLGridManager::initGrids()
 				llsd_xml.close();
 			}
 		}
+		else
+		{
+			initCmdLineGrids();
+		}
+	}
+	else
+	{
+		initCmdLineGrids();
 	}
 }
 
@@ -307,7 +315,6 @@ void LLGridManager::initCmdLineGrids()
 		// no grid was specified so default to maingrid
 		LL_DEBUGS("GridManager") << "Setting grid to MAINGRID as no grid has been specified " << LL_ENDL;
 		mGrid = MAINGRID;
-		
 	}
 	
 	// generate a 'grid list' entry for any command line parameter overrides
@@ -318,10 +325,12 @@ void LLGridManager::initCmdLineGrids()
 	if(mGridList.has(mGrid))
 	{
 // 		grid_entry->grid = mGridList[mGrid];
+		LL_DEBUGS("GridManager") << "Setting commandline grid " << mGrid << LL_ENDL;
 		setGridChoice(mGrid);
 	}
 	else
 	{
+		LL_DEBUGS("GridManager") << "Trying to fetch commandline grid " << mGrid << LL_ENDL;
 		GridEntry* grid_entry = new GridEntry;
 		grid_entry->set_current = true;
 		grid_entry->grid = LLSD::emptyMap();	

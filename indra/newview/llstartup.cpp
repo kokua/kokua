@@ -651,7 +651,12 @@ bool idle_startup()
 
 	if (STATE_FETCH_GRID_INFO == LLStartUp::getStartupState())
 	{
-		if(LLGridManager::getInstance()->isReadyToLogin())
+		static LLFrameTimer grid_timer;
+
+		const F32 grid_time = grid_timer.getElapsedTimeF32();
+		const F32 MAX_GRID_TIME = 15.f;//don't wait forever
+
+		if(LLGridManager::getInstance()->isReadyToLogin() || grid_time>MAX_GRID_TIME)
 		{
 			LLStartUp::setStartupState( STATE_AUDIO_INIT );
 		}
