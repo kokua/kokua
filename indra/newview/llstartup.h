@@ -112,10 +112,15 @@ public:
 		// the viewer, dispatch it
 
 	static void postStartupState();
-	static void setStartSLURL(const LLSLURL& slurl); 
+	static void setStartSLURLString(const std::string& slurl_string){sStartSLURLString = slurl_string;}
+	static void setStartSLURL(const LLSLURL& slurl);
+
 	static LLSLURL& getStartSLURL() { return sStartSLURL; } 
 
+	static std::string sStartSLURLString;
+
 private:
+
 	static LLSLURL sStartSLURL;
 
 	static std::string startupStateToString(EStartupState state);

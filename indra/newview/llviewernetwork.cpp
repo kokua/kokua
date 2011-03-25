@@ -464,6 +464,8 @@ void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 		}
 	}
 
+	grid_entry->grid[GRID_SLURL_BASE] = grid_entry->grid[GRID_VALUE];
+
 	LLDate now = LLDate::now();
 	grid_entry->grid["LastModified"] = now;
 
@@ -479,15 +481,30 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 	if(!grid_entry)
 	{
 		llwarns << "addGrid called with NULL grid_entry. Please send a bug report." << llendl;
+		state = FAIL;
 	}
+	if(!grid_entry->grid.has(GRID_VALUE))
+	{
+		state = FAIL;
+	}
+	else if(grid_entry->grid[GRID_VALUE].asString().empty())
+	{
+		state = FAIL;
+	}
+	else if(!grid_entry->grid.isMap())
+	{
+		state = FAIL;
+	}
+
 	if ((FETCH == state) || (SYSTEM == state))
 	{
-		if(grid_entry && grid_entry->grid.isMap() && grid_entry->grid.has(GRID_VALUE))
+
+// 		if(grid_entry && grid_entry->grid.isMap())
 		{
 			std::string grid = utf8str_tolower(grid_entry->grid[GRID_VALUE]);
 			// grid should be in the form of a dns address
 			// but also support localhost:9000 or localhost:9000/login
-			if (!FINISH == state && !grid.empty() && grid.find_first_not_of("abcdefghijklmnopqrstuvwxyz1234567890-_.:/ ") != std::string::npos)
+			if ( !grid.empty() && grid.find_first_not_of("abcdefghijklmnopqrstuvwxyz1234567890-_.:/ ") != std::string::npos)
 			{
 				printf("grid name: %s", grid.c_str());
 				if (grid_entry)
@@ -497,6 +514,13 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 					grid_entry = NULL;
 				}
 				throw LLInvalidGridName(grid);
+			}
+
+			size_t find_last_slash = grid.find_last_of("/");
+			if ( (grid.length()-1) == find_last_slash )
+			{
+				grid.erase(find_last_slash);
+				grid_entry->grid[GRID_VALUE]  = grid;
 			}
 		}
 	}
@@ -599,7 +623,7 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 	
 	
 		mGridList[grid] = grid_entry->grid;
-		if(is_current)
+		if(is_current && !mGrid.empty())
 		{
 			mGrid = grid;
 
@@ -612,7 +636,7 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 	}
 
 
-	if(FINISH == state || FAIL == state)
+	if(grid_entry && FINISH == state || FAIL == state)
 	{
 		static bool cmd_line_done = false;
 		if((FINISH == state && !cmd_line_done && 0 == mResponderCount)
@@ -701,6 +725,8 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids(bool favorite_on
 
 void LLGridManager::setGridChoice(const std::string& grid)
 {
+	if(grid.empty()) return;
+
 	// Set the grid choice based on a string.
 	// The string can be:
 	// - a grid label from the gGridInfo table 
@@ -709,6 +735,7 @@ void LLGridManager::setGridChoice(const std::string& grid)
 
 	// loop through.  We could do just a hash lookup but we also want to match
 	// on label
+
 	mReadyToLogin = false;
 	std::string grid_name = grid;
 	if(mGridList.has(grid_name))
@@ -753,6 +780,36 @@ void LLGridManager::setGridChoice(const std::string& grid)
 	}
 }
 
+std::string LLGridManager::getGridByProbing( const std::string &probe_for, bool case_sensitive)
+{
+	std::string ret;
+	ret = getGridByHostName(probe_for, case_sensitive);
+	if (ret.empty())
+	{
+		getGridByGridNick(probe_for, case_sensitive);
+	}
+	if (ret.empty())
+	{
+		getGridByLabel(probe_for, case_sensitive);
+	}
+
+	return ret;
+}
+
+std::string LLGridManager::getGridByLabel( const std::string &grid_label, bool case_sensitive)
+{
+	return grid_label.empty() ? std::string() : getGridByAttribute(GRID_LABEL_VALUE, grid_label, case_sensitive);
+}
+
+std::string LLGridManager::getGridByGridNick( const std::string &grid_nick, bool case_sensitive)
+{
+	return grid_nick.empty() ? std::string() : getGridByAttribute(GRID_NICK_VALUE, grid_nick, case_sensitive);
+}
+std::string LLGridManager::getGridByHostName( const std::string &host_name, bool case_sensitive)
+{
+	return host_name.empty() ? std::string() : getGridByAttribute(GRID_VALUE, host_name, case_sensitive);
+}
+
 std::string LLGridManager::getGridByAttribute( const std::string &attribute, const std::string &attribute_value, bool case_sensitive)
 {
 	if(attribute.empty()||attribute_value.empty())
@@ -774,15 +831,6 @@ std::string LLGridManager::getGridByAttribute( const std::string &attribute, con
 	return std::string();
 }
 
-std::string LLGridManager::getGridByLabel( const std::string &grid_label, bool case_sensitive)
-{
-	return grid_label.empty() ? std::string() : getGridByAttribute(GRID_LABEL_VALUE, grid_label, case_sensitive);
-}
-
-std::string LLGridManager::getGridByGridNick( const std::string &grid_nick, bool case_sensitive)
-{
-	return grid_nick.empty() ? std::string() : getGridByAttribute(GRID_NICK_VALUE, grid_nick, case_sensitive);
-}
 
 void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
 {

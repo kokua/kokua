@@ -34,19 +34,22 @@
 #include "llviewernetwork.h"
 #include "llfiltersd2xmlrpc.h"
 #include "curl/curl.h"
+const char* LLSLURL::HOP_SCHEME		 = "hop";
 const char* LLSLURL::SLURL_HTTP_SCHEME		 = "http";
 const char* LLSLURL::SLURL_HTTPS_SCHEME		 = "https";
 const char* LLSLURL::SLURL_SECONDLIFE_SCHEME	 = "secondlife";
-const char* LLSLURL::SLURL_SECONDLIFE_PATH	 = "secondlife";
-const char* LLSLURL::SLURL_COM		 = "slurl.com";
+const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info";
+
 // For DnD - even though www.slurl.com redirects to slurl.com in a browser, you can copy and drag
 // text with www.slurl.com or a link explicitly pointing at www.slurl.com so testing for this
 // version is required also.
 
+const char* LLSLURL::SLURL_COM		 = "slurl.com";
 const char* LLSLURL::WWW_SLURL_COM				 = "www.slurl.com";
 const char* LLSLURL::MAPS_SECONDLIFE_COM		 = "maps.secondlife.com";
-const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info";
+
 const char* LLSLURL::SLURL_APP_PATH = "app";
+const char* LLSLURL::SLURL_SECONDLIFE_PATH	 = "secondlife";
 const char* LLSLURL::SLURL_REGION_PATH = "region";
 const char* LLSLURL::SIM_LOCATION_HOME = "home";
 const char* LLSLURL::SIM_LOCATION_LAST = "last";
@@ -135,6 +138,9 @@ LLSLURL::LLSLURL(const std::string& slurl)
 
 			mGrid = MAINGRID;
 
+			LL_DEBUGS("SLURL") << "slurl_uri.hostNameAndPort(): " << slurl_uri.hostNameAndPort() << LL_ENDL;
+			LL_DEBUGS("SLURL") << "path_array[0]: " << path_array[0].asString() << LL_ENDL;
+
 			if ((path_array[0].asString() == LLSLURL::SLURL_SECONDLIFE_PATH) ||
 				(path_array[0].asString() == LLSLURL::SLURL_APP_PATH))
 			{
@@ -143,21 +149,24 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				if (!slurl_uri.hostName().empty())
 				{
 					LL_DEBUGS("SLURL") << "secondlife://<grid>/(app|secondlife)" << LL_ENDL;
-					mGrid = LLGridManager::getInstance()->getGridByGridNick(slurl_uri.hostName());
+
+					mGrid = LLGridManager::getInstance()->getGridByProbing(slurl_uri.hostNameAndPort());
 					if (mGrid.empty())
 						mGrid = 
-						  LLGridManager::getInstance()->getGridByLabel(slurl_uri.hostName());
+						  LLGridManager::getInstance()->getGridByProbing(slurl_uri.hostName());
 					if (mGrid.empty())
 						mGrid = MAINGRID;
 				}
 				else if(path_array[0].asString() == LLSLURL::SLURL_SECONDLIFE_PATH)
 				{
+					LL_DEBUGS("SLURL") << "secondlife:///secondlife/<region>" << LL_ENDL;
 					// If the slurl is in the form secondlife:///secondlife/<region> form, 
 					// then we are in fact on maingrid. 
 					mGrid = MAINGRID;
 				}
 				else if(path_array[0].asString() == LLSLURL::SLURL_APP_PATH)
 				{
+					LL_DEBUGS("SLURL") << "app style slurls, no grid name specified" << LL_ENDL;
 					// for app style slurls, where no grid name is specified, assume the currently
 					// selected or logged in grid.
 					mGrid = LLGridManager::getInstance()->getGrid();
@@ -165,6 +174,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 
 				if(mGrid.empty())
 				{
+					LL_DEBUGS("SLURL") << "couldn't find the grid so bail" << LL_ENDL;
 					// we couldn't find the grid in the grid manager, so bail
 					return;
 				}
@@ -181,16 +191,19 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 			else
 			{
+				LL_DEBUGS("SLURL") << "secondlife://<region>" << LL_ENDL;
 				// it wasn't a /secondlife/<region> or /app/<params>, so it must be secondlife://<region>
 				// therefore the hostname will be the region name, and it's a location type
 				mType = LOCATION;
 				// 'normalize' it so the region name is in fact the head of the path_array
-				path_array.insert(0, slurl_uri.hostName());
+				path_array.insert(0, slurl_uri.hostNameAndPort());
 			}
 		}
-		else if((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
-		 (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) || 
-		 (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME))
+		else if(   (slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME)
+		 	|| (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME)
+		 	|| (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME)
+		 	|| (slurl_uri.scheme() == LLSLURL::HOP_SCHEME	)
+			)
 		{
 			// We're dealing with either a Standalone style slurl or slurl.com slurl
 			if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
@@ -208,18 +221,28 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				// SLE SLurls will have the grid hostname in the URL, so only
 				// match http URLs if the hostname matches the grid hostname
 				// (or its a slurl.com or maps.secondlife.com URL).
+				std::string probe_grid = LLGridManager::getInstance()->getGridByProbing(slurl_uri.hostNameAndPort());
+				if (probe_grid.empty())
+				{
+					LLGridManager::getInstance()->getGridByProbing(slurl_uri.hostName());
+				}
+				LL_DEBUGS("SLURL") << "slurl_uri.hostNameAndPort(): " 
+							<< slurl_uri.hostNameAndPort() << LL_ENDL;
+				LL_DEBUGS("SLURL") << "getGridByProbing(slurl_uri.hostNameAndPort(): "
+							<< probe_grid<< LL_ENDL;
 				if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME ||
 					 slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) &&
-					slurl_uri.hostName() != LLGridManager::getInstance()->getGrid())
+					slurl_uri.hostNameAndPort() != probe_grid)
 				{
 					LL_DEBUGS("SLURL") << "Don't try to match any old http://<host>/ URL as a SLurl"  << LL_ENDL;
+
 					return;
 				}
 
 				// As it's a Standalone grid/open, we will always have a hostname,
 				// as Standalone/open style urls are properly formed,
 				// unlike the stinky maingrid style
-				mGrid = slurl_uri.hostName();
+				mGrid = slurl_uri.hostNameAndPort();
 			}
 
 			if (path_array.size() == 0)

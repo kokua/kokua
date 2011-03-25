@@ -144,9 +144,12 @@ public:
 	std::string getAppSLURLBase(const std::string& grid);
 	std::string getAppSLURLBase() { return getAppSLURLBase(mGrid); }	
 
-	std::string getGridByAttribute(const std::string &attribute, const std::string &attribute_value, bool case_sensitive );
+
+	std::string getGridByProbing( const std::string &probe_for, bool case_sensitive = false);
 	std::string getGridByLabel( const std::string &grid_label, bool case_sensitive = false);
 	std::string getGridByGridNick( const std::string &grid_nick, bool case_sensitive = false);
+	std::string getGridByHostName( const std::string &host_name, bool case_sensitive = false);
+	std::string getGridByAttribute(const std::string &attribute, const std::string &attribute_value, bool case_sensitive );
 
 	bool isSystemGrid(const std::string& grid) 
 	{ 
