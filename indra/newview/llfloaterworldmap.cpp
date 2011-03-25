@@ -674,6 +674,8 @@ void LLFloaterWorldMap::updateLocation()
 
 				// Figure out where user is
 				// Set the current SLURL
+				LL_DEBUGS("SLURL")<< "Sim name: \""<< agent_sim_name 
+					<< "\" Position: \"" <<  gAgent.getPositionGlobal() << "\"" << LL_ENDL;
 				mSLURL = LLSLURL(agent_sim_name, gAgent.getPositionGlobal());
 			}
 		}
@@ -709,7 +711,9 @@ void LLFloaterWorldMap::updateLocation()
 		// simNameFromPosGlobal can fail, so don't give the user an invalid SLURL
 		if ( gotSimName )
 		{
-		  mSLURL = LLSLURL(sim_name, pos_global);
+			LL_DEBUGS("SLURL")<< "Sim name: \""<< sim_name 
+				<< "\" Position: \"" << pos_global  << "\"" << LL_ENDL;
+			mSLURL = LLSLURL(sim_name, pos_global);
 		}
 		else
 		{	// Empty SLURL will disable the "Copy SLURL to clipboard" button

@@ -464,7 +464,10 @@ void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 		}
 	}
 
-	grid_entry->grid[GRID_SLURL_BASE] = grid_entry->grid[GRID_VALUE];
+	std::string slurl_base = "hop://";
+	slurl_base.append(grid_entry->grid[GRID_VALUE]);
+	slurl_base.append("/");
+	grid_entry->grid[GRID_SLURL_BASE]= slurl_base;
 
 	LLDate now = LLDate::now();
 	grid_entry->grid["LastModified"] = now;
