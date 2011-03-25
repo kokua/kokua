@@ -1171,8 +1171,16 @@ LLPartSysData LLVOAvatar::sCloudMuted;
 void LLVOAvatar::initCloud()
 {
 	// fancy particle cloud designed by Brent
+	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "cloud.xml");
+	if(!gDirUtilp->fileExists(filename))
+	{
+		filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "cloud.xml");
+	}
+	if(!gDirUtilp->fileExists(filename))
+	{
+		filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud.xml");
+	}
 
-	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud.xml");
 	LLSD cloud;
 	llifstream in_file(filename);
 	LLSDSerialize::fromXMLDocument(cloud, in_file);
@@ -1182,7 +1190,16 @@ void LLVOAvatar::initCloud()
 
 	//Todo: have own image, de-copy-pasta
 	LLSD cloud_muted;
-	filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud_muted.xml");
+	filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "cloud_muted.xml");
+	if(!gDirUtilp->fileExists(filename))
+	{
+		filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "cloud_muted.xml");
+	}
+	if(!gDirUtilp->fileExists(filename))
+	{
+		filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "cloud_muted.xml");
+	}
+
 	llifstream in_file_muted(filename);
 	LLSDSerialize::fromXMLDocument(cloud_muted, in_file_muted);
 	sCloudMuted.fromLLSD(cloud_muted);

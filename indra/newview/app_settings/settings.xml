@@ -11323,6 +11323,7 @@
       <key>Value</key>
       <integer>15</integer>
     </map>
+<!-- Kokua: Disabled until we actually use it. grep KOKUA_HAS_UPDATER
     <key>UpdaterServiceActive</key>
     <map>
       <key>Comment</key>
@@ -11378,6 +11379,7 @@
       <key>Value</key>
       <string>v1.0</string>
     </map>
+-->
     <key>UploadBakedTexOld</key>
     <map>
       <key>Comment</key>

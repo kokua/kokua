@@ -393,7 +393,7 @@
    name="web_proxy_port"
    top_delta="0"
    width="145" />
-
+<!-- Kokua: Disabled until we actually use it. grep KOKUA_HAS_UPDATER
   <check_box
     top_delta="2"
     enabled="true"
@@ -408,5 +408,6 @@
     radio_style="false"
     width="400"
     top_pad="10"/>
+ -->
 
 </panel>

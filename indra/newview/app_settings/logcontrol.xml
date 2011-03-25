@@ -56,6 +56,10 @@
 
 						<!-- Wearable -->
 
+						<!--Shaders-->
+							<string>Shaders</string>
+							<string>WindLight</string>
+
 						<!-- see lltexturefetch -->
 							<!-- <string>HTTPGetResponder</string> -->
 							<!-- <string>TextureFetch</string> -->
