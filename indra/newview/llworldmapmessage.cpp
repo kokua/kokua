@@ -188,7 +188,12 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 		U32 y_world = (U32)(y_regions) * REGION_WIDTH_UNITS;
 
 		// name shouldn't be empty, see EXT-4568
-		llassert(!name.empty());
+// Kokua:fixme seen on osgrid. http://redmine.kokuaviewer.org/issues/827
+//		llassert(!name.empty());
+		if(name.empty())
+		{
+			llwarns << "Region name is empty" << llendl;
+		}
 
 		// Insert that region in the world map, if failure, flag it as a "null_sim"
 		if (!(LLWorldMap::getInstance()->insertRegion(x_world, y_world, name, image_id, (U32)accesscode, region_flags)))
