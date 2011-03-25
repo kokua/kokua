@@ -1004,6 +1004,39 @@ anguage Infrstructure (CLI) international standard</string>
           </map>
         </map>
       </map>
+      <key>lindenqt</key>
+      <map>
+        <key>license</key>
+        <string>lgpl</string>
+        <key>packages</key>
+        <map>
+          <key>linux64</key>
+           <map>
+             <key>md5sum</key>
+             <string>d5deaf897fe8effa3d3537c875060379</string>
+             <key>url</key>
+	     <!-- HACK: *ORDER OF DOWNLOAD MATTERS* lindenqt currently also contains a deprecated version
+		  of llqtwebkit, that is overridden by the llqtwebkit package, which is actually used. 
+		  Will be unhacked with the next update of Qt. -->
+             <uri>http://imprudenceviewer.org/download/libs/llqtwebkit-linux64-20100907.tar.bz2</uri>
+          </map>
+        </map>
+      </map>
+      <key>llqtwebkit-templinux64hack</key>
+      <map>
+        <key>license</key>
+        <string>lgpl</string>
+        <key>packages</key>
+        <map>
+          <key>linux64</key>
+           <map>
+             <key>md5sum</key>
+             <string>480eb86fe018eac9925905a877cabdff</string>
+             <key>url</key>
+             <uri>http://download.kokuaviewer.org/files/libs/llqtwebkit-linux64-20110214.tar.bz2</uri>
+          </map>
+        </map>
+      </map>
       <key>llqtwebkit</key>
       <map>
         <key>license</key>
@@ -1024,13 +1057,13 @@ anguage Infrstructure (CLI) international standard</string>
             <key>url</key>
             <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/llqtwebkit-linux-qt4.6-20100923.tar.bz2</uri>
           </map>
-          <key>linux64</key>
+<!--          <key>linux64</key>
            <map>
              <key>md5sum</key>
-             <string>d5deaf897fe8effa3d3537c875060379</string>
+             <string>480eb86fe018eac9925905a877cabdff</string>
              <key>url</key>
-             <uri>http://imprudenceviewer.org/download/libs/llqtwebkit-linux64-20100907.tar.bz2</uri>
-          </map>
+             <uri>http://download.kokuaviewer.org/files/libs/llqtwebkit-linux64-20110214.tar.bz2</uri>
+          </map>-->
           <key>windows</key>
           <map>
             <key>md5sum</key>

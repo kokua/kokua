@@ -59,7 +59,7 @@ namespace tut
             // These variables are required by machinery used by
             // LLXMLRPCTransaction. The values reflect reality for this test
             // executable; hopefully these values are correct.
-            gSavedSettings.declareBOOL("BrowserProxyEnabled", FALSE, "", FALSE); // don't persist
+            gSavedSettings.declareBOOL("XMLRPCProxyEnabled", FALSE, "", FALSE); // don't persist
             gSavedSettings.declareBOOL("NoVerifySSLCert", TRUE, "", FALSE); // don't persist
         }
 

@@ -502,6 +502,7 @@ bool toggle_show_object_render_cost(const LLSD& newvalue)
 	return true;
 }
 
+#if KOKUA_HAS_UPDATER
 void toggle_updater_service_active(LLControlVariable* control, const LLSD& new_value)
 {
     if(new_value.asBoolean())
@@ -513,6 +514,7 @@ void toggle_updater_service_active(LLControlVariable* control, const LLSD& new_v
         LLUpdaterService().stopChecking();
     }
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -661,7 +663,9 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("ShowNavbarFavoritesPanel")->getSignal()->connect(boost::bind(&toggle_show_favorites_panel, _2));
 	gSavedSettings.getControl("ShowMiniLocationPanel")->getSignal()->connect(boost::bind(&toggle_show_mini_location_panel, _2));
 	gSavedSettings.getControl("ShowObjectRenderingCost")->getSignal()->connect(boost::bind(&toggle_show_object_render_cost, _2));
+#if KOKUA_HAS_UPDATER 
 	gSavedSettings.getControl("UpdaterServiceActive")->getSignal()->connect(&toggle_updater_service_active);
+#endif
 	gSavedSettings.getControl("ForceShowGrid")->getSignal()->connect(boost::bind(&handleForceShowGrid, _2));
 	gSavedSettings.getControl("RenderTransparentWater")->getSignal()->connect(boost::bind(&handleRenderTransparentWaterChanged, _2));
 }

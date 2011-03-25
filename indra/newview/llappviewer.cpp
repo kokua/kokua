@@ -657,7 +657,11 @@ bool LLAppViewer::init()
     writeSystemInfo();
 
 	// Initialize updater service (now that we have an io pump)
+
+#if KOKUA_HAS_UPDATER //but we haven't :P grep for KOKUA_HAS_UPDATER if you are implementing it.
 	initUpdater();
+#endif
+
 	if(isQuitting())
 	{
 		// Early out here because updater set the quitting flag.
@@ -2404,6 +2408,8 @@ namespace {
     }
 };
 
+
+#if KOKUA_HAS_UPDATER
 void LLAppViewer::initUpdater()
 {
 	// Initialize the updater service.
@@ -2433,6 +2439,7 @@ void LLAppViewer::initUpdater()
     LLEventPump & updater_pump = LLEventPumps::instance().obtain(LLUpdaterService::pumpName());
     updater_pump.listen("notify_update", &notify_update);
 }
+#endif
 
 void LLAppViewer::checkForCrash(void)
 {
