@@ -101,7 +101,7 @@
      left="30"
      height="20"
      width="170"
-     top_pad="15">
+     top_pad="5">
      Show IMs in:
     </text>
     <text
@@ -137,17 +137,68 @@
       height="16"
       label="Tabs"
       layout="topleft"
-      left_delta="0"
+      left_delta="150"
       name="radio2"
       value="1"
-      top_pad="5"
+      top_delta="0"
+      width="150" />
+    </radio_group>
+<!--awfixme-->
+    <text
+     name="show_ims_in_label"
+     follows="left|top"
+     layout="topleft"
+     left="30"
+     height="20"
+     width="170"
+     top_pad="0">
+     Chat Tab Orientation:
+    </text>
+    <text
+     name="requires_restart_label"
+     follows="left|top"
+     layout="topleft"
+     top_delta="0" 
+     left="170" 
+  	 height="20"
+	 width="130"
+     text_color="White_25">
+      (requires restart)
+      </text>
+    <radio_group
+     follows="left|top"
+     height="30"
+     left="40"
+     control_name="ChatTabDirection"
+     name="chat_tab_direction"
+     top_pad="0"
+     tool_tip="Change flow of the chat/IM tabs between horizontal and vertical when consolidated tab mode is active.
+(Requires restart)"
+     width="150">
+     <radio_item
+      height="16"
+      label="Horizontal"
+      layout="topleft"
+      left="0"
+      name="radio_horizontal"
+      value="0"
+      top="0"
+      width="150" />
+     <radio_item
+      height="16"
+      label="Vertical"
+      layout="topleft"
+      left_delta="150"
+      name="radio_vertical"
+      value="1"
+      top_delta="0"
       width="150" />
     </radio_group>
     <text
      name="disable_toast_label"
      follows="left|top"
      layout="topleft"
-     top_pad="20" 
+     top_pad="0" 
      left="30" 
      height="10"
      width="180">
@@ -168,8 +219,9 @@
      name="EnableIMChatPopups"
      label="IM Chats" 
      layout="topleft"
-     top_pad="5"
+     top_delta="0"
      height="16"
+     left_delta="150"
      tool_tip="Check to see popups when an instant message arrives"
      width="400" />
     <spinner
