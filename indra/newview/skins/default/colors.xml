@@ -4,13 +4,13 @@
 	<!-- Named Colors -->
 	<color
 	 name="EmphasisColor"
-	 value="0.38 0.694 0.573 1" />
+	 reference="Kokua" />
 	<color
 	 name="EmphasisColor_13"
-	 value="0.38 0.694 0.573 0.13" />
+	  reference="Kokua_11"/>
 	<color
 	 name="EmphasisColor_35"
-	 value="0.38 0.694 0.573 0.35" />
+	 reference="Kokua_42" />
 	<color
 	 name="White"
 	 value="1 1 1 1" />
@@ -188,7 +188,7 @@
      reference="LtGray" />
     <color
      name="ChicletFlashColor"
-     value="0.114 0.65 0.1" />
+     reference="Kokua_11" />
     <color
      name="ColorDropShadow"
      reference="Black_50" />
@@ -315,9 +315,12 @@
      <color
      name="FilterBackgroundColor"
      reference="Black" />
+<!--    <color
+     name="FilterTextColor"
+     value="0.38 0.69 0.57 1" />Kokua-->
     <color
      name="FilterTextColor"
-     value="0.38 0.69 0.57 1" />
+     reference="Kokua" />
      <color
      name="FloaterButtonImageColor"
      reference="LtGray" />
@@ -432,6 +435,16 @@
     <color
      name="Kokua"
      value="0.749019607843140033942575 0.4666666666666700047372274 0.8078431372548999789273694 1" />
+    <!--191 119 206-->
+    <color
+     name="Kokua_11"
+     value="0.749019607843140033942575 0.4666666666666700047372274 0.8078431372548999789273694 .11" />
+    <color
+     name="Kokua_23"
+     value="0.749019607843140033942575 0.4666666666666700047372274 0.8078431372548999789273694 .23" />
+    <color
+     name="Kokua_42"
+     value="0.749019607843140033942575 0.4666666666666700047372274 0.8078431372548999789273694 .42" />
     <color
      name="LabelDisabledColor"
 	 reference="White_25" />

@@ -39,6 +39,36 @@
          width="2" />
         <layout_panel
          auto_resize="false"
+         follows="left"
+         height="28"
+         layout="topleft"
+         mouse_opaque="false"
+         name="chatfloater_panel"
+         top_delta="0"
+         user_resize="false"
+         min_width="26"
+         width="26">
+          <button
+          follows="right"
+          is_toggle="true"
+          width="26"
+          top="4"
+          layout="topleft"
+          left="0"
+          image_overlay="TabIcon_Translate_Off"
+          image_pressed="PushButton_Press"
+          image_pressed_selected="PushButton_Selected_Press"
+          image_selected="PushButton_Selected_Press"
+          height="24"
+          name="show_nearby_chat"
+          tool_tip="Shows/hides nearby chat log">
+              <button.init_callback
+                function="Button.SetFloaterToggle"
+                parameter="nearby_chat" />
+          </button>
+        </layout_panel>
+        <layout_panel
+         auto_resize="false"
          layout="topleft"
          max_width="320"
          min_width="214"
@@ -48,9 +78,9 @@
          user_resize="true"
          width="308" >
           <panel
-         name="chat_bar"
+            name="chat_bar"
             filename="panel_nearby_chat_bar.xml"
-            left="0"
+            left_pad="1"
             height="28"
             width="308"
             top="0"
