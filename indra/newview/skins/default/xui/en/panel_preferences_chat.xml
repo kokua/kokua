@@ -117,13 +117,13 @@
       </text>
     <radio_group
      follows="left|top"
-     height="30"
+     height="20"
      left="40"
      control_name="ChatWindow"
      name="chat_window"
      top_pad="0"
      tool_tip="Show your Instant Messages in separate floaters, or in one floater with many tabs (Requires restart)"
-     width="150">
+     width="250">
      <radio_item
       height="16"
       label="Separate Windows"
@@ -143,7 +143,6 @@
       top_delta="0"
       width="150" />
     </radio_group>
-<!--awfixme-->
     <text
      name="show_ims_in_label"
      follows="left|top"
@@ -167,14 +166,14 @@
       </text>
     <radio_group
      follows="left|top"
-     height="30"
+     height="20"
      left="40"
      control_name="ChatTabDirection"
      name="chat_tab_direction"
      top_pad="0"
      tool_tip="Change flow of the chat/IM tabs between horizontal and vertical when consolidated tab mode is active.
 (Requires restart)"
-     width="150">
+     width="250">
      <radio_item
       height="16"
       label="Horizontal"
