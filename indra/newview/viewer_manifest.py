@@ -733,6 +733,7 @@ class LinuxManifest(ViewerManifest):
             self.path("wrapper.sh","kokua")
             self.path("handle_secondlifeprotocol.sh", "etc/handle_secondlifeprotocol.sh")
             self.path("register_secondlifeprotocol.sh", "etc/register_secondlifeprotocol.sh")
+            self.path("register_hopprotocol.sh", "etc/register_hopprotocol.sh")
             self.path("refresh_desktop_app_entry.sh", "etc/refresh_desktop_app_entry.sh")
             self.path("launch_url.sh","etc/launch_url.sh")
             self.path("install.sh")

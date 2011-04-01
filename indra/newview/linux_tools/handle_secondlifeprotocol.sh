@@ -6,12 +6,15 @@
 URL="$1"
 
 if [ -z "$URL" ]; then
-    echo Usage: $0 secondlife://...
+    echo Usage: $0 hop://...
     exit
 fi
 
 RUN_PATH=`dirname "$0" || echo .`
-cd "${RUN_PATH}/.."
+cd "${RUN_PATH}"
 
-exec ./secondlife -url \'"${URL}"\'
-
+if [ `pidof do-not-directly-run-kokua-bin` ]; then
+	exec dbus-send --type=method_call --dest=com.secondlife.ViewerAppAPIService /com/secondlife/ViewerAppAPI com.secondlife.ViewerAppAPI.GoSLURL string:"$1"
+else
+	exec ./kokua -url \'"${URL}"\'
+fi
