@@ -2451,6 +2451,7 @@ void LLAppViewer::checkForCrash(void)
         //
         // Pop up a freeze or crash warning dialog
         //
+#if KOKUA_HAS_CRASHURL
         S32 choice;
         if(gCrashSettings.getS32(CRASH_BEHAVIOR_SETTING) == CRASH_BEHAVIOR_ASK)
         {
@@ -2481,6 +2482,9 @@ void LLAppViewer::checkForCrash(void)
         {
             llinfos << "Not sending crash report." << llendl;
         }
+#else  // KOKUA_HAS_CRASHURL
+	llwarns << "Please report crashes to http://redmine.kokuaviewer.org/projects/kokua" << llendl;
+#endif // KOKUA_HAS_CRASHURL
     }
 #endif // LL_SEND_CRASH_REPORTS    
     
