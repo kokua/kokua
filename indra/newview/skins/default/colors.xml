@@ -35,6 +35,9 @@
 	<color
 	 name="DkGray"
 	 value="0.125 0.125 0.125 1" />
+        <color
+              name="DkGray_42"
+	 value="0.125 0.125 0.125 .42" />
 	<color
 	 name="DkGray_66"
 	 value="0.125 0.125 0.125 .66" />
