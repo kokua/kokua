@@ -93,29 +93,44 @@ void KOKUAFloaterXSidebar::onClickXSidebar(const LLSD& param)
 	}
 	else
 	{
-// 		std::string button_name = "btn_x_"+command;
-// 		llwarns << "HIPPOS "  << button_name << llendl;
-// 		mBtnCurrent = getChild<LLButton>(button_name);
 
-
-		if(collapsed)
+		if(sidetray->isTabAttached(command))
 		{
-			// open sidebar and select tab 
-			sidetray->expandSideBar();
-			sidetray->selectTabByName(command);
-		}
-		else if(sidetray->getActiveTabName() == command)
-		{
-			// close sidebar if currently selected tab is chosen
-			sidetray->collapseSideBar();
+			if(collapsed)
+			{
+				// open sidebar and select tab 
+				sidetray->expandSideBar();
+				sidetray->selectTabByName(command);
+			}
+			else if(sidetray->getActiveTabName() == command)
+			{
+				// close sidebar if currently selected tab is chosen
+				sidetray->collapseSideBar();
+			}
+			else
+			{
+				// switch to newly selected tab
+				sidetray->selectTabByName(command);
+			}
 		}
 		else
 		{
-			// switch to newly selected tab
-			sidetray->selectTabByName(command);
+			LLFloater* floater_tab = LLFloaterReg::getInstance("side_bar_tab", command);
+			if(floater_tab)
+			{
+				if(floater_tab->isMinimized())
+				{
+					floater_tab->setMinimized( FALSE );
+					floater_tab->setFrontmost();
+				}
+				else
+				{
+					floater_tab->setMinimized( TRUE );
+				}
+
+			}
 		}
 
-// 		mBtnLast = mBtnCurrent;
 	}
 }
 
