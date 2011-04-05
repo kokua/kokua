@@ -90,7 +90,7 @@
                      right="500"
                      tab_stop="false"
                      top="0"
-                     width="32"/>
+                     width="0"/>
               <panel bottom="500"
                      follows="left|right|bottom"
                      height="25"
