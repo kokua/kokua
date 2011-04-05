@@ -592,13 +592,25 @@ LLSideTrayTab* LLSideTray::getTab(const std::string& name)
 	return findChild<LLSideTrayTab>(name,false);
 }
 
+// bool LLSideTray::isTabAttached(const std::string& name)
+// {
+// 	LLSideTrayTab* tab = getTab(name);
+// 	if (!tab) return false;
+// 
+// 	return std::find(mTabs.begin(), mTabs.end(), tab) != mTabs.end();
+// }
+// [RLVa:KB] - Checked: 2010-12-14 (RLVa-1.2.2c) | Added: RLVa-1.2.2c
 bool LLSideTray::isTabAttached(const std::string& name)
 {
 	LLSideTrayTab* tab = getTab(name);
-	if (!tab) return false;
+	return (tab) ? isTabAttached(tab) : false;
+}
 
+bool LLSideTray::isTabAttached(const LLSideTrayTab* tab)
+{
 	return std::find(mTabs.begin(), mTabs.end(), tab) != mTabs.end();
 }
+// [/RLVa:KB]
 
 bool LLSideTray::hasTabs()
 {

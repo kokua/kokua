@@ -173,8 +173,11 @@ public:
 
 	void		handleLoginComplete();
 
+// 	bool 		isTabAttached	(const std::string& name);
+// [RLVa:KB] - Checked: 2010-12-14 (RLVa-1.2.2c) | Added: RLVa-1.2.2c
 	bool 		isTabAttached	(const std::string& name);
-
+	bool 		isTabAttached	(const LLSideTrayTab* tab);
+// [/RLVa:KB]
 protected:
 	bool		addChild		(LLView* view, S32 tab_group);
 	bool		removeTab		(LLSideTrayTab* tab); // Used to detach tabs temporarily
