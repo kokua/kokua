@@ -83,14 +83,6 @@
                      top="0"
                      visible="false"
                      width="1024"/>
-<!--              <panel follows="right|top|bottom"
-                     height="500"
-                     mouse_opaque="false"
-                     name="side_bar_tabs"
-                     right="500"
-                     tab_stop="false"
-                     top="0"
-                     width="0"/>-->
               <panel bottom="500"
                      follows="left|right|bottom"
                      height="25"
@@ -112,35 +104,18 @@
       </layout_stack>
       <!-- side tray -->
       <layout_stack border_size="0"
-        follows="all"
+        follows="right|top|bottom"
         height="467"
-        left="0"
+        left="-333"
         mouse_opaque="false"
         name="sidebar_container"
-        orientation="horizontal"
+        orientation="vertical"
         top="0"
-        width="1024">
-         <layout_panel
-           follows="all"
-           height="460"
-           right="0"
-           mouse_opaque="false"
-           user_resize="true"
-           name="side_bar_tab_container">
-            <panel follows="right|top|bottom"
-              height="470"
-              mouse_opaque="false"
-              name="side_bar_tabs"
-              tab_stop="false"
-              user_resize="true"
-              right="1"
-              top="0"
-              width="0"/>
-         </layout_panel>
+        width="333">
          <layout_panel auto_resize="false"
             follows="all"
             height="460"
-            right="10"
+            left="0"
             user_resize="true"
             mouse_opaque="true"
             tab_stop="false"
