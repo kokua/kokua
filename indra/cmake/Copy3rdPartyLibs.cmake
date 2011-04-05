@@ -221,7 +221,7 @@ elseif(LINUX)
           libaprutil-1.so.0
           libatk-1.0.so
           libbreakpad_client.so.0
-          libcrypto.so.0.9.8
+          libcrypto.so
           libdb-4.2.so
           libexpat.so
           libexpat.so.1
@@ -233,10 +233,9 @@ elseif(LINUX)
           libgtest.so.0
           libopenal.so
           libopenjpeg.so
-          libssl.so
           libstacktrace.so
           libtcmalloc.so
-          libssl.so.0.9.8
+          libssl.so
          )
     else(${ARCH} STREQUAL "x86_64")
       set(release_files

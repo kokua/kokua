@@ -43,7 +43,7 @@
           </map>
         </map>
       </map>
-      <key>SDL</key>
+      <key>SDL-noartwork</key>
       <map>
         <key>copyright</key>
         <string>Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002  Sam Lantinga</string>
@@ -63,9 +63,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>214fe53a11b3cdef115d36cb95aae185</string>
+            <string></string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/SDL-1.2.12-linux64-20091230.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/SDL-1.2.14-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -132,9 +132,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>c7ec29e8dfe856d74a15b66d557c3010</string>
+            <string>301a1317c7d5bebbdc396e1a4874175b</string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/ares-1.7.1-linux64-20101115.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/ares-1.7.1-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -261,9 +261,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>1c9ff00e520748983a9bb0f131c30448</string>
+            <string>7e698e37a1425d66f709163a36ce0b5a</string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/curl-7.21.2-linux64-20101115.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/curl-7.21.4-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -998,9 +998,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>631df56daeac6aaf5be4c1e39dba6859</string>
+            <string>746e871fc32bbb10f0b524663182cb96</string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/libxml2-2.7.4-r1-linux64-20091230.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/libxml2-2.7.8-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -1238,9 +1238,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>00b23f28a2457d9dabbaff0b29ee7323</string>
+            <string>d02fd5e08e7300e418ac86f00a321b23</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openSSL-0.9.8g-linux64-20080909.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/openSSL-1.0.0-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>
@@ -1271,16 +1271,16 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux</key>
           <map>
             <key>md5sum</key>
-            <string>9dfdc055297355d04e04b905f92fbfad</string>
+            <string>44f9bacc69a3d29ae0b46ed69ad7c2ce</string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/openal-linux32-20100426.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/openal-linux32-20110304.tar.bz2</uri>
           </map>
           <key>linux64</key>
           <map>
              <key>md5sum</key>
-            <string>ea42b868511e2d5fab2df11dceaf2b7e</string>
+            <string>032848c2591a15e26c71998df3644cfc</string>
              <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/openal-linux64-20100428.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/openal-linux64-pulse0.9.21-20110304.tar.bz2</uri>
            </map>
           <key>windows</key>
           <map>
@@ -1388,19 +1388,12 @@ anguage Infrstructure (CLI) international standard</string>
         <string>lgpl</string>
         <key>packages</key>
         <map>
-          <key>linux</key>
+        <key>common</key>
           <map>
             <key>md5sum</key>
-            <string>30cb00069fe2a545fbf7be1070386236</string>
+            <string>c5c3b840bb77ee41fa06970663c15302</string>
             <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/linux-pulse-headers-0.9.14.tar.bz2</uri>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>md5sum</key>
-            <string>30cb00069fe2a545fbf7be1070386236</string>
-            <key>url</key>
-            <uri>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/linux-pulse-headers-0.9.14.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/pulseaudio-headers-0.9.21-63-gd3efa-dirty.tar.bz2</uri>
           </map>
         </map>
       </map>
@@ -1623,9 +1616,9 @@ anguage Infrstructure (CLI) international standard</string>
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string>d085a173e3c05ff3bb0ee36ba42deb2c</string>
+            <string>36716acbb29ed2adbc8d82d9ddbdec65</string>
             <key>url</key>
-            <uri>http://imprudenceviewer.org/download/libs/zlib-1.2.3-linux64-lenny-20091202.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/z-lib-1.2.5-Linux-x86_64-20110405.tar.bz2</uri>
           </map>
           <key>windows</key>
           <map>

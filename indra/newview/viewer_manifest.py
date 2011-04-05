@@ -799,8 +799,8 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libssl.so.0.9.7")
             self.path("libSDL-1.2.so.0")
             self.path("libopenjpeg.so.2")
-            self.path("libalut.so.0")
-            self.path("libopenal.so", "libopenal.so.1")
+            self.path("libalut.so.0.1.0", "libalut.so.0")
+            self.path("libopenal.so.1.12.854", "libopenal.so.1")
             #self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
             try:
                     self.path("libkdu.so")
@@ -845,18 +845,26 @@ class Linux_x86_64Manifest(LinuxManifest):
             self.path("libaprutil-1.so.0")
             self.path("libbreakpad_client.so.0.0.0", "libbreakpad_client.so.0")
             self.path("libdb-4.2.so")
-            self.path("libcrypto.so.0.9.8")
+#
+            self.path("libcares.so.2.0.0", "libcares.so.2")
+            self.path("libcurl.so.4.2.0", "libcurl.so.4")
+            self.path("libcrypto.so.1.0.0")
+            self.path("libssl.so.1.0.0")
+#
             self.path("libexpat.so.1")
-            self.path("libssl.so.0.9.8")
-            self.path("libSDL-1.2.so.0")
+            self.path("libSDL-1.2.so.0.11.3","libSDL-1.2.so.0")
             self.path("libjpeg.so.7")
             self.path("libpng12.so.0")
             self.path("libopenjpeg.so.2")
-
+#
+            self.path("libxml2.so.2.7.8")
+            self.path("libz.so.1.2.5")
+            self.path("libz.so.1")
+            self.path("libz.so")
 
             # OpenAL
-            self.path("libopenal.so.1")
-            self.path("libalut.so.0")
+            self.path("libopenal.so.1.12.854", "libopenal.so.1")
+            self.path("libalut.so.0.1.0", "libalut.so.0")
 
             self.end_prefix("lib64")
 
