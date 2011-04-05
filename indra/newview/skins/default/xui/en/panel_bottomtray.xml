@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
  background_visible="true"
- bg_alpha_color="DkGray"
- bg_opaque_color="DkGray"
+ bg_alpha_color="DkGray_42"
+ bg_opaque_color="DkGray_42"
  chrome="true"
  follows="left|bottom|right"
  height="33"
@@ -37,6 +37,7 @@
          user_resize="false" 
          min_width="2"
          width="2" />
+
         <layout_panel
          auto_resize="false"
          layout="topleft"
@@ -44,15 +45,15 @@
          min_width="214"
          height="28" 
          mouse_opaque="false"
-		 name="chat_bar_layout_panel"
+         name="chat_bar_layout_panel"
          user_resize="true"
          width="308" >
           <panel
-         name="chat_bar"
+            name="chat_bar"
             filename="panel_nearby_chat_bar.xml"
-            left="0"
+            left_pad="1"
             height="28"
-            width="308"
+            width="290"
             top="0"
             mouse_opaque="false"
             follows="left|right"
@@ -61,6 +62,7 @@
         <!--
         There is resize bar between chatbar and Speak button. It has 2px width (is is set as 2*UIResizeBarOverlap)
         -->
+
         <layout_panel
          auto_resize="false"
          follows="right"
@@ -72,7 +74,7 @@
          name="speak_panel"
          top_delta="0"
          user_resize="true"
-         width="110">
+         width="50">
             <talk_button
              follows="left|right"
              height="23"
@@ -80,7 +82,7 @@
              left="2"
              name="talk"
              top="5"
-             width="105">
+             width="45">
                 <show_button
                  tab_stop="true">
                     <init_callback
@@ -91,8 +93,8 @@
                  & pad_right is default value for long label which can be right aligned. See EXT-6318 -->
                 <speak_button
                  halign="center"
-                 label="Speak"
-                 label_selected="Speak"
+                 label=""
+                 label_selected=""
                  name="speak_btn"
                  pad_right="20"
                  tab_stop="true"
