@@ -31,6 +31,8 @@
 
 #include "llviewerfloaterreg.h"
 
+
+#include "kokuafloaterxsidebar.h"
 #include "llcompilequeue.h"
 #include "llcallfloater.h"
 #include "llfloaterabout.h"
@@ -128,6 +130,7 @@ void LLViewerFloaterReg::registerFloaters()
 {
 	// *NOTE: Please keep these alphabetized for easier merges
 
+	LLFloaterReg::add("x_sidebar", "floater_x_sidebar.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<KOKUAFloaterXSidebar>);
 	LLFloaterAboutUtil::registerFloater();
 	LLFloaterReg::add("about_land", "floater_about_land.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterLand>);
 	LLFloaterReg::add("auction", "floater_auction.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterAuction>);

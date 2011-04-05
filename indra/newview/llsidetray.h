@@ -155,6 +155,8 @@ public:
 
 	bool		getCollapsed() { return mCollapsed; }
 
+	std::string	getActiveTabName();
+
 public:
 	virtual ~LLSideTray(){};
 

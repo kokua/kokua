@@ -68,6 +68,7 @@ include_directories(
 
 set(viewer_SOURCE_FILES
     fscontactsfloater.cpp
+    kokuafloaterxsidebar.cpp
     kokuastreamingaudio.cpp
     llagent.cpp
     llagentaccess.cpp
@@ -603,6 +604,7 @@ set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
     fscontactsfloater.h
+    kokuafloaterxsidebar.h
     kokuastreamingaudio.h
     llagent.h
     llagentaccess.h

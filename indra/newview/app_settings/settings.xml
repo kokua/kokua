@@ -163,6 +163,18 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>ShowXSidebarButton</key>
+    <map>
+      <key>Comment</key>
+      <string>Shows/Hides ShowXSidebarButton button in the bottom tray.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
+
     <key>UploadAnimationPreviewUseDummy</key>
     <map>
       <key>Comment</key>

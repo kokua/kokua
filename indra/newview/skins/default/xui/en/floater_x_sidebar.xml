@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!-- header_height="0"-->
+<floater
+ legacy_header_height="0"
+ header_height="0"
+ bg_alpha_image_overlay="LtGray_50"
+ can_dock="true"
+ can_minimize="true"
+ can_close="false"
+ follows="bottom"
+ height="52"
+ layout="topleft"
+ name="x_sidebar"
+
+ help_topic="x_sidebar"
+ save_rect="true"
+ save_visibility="true"
+ save_dock_state="true"
+ single_instance="true"
+ width="169">
+ <panel
+     border="false"
+     height="125"
+     layout="topleft"
+     left="4"
+     top="26"
+     filename="panel_x_sidebar.xml"
+      name="panel_x_sidebar"
+     width="169"/>
+</floater>

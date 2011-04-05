@@ -50,7 +50,7 @@
 #include "llchannelmanager.h"
 #include "llwindow.h"//for SetCursor
 #include "lltransientfloatermgr.h"
-
+#include "kokuafloaterxsidebar.h"
 #include "llsidepanelappearance.h"
 
 //#include "llscrollcontainer.h"
@@ -686,6 +686,11 @@ bool LLSideTray::selectTabByName(const std::string& name, bool keep_prev_visible
 	toggleTabButton(mActiveTab);
 	}
 
+	KOKUAFloaterXSidebar* x_sidebar = KOKUAFloaterXSidebar::findInstance();
+	if(x_sidebar)
+	{
+		x_sidebar->setButton(name);
+	}
 	//select new tab
 	mActiveTab = new_tab;
 
@@ -1084,6 +1089,13 @@ void LLSideTray::collapseSideBar()
 	{
 		mCollapseButton->setImageOverlay( openclose_tab->mImage );
 	}
+
+	KOKUAFloaterXSidebar* x_sidebar = KOKUAFloaterXSidebar::findInstance();
+	if(x_sidebar)
+	{
+		x_sidebar->setArrow(mCollapsed);
+	}
+
 	//mActiveTab->setVisible(FALSE);
 	reflectCollapseChange();
 	setFocus( FALSE );
@@ -1096,6 +1108,12 @@ void LLSideTray::expandSideBar(bool open_active)
 	if (openclose_tab)
 	{
 		mCollapseButton->setImageOverlay( openclose_tab->mImageSelected );
+	}
+
+	KOKUAFloaterXSidebar* x_sidebar = KOKUAFloaterXSidebar::findInstance();
+	if(x_sidebar)
+	{
+		x_sidebar->setArrow(mCollapsed);
 	}
 
 	if (open_active)
@@ -1269,3 +1287,7 @@ void	LLSideTray::updateSidetrayVisibility()
 	}
 }
 
+std::string LLSideTray::getActiveTabName()
+{
+	return mActiveTab ? mActiveTab->getName() : std::string();
+}

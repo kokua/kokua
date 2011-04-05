@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel
+border="false"
+height="125"
+layout="topleft"
+left="4"
+top="26"
+name="panel_x_sidebar_buttons"
+width="169">
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	left="2"
+	top="0"
+	image_overlay="TabIcon_Open_Off"
+	image_selected="TabIcon_Close_Off"
+	name="btn_x_sidebar_openclose"
+	tab_stop="false"
+	tool_tip="Toggle Sidebar open/closed."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_openclose" />
+  </button>
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	left_delta="26"
+	top_delta="0"
+	image_overlay="TabIcon_Me_Off"
+	image_selected="TabIcon_Me_Selected"
+	name="btn_x_sidebar_me"
+	tab_stop="false"
+	tool_tip="Edit your public profile and Picks."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_me" />
+  </button>
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	follows="left|right"
+	left_delta="26"
+	top_delta="0"
+	image_overlay="TabIcon_People_Off"
+	image_selected="TabIcon_People_Selected"
+	name="btn_x_sidebar_people"
+	tab_stop="false"
+	tool_tip="Find your friends, contacts and people nearby."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_people" />
+  </button>
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	follows="left|right"
+	left_delta="26"
+	top_delta="0"
+	image_overlay="TabIcon_Places_Off"
+	image_selected="TabIcon_Places_Selected"
+	name="btn_x_sidebar_places"
+	tab_stop="false"
+	tool_tip="Find places to go and places you&apos;ve visited before."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_places" />
+  </button>
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	follows="left|right"
+	left_delta="26"
+	top_delta="0"
+	image_overlay="TabIcon_Things_Off"
+	image_selected="TabIcon_Things_Selected"
+	name="btn_x_sidebar_inventory"
+	tab_stop="false"
+	tool_tip="Browse your inventory."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_inventory" />
+  </button>
+  <button
+	height="26"
+	label=""
+	layout="topleft"
+	follows="left|right"
+	left_delta="26"
+	top_delta="0"
+	image_overlay="TabIcon_Appearance_Off"
+	image_selected="TabIcon_Appearance_Selected"
+	name="btn_x_sidebar_appearance"
+	tab_stop="false"
+	tool_tip="Change your appearance and current look."
+	width="26">
+	<button.commit_callback
+		function="XSidebar.ChangeTab"
+		parameter="sidebar_appearance" />
+  </button>
+</panel>
