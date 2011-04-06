@@ -717,8 +717,37 @@
             <key>url</key>
             <uri>http://imprudenceviewer.org/download/libs/gstreamer-0.10.24-linux64-20091230.tar.bz2</uri>
           </map>
+          <key>windows</key>
+          <map>
+            <key>md5sum</key>
+            <string>bd07378834cd1a4ecf7de55d4e2a7da2</string>
+            <key>url</key>
+            <uri>http://download.kokuaviewer.org/files/libs/gstreamer-glib-iconv-libxml-windows-0.10.32-20110503.tar.bz2</uri>
+          </map>
+         </map>
+        </map>
+      <key>gstreamer-plugins</key>
+      <map>
+        <key>license</key>
+        <string>lgpl</string>
+        <key>packages</key>
+        <map>
+          <key>darwin</key>
+          <map>
+            <key>md5sum</key>
+            <string>27a111bd9b12f413b577ae239c10aa7c</string>
+            <key>url</key>
+            <uri>http://imprudenceviewer.org/download/libs/gstreamer-plugins-darwin-20100826.tar.bz2</uri>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>md5sum</key>
+            <string>76ad5a08f8f07f99c9e1545c2a0adc27</string>
+            <key>url</key>
+            <uri>http://download.kokuaviewer.org/files/libs/gstreamer-plugins-windows-0.10.32-20110503.tar.bz2</uri>
           </map>
         </map>
+      </map>
       <key>gtk-etc</key>
       <map>
         <key>copyright</key>

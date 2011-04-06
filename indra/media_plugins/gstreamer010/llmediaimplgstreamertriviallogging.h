@@ -35,7 +35,8 @@
 /////////////////////////////////////////////////////////////////////////
 // Debug/Info/Warning macros.
 #if LL_WINDOWS
-#include <process.h>
+#include <process.h>// !impru
+#include <windows.h>// impru
 #define LL_GETPID GetCurrentProcessId
 #else
 #include <sys/types.h>

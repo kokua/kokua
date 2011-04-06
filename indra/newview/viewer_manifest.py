@@ -316,6 +316,76 @@ class WindowsManifest(ViewerManifest):
 
             self.end_prefix()
 
+
+            # Gstreamer plugins
+            if self.prefix(src="lib/gstreamer-plugins", dst=""):
+                self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
+                self.end_prefix()
+    
+            # Gstreamer libs
+            if  self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
+                self.path("avcodec-gpl-52.dll")
+                self.path("avdevice-gpl-52.dll")
+                self.path("avfilter-gpl-1.dll")
+                self.path("avformat-gpl-52.dll")
+                self.path("avutil-gpl-50.dll")
+                self.path("iconv.dll")
+                self.path("liba52-0.dll")
+                self.path("libbz2.dll")
+                self.path("libcelt-0.dll")
+                self.path("libdca-0.dll")
+                self.path("libexpat-1.dll")
+                self.path("libfaad-2.dll")
+                self.path("libFLAC-8.dll")
+                self.path("libgcrypt-11.dll")
+                self.path("libgio-2.0-0.dll")
+                self.path("libglib-2.0-0.dll")
+                self.path("libgmodule-2.0-0.dll")
+                self.path("libgnutls-26.dll")
+                self.path("libgobject-2.0-0.dll")
+                self.path("libgpg-error-0.dll")
+                self.path("libgstapp-0.10.dll")
+                self.path("libgstaudio-0.10.dll")
+                self.path("libgstbase-0.10.dll")
+                self.path("libgstcontroller-0.10.dll")
+                self.path("libgstdataprotocol-0.10.dll")
+                self.path("libgstfft-0.10.dll")
+                self.path("libgstinterfaces-0.10.dll")
+                self.path("libgstnet-0.10.dll")
+                self.path("libgstnetbuffer-0.10.dll")
+                self.path("libgstpbutils-0.10.dll")
+                self.path("libgstphotography-0.10.dll")
+                self.path("libgstreamer-0.10.dll")
+                self.path("libgstriff-0.10.dll")
+                self.path("libgstrtp-0.10.dll")
+                self.path("libgstrtsp-0.10.dll")
+                self.path("libgstsdp-0.10.dll")
+                self.path("libgstsignalprocessor-0.10.dll")
+                self.path("libgsttag-0.10.dll")
+                self.path("libgstvideo-0.10.dll")
+                self.path("libgthread-2.0-0.dll")
+                self.path("libmms-0.dll")
+                self.path("libmpeg2-0.dll")
+                self.path("libneon-27.dll")
+                self.path("libogg-0.dll")
+                self.path("liboil-0.3-0.dll")
+                self.path("libsoup-2.4-1.dll")
+                self.path("libtasn1-3.dll")
+                self.path("libtheora-0.dll")
+                self.path("libtheoradec-1.dll")
+                self.path("libvorbis-0.dll")
+                self.path("libvorbisenc-2.dll")
+                self.path("libvorbisfile-3.dll")
+                self.path("libwavpack-1.dll")
+                self.path("libx264-67.dll")
+                self.path("libxml2-2.dll")
+                self.path("libxml2.dll")
+                self.path("SDL.dll")
+                self.path("xvidcore.dll")
+                self.path("z.dll")
+                self.end_prefix()
+
+
         self.path(src="licenses-win32.txt", dst="licenses.txt")
         self.path("featuretable.txt")
         self.path("featuretable_xp.txt")
@@ -324,7 +394,13 @@ class WindowsManifest(ViewerManifest):
         self.path("dbghelp.dll")
 
         self.enable_no_crt_manifest_check()
-        
+
+        # For sound
+        if self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
+            self.path("openal32.dll")
+            self.path("alut.dll")
+            self.end_prefix()
+
         # Media plugins - QuickTime
         if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
             self.path("media_plugin_quicktime.dll")
@@ -340,6 +416,10 @@ class WindowsManifest(ViewerManifest):
             self.path("winmm.dll")
             self.end_prefix()
 
+        # Media plugins - GStreamer
+        if self.prefix(src='../media_plugins/gstreamer010/%s' % self.args['configuration'], dst="llplugin"):
+            self.path("media_plugin_gstreamer010.dll")
+            self.end_prefix()
 
         if self.args['configuration'].lower() == 'debug':
             if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'debug'),

@@ -28,6 +28,22 @@
 
 #include "linden_common.h"
 
+//<impru>  
+// Kokua FIXME: which of the includes in the "<impru>" tag 
+// isn't in linden_common.h and would belong there?
+
+// Needed for _getcwd() RC 
+#ifdef LL_WINDOWS
+#include <direct.h>
+#include <stdlib.h>
+#include <stdio.h>
+#endif
+
+#ifdef LL_DARWIN
+#include <Carbon/Carbon.h>
+#endif
+//</impru>
+
 #include "llgl.h"
 
 #include "llplugininstance.h"
