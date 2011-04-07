@@ -53,6 +53,7 @@
 
 #if LL_MSVC
 // disable boost::lexical_cast warning
+#pragma warning( push )
 #pragma warning (disable:4702)
 #endif
 
