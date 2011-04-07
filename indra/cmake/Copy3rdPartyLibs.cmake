@@ -221,7 +221,9 @@ elseif(LINUX)
           libaprutil-1.so.0
           libatk-1.0.so
           libbreakpad_client.so.0
+          libcares.so.2
           libcrypto.so
+          libcurl.so.4
           libdb-4.2.so
           libexpat.so
           libexpat.so.1
