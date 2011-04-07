@@ -34,6 +34,11 @@ indra/newview/installers/windows/imprudence installer script.iss
 indra/newview/installers/windows/imprudence_installer_icon_left.bmp
 indra/newview/installers/windows/imprudence_installer_icon_right.bmp
 
+# files generated/copied into the source tree by the Windows project
+indra/newview/app_settings/message.xml
+indra/newview/app_settings/message_template.msg
+indra/newview/avatar_lad.log
+
 # LIBRARIES
 
 LICENSES/
@@ -69,7 +74,7 @@ installed.xml
 
 *.diff*
 *.patch*
-
+*.rej
 
 # MISCELLANEOUS
 
