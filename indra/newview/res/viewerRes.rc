@@ -2,12 +2,19 @@
 //
 #include "resource.h"
 
+#ifdef IDC_STATIC
+#undef IDC_STATIC
+#endif
+#define IDC_STATIC (-1)
+#include "winresrc.h"
+
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+// Commented out because it only compiles if you have MFC installed.
+//#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -27,18 +34,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -67,7 +74,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE
 FONT 8, "MS Sans Serif"
 BEGIN
     ICON            IDI_LL_ICON,IDC_STATIC,7,7,20,20
-    LTEXT           "Loading Second Life...",666,36,13,91,8
+    LTEXT           "Loading Kokua...",666,36,13,91,8
 END
 
 
@@ -77,8 +84,9 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
+
     "SPLASHSCREEN", DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -115,13 +123,14 @@ TOOLPICKOBJECT3         CURSOR                  "toolpickobject3.cur"
 ARROWCOPY               CURSOR                  "arrowcop.cur"
 ARROWDRAGMULTI          CURSOR                  "llarrowdragmulti.cur"
 ARROWCOPYMULTI          CURSOR                  "arrowcopmulti.cur"
+TOOLSIT                 CURSOR                  "toolsit.cur"
+TOOLBUY                 CURSOR                  "toolbuy.cur"
+TOOLPAY                 CURSOR                  "toolpay.cur"
+TOOLOPEN                CURSOR                  "toolopen.cur"
 TOOLPIPETTE             CURSOR                  "toolpipette.cur"
 TOOLPLAY                CURSOR                  "toolplay.cur"
 TOOLPAUSE               CURSOR                  "toolpause.cur"
 TOOLMEDIAOPEN           CURSOR                  "toolmediaopen.cur"
-TOOLBUY                 CURSOR                  "toolbuy.cur"
-TOOLOPEN                CURSOR                  "toolopen.cur"
-TOOLSIT                 CURSOR                  "toolsit.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -145,14 +154,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Linden Lab"
-            VALUE "FileDescription", "Second Life"
-            VALUE "FileVersion", "2.1.1.0"
-            VALUE "InternalName", "Second Life"
-            VALUE "LegalCopyright", "Copyright � 2001-2010, Linden Research, Inc."
-            VALUE "OriginalFilename", "SecondLife.exe"
-            VALUE "ProductName", "Second Life"
-            VALUE "ProductVersion", "2.1.1.0"
+            VALUE "CompanyName", "Kokua Viewer Project"
+            VALUE "FileDescription", "Kokua Test Version"
+            VALUE "FileVersion", "2010.09.04"
+            VALUE "InternalName", "Kokua  Test Version"
+            VALUE "OriginalFilename", "Kokua.exe"
+            VALUE "ProductName", "Kokua Test"
+            VALUE "ProductVersion", "2011.04.07"
         END
     END
     BLOCK "VarFileInfo"
@@ -160,6 +168,12 @@ BEGIN
         VALUE "Translation", 0x409, 1200
     END
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
