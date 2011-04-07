@@ -234,6 +234,25 @@
           </map>
         </map>
       </map>
+      <key>boost-VC90</key>
+      <map>
+        <key>copyright</key>
+        <string>various</string>
+        <key>description</key>
+        <string>A set of portable C++ libraries which provide a wide set of functionality. </string>
+        <key>license</key>
+        <string>boost</string>
+        <key>packages</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>md5sum</key>
+            <string>50884f8662766d69ed68e96fd68064a8</string>
+            <key>url</key>
+            <uri>http://download.kokuaviewer.org/files/libs/boost-1.45-windows-VC90-20110407.tar.bz2</uri>
+          </map>
+        </map>
+      </map>
       <key>curl</key>
       <map>
         <key>copyright</key>
