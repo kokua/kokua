@@ -19,7 +19,6 @@ else (STANDALONE)
   set(Boost_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include)
 
   if (WINDOWS)
-    set(BOOST_VERSION 1_39)
     if (MSVC71)
       set(BOOST_PROGRAM_OPTIONS_LIBRARY 
           optimized libboost_program_options-vc71-mt-s-${BOOST_VERSION}
@@ -31,6 +30,7 @@ else (STANDALONE)
           optimized libboost_signals-vc71-mt-s-${BOOST_VERSION}
           debug libboost_signals-vc71-mt-sgd-${BOOST_VERSION})
     elseif (MSVC80)
+      set(BOOST_VERSION 1_39)
       use_prebuilt_binary(boost)
       set(BOOST_PROGRAM_OPTIONS_LIBRARY 
           optimized libboost_program_options-vc80-mt-${BOOST_VERSION}
@@ -42,6 +42,7 @@ else (STANDALONE)
           optimized libboost_signals-vc80-mt-${BOOST_VERSION}
           debug libboost_signals-vc80-mt-gd-${BOOST_VERSION})
     elseif (MSVC90)
+      set(BOOST_VERSION 1_45)
       use_prebuilt_binary(boost-VC90)
       set(BOOST_PROGRAM_OPTIONS_LIBRARY 
           optimized libboost_program_options-vc90-mt-${BOOST_VERSION}
