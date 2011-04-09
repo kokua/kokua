@@ -297,13 +297,17 @@ class WindowsManifest(ViewerManifest):
                 self.path("Microsoft.VC80.CRT.manifest")
 
             # Vivox runtimes
-            self.path("SLVoice.exe")
-            self.path("vivoxsdk.dll")
-            self.path("ortp.dll")
-            self.path("libsndfile-1.dll")
-            self.path("zlib1.dll")
-            self.path("vivoxplatform.dll")
-            #self.path("vivoxoal.dll")# probably not re-distributable
+            if self.prefix(src="vivox-runtime/i686-win32", dst=""):
+            #    self.path("alut.dll")
+                self.path("wrap_oal.dll")
+                self.path("SLVoice.exe")
+            #    self.path("SLVoiceAgent.exe")
+            #    self.path("libeay32.dll")
+            #    self.path("srtp.dll")
+            #    self.path("ssleay32.dll")
+            #    self.path("tntk.dll")
+                self.path("vivoxsdk.dll")
+                self.path("ortp.dll")
 
             # For google-perftools tcmalloc allocator.
             try:
@@ -698,11 +702,11 @@ class DarwinManifest(ViewerManifest):
                     self.end_prefix("packaging/mac")
 
                 # SLVoice and vivox lols
-                self.path("vivox-runtime/universal-darwin/libsndfile.dylib", "libsndfile.dylib")
-                #self.path("vivox-runtime/universal-darwin/libvivoxoal.dylib", "libvivoxoal.dylib")# probably not re-distributable
+
+                self.path("vivox-runtime/universal-darwin/libalut.dylib", "libalut.dylib")
+                self.path("vivox-runtime/universal-darwin/libopenal.dylib", "libopenal.dylib")
                 self.path("vivox-runtime/universal-darwin/libortp.dylib", "libortp.dylib")
                 self.path("vivox-runtime/universal-darwin/libvivoxsdk.dylib", "libvivoxsdk.dylib")
-                self.path("vivox-runtime/universal-darwin/libvivoxplatform.dylib", "libvivoxplatform.dylib")
                 self.path("vivox-runtime/universal-darwin/SLVoice", "SLVoice")
 
                 libdir = "../../libraries/universal-darwin/lib_release"
@@ -881,8 +885,8 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libopenjpeg.so.2")
             self.path("libalut.so.0.1.0", "libalut.so.0")
             self.path("libopenal.so.1.12.854", "libopenal.so.1")
-            #self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
-            try:
+
+           try:
                     self.path("libkdu.so")
                     pass
             except:
@@ -902,10 +906,7 @@ class Linux_i686Manifest(LinuxManifest):
                     self.end_prefix()
             if self.prefix(src="vivox-runtime/i686-linux", dst="lib"):
                     self.path("libortp.so")
-                    self.path("libsndfile.so.1")
-                    #self.path("libvivoxoal.so.1") # probably not re-distributable
                     self.path("libvivoxsdk.so")
-                    self.path("libvivoxplatform.so")
                     self.end_prefix("lib")
 
 class Linux_x86_64Manifest(LinuxManifest):
@@ -954,19 +955,12 @@ class Linux_x86_64Manifest(LinuxManifest):
                     self.end_prefix()
             if self.prefix(src="vivox-runtime/i686-linux", dst="lib32"):
                     self.path("libortp.so")
-                    self.path("libsndfile.so.1")
-                    #self.path("libvivoxoal.so.1") # probably not re-distributable
                     self.path("libvivoxsdk.so")
-                    self.path("libvivoxplatform.so")
                     self.end_prefix("lib32")
 
             # 32bit libs needed for voice
             if self.prefix("../../libraries/x86_64-linux/lib_release_client/32bit-compat", dst="lib32"):
-                    self.path("libalut.so")
-                    self.path("libidn.so.11")
-                    #self.path("libopenal.so.1", "libvivoxoal.so.1") # thats ours but vivox doesn't like it
-                    # self.path("libortp.so")
-                    self.path("libuuid.so.1")
+                    self.path("*.so*")
                     self.end_prefix("lib32")
 
 
