@@ -63,9 +63,9 @@
           <key>linux64</key>
           <map>
             <key>md5sum</key>
-            <string></string>
+            <string>b0f92b832e4ae5aee351801d644629e7</string>
             <key>url</key>
-            <uri>http://download.kokuaviewer.org/files/libs/SDL-1.2.14-Linux-x86_64-20110405.tar.bz2</uri>
+            <uri>http://download.kokuaviewer.org/files/libs/SDL-1.2.14-Linux-x86_64-20110410.tar.bz2</uri>
           </map>
         </map>
       </map>
