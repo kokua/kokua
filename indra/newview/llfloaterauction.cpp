@@ -451,7 +451,7 @@ void LLFloaterAuction::onClickSellToAnyone(void* data)
 		LLParcel* parcelp = self->mParcelp->getParcel();
 
 		// Do a confirmation
-		S32 sale_price = parcelp->getArea();	// Selling for L$1 per meter
+		S32 sale_price = parcelp->getArea();	// Selling for $MONEY1 per meter
 		S32 area = parcelp->getArea();
 
 		LLSD args;
@@ -511,7 +511,7 @@ void LLFloaterAuction::doSellToAnyone()
 		parcel_flags &= ~PF_FOR_SALE_OBJECTS;
 		body["parcel_flags"] = ll_sd_from_U32(parcel_flags);
 		
-		body["sale_price"] = parcelp->getArea();	// Sell for L$1 per square meter
+		body["sale_price"] = parcelp->getArea();	// Sell for $MONEY1 per square meter
 		body["auth_buyer_id"] = LLUUID::null;		// To anyone
 
 		llinfos << "Sending parcel update to sell to anyone for L$1 via capability to: "

@@ -1,7 +1,7 @@
 /** 
  * @file lluseroperation.h
  * @brief LLUserOperation class header file - used for message based
- * transaction. For example, L$ transactions.
+ * transaction. For example, $MONEY transactions.
  *
  * $LicenseInfo:firstyear=2002&license=viewerlgpl$
  * Second Life Viewer Source Code

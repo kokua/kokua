@@ -56,7 +56,7 @@
 #include "llscrollcontainer.h"
 #include "llstatusbar.h"
 
-const S32 MINIMUM_PRICE_FOR_LISTING = 50;	// L$
+const S32 MINIMUM_PRICE_FOR_LISTING = 50;	// $MONEY
 
 //static
 LLPanelClassifiedInfo::panel_list_t LLPanelClassifiedInfo::sAllPanels;

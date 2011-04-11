@@ -77,7 +77,7 @@ void LLFloaterBuyCurrencyHTML::navigateToFinalURL()
 	codec << gStatusBar->getBalance();
 	replace[ "[BAL]" ] = codec.str();
 
-	// message - "This cost L$x,xxx for example
+	// message - "This cost $MONEYx,xxx for example
 	replace[ "[MSG]" ] = LLURI::escape( mMessage );
 	LLStringUtil::format( buy_currency_url, replace );
 
@@ -96,7 +96,7 @@ void LLFloaterBuyCurrencyHTML::handleMediaEvent( LLPluginClassMedia* self, EMedi
 	if ( LLPluginClassMediaOwner::MEDIA_EVENT_NAVIGATE_COMPLETE == event )
 	{
 		// update currency after we complete a navigation since there are many ways 
-		// this can result in a different L$ balance
+		// this can result in a different $MONEY balance
 		LLStatusBar::sendMoneyBalanceRequest();
 	};
 }
@@ -105,7 +105,7 @@ void LLFloaterBuyCurrencyHTML::handleMediaEvent( LLPluginClassMedia* self, EMedi
 //
 void LLFloaterBuyCurrencyHTML::onClose( bool app_quitting )
 {
-	// update L$ balanace one more time
+	// update $MONEY balanace one more time
 	LLStatusBar::sendMoneyBalanceRequest();
 
 	destroy();

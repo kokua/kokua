@@ -1,6 +1,6 @@
 /** 
  * @file llpanelgrouplandmoney.cpp
- * @brief Panel for group land and L$.
+ * @brief Panel for group land and $MONEY.
  *
  * $LicenseInfo:firstyear=2006&license=viewerlgpl$
  * Second Life Viewer Source Code
@@ -610,7 +610,7 @@ void LLPanelGroupLandMoney::update(LLGroupChange gc)
 
 		panelp = tabp->getCurrentPanel();
 
-		//now pull the event handler associated with that L$ tab
+		//now pull the event handler associated with that $MONEY tab
 		if ( panelp )
 		{
 			eh = get_if_there(LLGroupMoneyTabEventHandler::sTabsToHandlers,
@@ -743,7 +743,7 @@ BOOL LLPanelGroupLandMoney::postBuild()
 
 	std::string loading_text = getString("loading_txt");
 	
-	//pull out the widgets for the L$ details tab
+	//pull out the widgets for the $MONEY details tab
 	earlierp = getChild<LLButton>("earlier_details_button", true);
 	laterp = getChild<LLButton>("later_details_button", true);
 	textp = getChild<LLTextEditor>("group_money_details_text", true);
@@ -781,7 +781,7 @@ BOOL LLPanelGroupLandMoney::postBuild()
 													loading_text);
 	}
 
-	//pull out the widgets for the L$ sales tab
+	//pull out the widgets for the $MONEY sales tab
 	earlierp = getChild<LLButton>("earlier_sales_button", true);
 	laterp = getChild<LLButton>("later_sales_button", true);
 	textp = getChild<LLTextEditor>("group_money_sales_text", true);
@@ -1547,7 +1547,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 
 	std::string loading_text = getString("loading_txt");
 	
-	//pull out the widgets for the L$ details tab
+	//pull out the widgets for the $MONEY details tab
 	earlierp = getChild<LLButton>("earlier_details_button", true);
 	laterp = getChild<LLButton>("later_details_button", true);
 	textp = getChild<LLTextEditor>("group_money_details_text", true);
@@ -1579,7 +1579,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 		mImplementationp->mMoneyPlanningTabEHp->setGroupID(mGroupID);
 	}
 
-	//pull out the widgets for the L$ sales tab
+	//pull out the widgets for the $MONEY sales tab
 	textp = getChild<LLTextEditor>("group_money_sales_text", true);
 
 

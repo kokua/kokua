@@ -34,7 +34,7 @@ class LLCurrencyUIManager
 	// manages the currency purchase portion of any dialog
 	// takes control of, and assumes repsonsibility for several
 	// fields:
-	// 	'currency_action' - the text "Buy L$" before the entry field
+	// 	'currency_action' - the text "Buy $MONEY" before the entry field
 	// 	'currency_amt' - the line editor for the entry amount
 	// 	'currency_est' - the estimated cost from the web site
 {
@@ -44,7 +44,7 @@ public:
 
 	void setAmount(int, bool noEstimate = false);
 	int getAmount();
-		// the amount in L$ to purchase
+		// the amount in $MONEY to purchase
 		// setting it overwrites the user's entry
 		// if noEstimate is true, than no web request is made
 	

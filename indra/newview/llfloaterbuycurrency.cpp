@@ -204,7 +204,7 @@ void LLFloaterBuyCurrencyUI::updateUI()
 	}
 	else
 	{
-		// display the main Buy L$ interface
+		// display the main Buy $MONEY interface
 		getChildView("normal_background")->setVisible(TRUE);
 		getChildView("error_background")->setVisible(FALSE);
 		getChildView("cannot_buy_message")->setVisible(FALSE);
