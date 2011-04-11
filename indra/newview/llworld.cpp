@@ -117,12 +117,18 @@ LLWorld::LLWorld() :
 	if(LLGridManager::getInstance()->isInOpenSim())
 	{
 		mRegionMaxHeight = OS_MAX_OBJECT_Z; //llmath/xform.h
+		mRegionMinPrimScale = OS_MIN_PRIM_SCALE;
+		mRegionMaxPrimScale = OS_DEFAULT_MAX_PRIM_SCALE;
 	}
 	else
 	{
 		mRegionMaxHeight = SL_MAX_OBJECT_Z; //llmath/xform.h
+		mRegionMinPrimScale = SL_MIN_PRIM_SCALE;
+		mRegionMaxPrimScale = SL_DEFAULT_MAX_PRIM_SCALE;
 	}
 	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMaxHeight << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMinPrimScale << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMaxPrimScale << llendl;
 }
 
 

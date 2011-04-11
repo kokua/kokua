@@ -145,16 +145,25 @@ BOOL	LLPanelObject::postBuild()
 	childSetCommitCallback("Pos Z",onCommitPosition,this);
 
 	// Scale
+	F32 min_scale = LLWorld::getInstance()->getRegionMinPrimScale();
+	F32 max_scale = LLWorld::getInstance()->getRegionMaxPrimScale();
+
 	mLabelSize = getChild<LLTextBox>("label size");
 	mCtrlScaleX = getChild<LLSpinCtrl>("Scale X");
+	mCtrlScaleX->setMinValue(min_scale);
+	mCtrlScaleX->setMaxValue(max_scale);
 	childSetCommitCallback("Scale X",onCommitScale,this);
 
 	// Scale Y
 	mCtrlScaleY = getChild<LLSpinCtrl>("Scale Y");
+	mCtrlScaleY->setMinValue(min_scale);
+	mCtrlScaleY->setMaxValue(max_scale);
 	childSetCommitCallback("Scale Y",onCommitScale,this);
 
 	// Scale Z
 	mCtrlScaleZ = getChild<LLSpinCtrl>("Scale Z");
+	mCtrlScaleZ->setMinValue(min_scale);
+	mCtrlScaleZ->setMaxValue(max_scale);
 	childSetCommitCallback("Scale Z",onCommitScale,this);
 
 	// Rotation

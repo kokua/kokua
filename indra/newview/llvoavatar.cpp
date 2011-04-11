@@ -1418,7 +1418,7 @@ void LLVOAvatar::getSpatialExtents(LLVector3& newMin, LLVector3& newMax)
 	LLVector3 pos = getRenderPosition();
 	newMin = pos - buffer;
 	newMax = pos + buffer;
-	float max_attachment_span = DEFAULT_MAX_PRIM_SCALE * 5.0f;
+	float max_attachment_span = LLWorld::getInstance()->getRegionMaxPrimScale() +40.0f;//Kokua was * 5.f which would be 5 times region size on opensim
 	
 	//stretch bounding box by joint positions
 	for (polymesh_map_t::iterator i = mMeshes.begin(); i != mMeshes.end(); ++i)
