@@ -447,9 +447,9 @@ void init_menus()
     gViewerWindow->setMenuBackgroundColor(false, 
         !LLGridManager::getInstance()->isInSLBeta());
 
-	// Assume $MONEY10 for now, the server will tell us the real cost at login
-	// *TODO:Also fix cost in llfolderview.cpp for Inventory menus
-	const std::string upload_cost("10");
+	S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+	const std::string upload_cost = llformat("%d", cost);
+
 	gMenuHolder->childSetLabelArg("Upload Image", "[COST]", upload_cost);
 	gMenuHolder->childSetLabelArg("Upload Sound", "[COST]", upload_cost);
 	gMenuHolder->childSetLabelArg("Upload Animation", "[COST]", upload_cost);
