@@ -3293,13 +3293,19 @@ bool process_login_success_response()
 		LLViewerMedia::openIDSetup(openid_url, openid_token);
 	}
 
-	if(response.has("max-agent-groups")) {		
-		std::string max_agent_groups(response["max-agent-groups"]);
+	if(response.has("max-agent-groups") || response.has("max_groups"))
+	{
+		std::string max_agent_groups;
+		response.has("max_groups") ?
+			max_agent_groups = response["max_groups"].asString()
+			: max_agent_groups = response["max-agent-groups"].asString();
+
 		gMaxAgentGroups = atoi(max_agent_groups.c_str());
 		LL_INFOS("LLStartup") << "gMaxAgentGroups read from login.cgi: "
 							  << gMaxAgentGroups << LL_ENDL;
 	}
-	else {
+	else
+	{
 		gMaxAgentGroups = DEFAULT_MAX_AGENT_GROUPS;
 		LL_INFOS("LLStartup") << "using gMaxAgentGroups default: "
 							  << gMaxAgentGroups << LL_ENDL;
