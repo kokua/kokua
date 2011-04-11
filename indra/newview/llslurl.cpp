@@ -34,6 +34,8 @@
 #include "llviewernetwork.h"
 #include "llfiltersd2xmlrpc.h"
 #include "curl/curl.h"
+#include "llworld.h"
+
 const char* LLSLURL::HOP_SCHEME		 = "hop";
 const char* LLSLURL::SLURL_HTTP_SCHEME		 = "http";
 const char* LLSLURL::SLURL_HTTPS_SCHEME		 = "https";
@@ -329,7 +331,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				(F32(mPosition[VY]) < 0.f) || 
 				(mPosition[VY] > REGION_WIDTH_METERS) ||
 				(F32(mPosition[VZ]) < 0.f) || 
-				(mPosition[VZ] > REGION_HEIGHT_METERS))
+				(mPosition[VZ] > LLWorld::getInstance()->getRegionMaxHeight()))
 				{
 					mType = INVALID;
 					return;

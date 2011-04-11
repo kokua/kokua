@@ -45,7 +45,10 @@
 						
 						<!-- Chat -->
 							<!-- <string>NearbyChat</string> -->
-						
+
+				
+						<!--<string>OS_SETTINGS</string>-->
+
 						<string>GridManager</string>
 						<string>SLURL</string>
 

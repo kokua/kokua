@@ -138,7 +138,10 @@ BOOL	LLPanelObject::postBuild()
 	childSetCommitCallback("Pos X",onCommitPosition,this);
 	mCtrlPosY = getChild<LLSpinCtrl>("Pos Y");
 	childSetCommitCallback("Pos Y",onCommitPosition,this);
+
 	mCtrlPosZ = getChild<LLSpinCtrl>("Pos Z");
+	mCtrlPosZ->setMaxValue(LLWorld::getInstance()->getRegionMaxHeight());
+
 	childSetCommitCallback("Pos Z",onCommitPosition,this);
 
 	// Scale

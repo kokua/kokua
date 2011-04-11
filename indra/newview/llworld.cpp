@@ -114,6 +114,15 @@ LLWorld::LLWorld() :
 	gGL.getTexUnit(0)->bind(mDefaultWaterTexturep);
 	mDefaultWaterTexturep->setAddressMode(LLTexUnit::TAM_CLAMP);
 
+	if(LLGridManager::getInstance()->isInOpenSim())
+	{
+		mRegionMaxHeight = OS_MAX_OBJECT_Z; //llmath/xform.h
+	}
+	else
+	{
+		mRegionMaxHeight = SL_MAX_OBJECT_Z; //llmath/xform.h
+	}
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMaxHeight << llendl;
 }
 
 

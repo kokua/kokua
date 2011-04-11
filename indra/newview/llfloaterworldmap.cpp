@@ -72,7 +72,7 @@
 #include "llweb.h"
 #include "llslider.h"
 #include "message.h"
-
+#include "llworld.h"
 #include "llwindow.h"			// copyTextToClipboard()
 
 //---------------------------------------------------------------------------
@@ -635,7 +635,7 @@ void LLFloaterWorldMap::updateTeleportCoordsDisplay( const LLVector3d& pos )
 	// convert global specified position to a local one
 	F32 region_local_x = (F32)fmod( pos.mdV[VX], (F64)REGION_WIDTH_METERS );
 	F32 region_local_y = (F32)fmod( pos.mdV[VY], (F64)REGION_WIDTH_METERS );
-	F32 region_local_z = (F32)llclamp( pos.mdV[VZ], 0.0, (F64)REGION_HEIGHT_METERS );
+	F32 region_local_z = (F32)llclamp( pos.mdV[VZ], 0.0, (F64)LLWorld::getInstance()->getRegionMaxHeight() );
 
 	// write in the values
 	childSetValue("teleport_coordinate_x", region_local_x );
