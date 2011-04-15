@@ -4847,8 +4847,9 @@ class LLToolsLink : public view_listener_t
 			return true;
 		}
 
+		bool in_opensim = LLGridManager::getInstance()->isInOpenSim();
 		S32 object_count = LLSelectMgr::getInstance()->getSelection()->getObjectCount();
-		if (object_count > MAX_CHILDREN_PER_TASK + 1)
+		if (!in_opensim  && object_count > MAX_CHILDREN_PER_TASK + 1)
 		{
 			LLSD args;
 			args["COUNT"] = llformat("%d", object_count);

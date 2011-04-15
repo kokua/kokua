@@ -47,7 +47,7 @@
 							<!-- <string>NearbyChat</string> -->
 
 				
-						<!--<string>OS_SETTINGS</string>-->
+						<string>OS_SETTINGS</string>
 
 						<string>GridManager</string>
 						<string>SLURL</string>
@@ -61,8 +61,8 @@
 						<!-- Wearable -->
 
 						<!--Shaders-->
-							<string>Shaders</string>
-							<string>WindLight</string>
+							<!--<string>Shaders</string>-->
+							<!--<string>WindLight</string>-->
 
 						<!-- see lltexturefetch -->
 							<!-- <string>HTTPGetResponder</string> -->

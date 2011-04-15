@@ -104,9 +104,11 @@ protected:
 	LLSpinCtrl*		mSpinCutBegin;
 	LLSpinCtrl*		mSpinCutEnd;
 
+	F32			mMaxHollowSize;
 	LLTextBox*		mLabelHollow;
 	LLSpinCtrl*		mSpinHollow;
 
+	F32			mMinHoleSize;
 	LLTextBox*		mLabelHoleType;
 	LLComboBox*		mComboHoleType;
 

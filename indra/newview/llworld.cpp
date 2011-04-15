@@ -116,19 +116,31 @@ LLWorld::LLWorld() :
 
 	if(LLGridManager::getInstance()->isInOpenSim())
 	{
+		//llmath/xform.h
 		mRegionMaxHeight = OS_MAX_OBJECT_Z; //llmath/xform.h
 		mRegionMinPrimScale = OS_MIN_PRIM_SCALE;
 		mRegionMaxPrimScale = OS_DEFAULT_MAX_PRIM_SCALE;
+
+		mRegionMaxHollowSize = OS_OBJECT_MAX_HOLLOW_SIZE;
+		mRegionMinHoleSize = OS_OBJECT_MIN_HOLE_SIZE;
 	}
 	else
 	{
-		mRegionMaxHeight = SL_MAX_OBJECT_Z; //llmath/xform.h
+		//llmath/xform.h
+		mRegionMaxHeight = SL_MAX_OBJECT_Z;
 		mRegionMinPrimScale = SL_MIN_PRIM_SCALE;
 		mRegionMaxPrimScale = SL_DEFAULT_MAX_PRIM_SCALE;
+
+		//llprimitive/llprimitive.*
+		mRegionMaxHollowSize = SL_OBJECT_MAX_HOLLOW_SIZE;
+		mRegionMinHoleSize = SL_OBJECT_MIN_HOLE_SIZE;
 	}
-	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMaxHeight << llendl;
-	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMinPrimScale << llendl;
-	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight " << mRegionMaxPrimScale << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHeight    " << mRegionMaxHeight << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMinPrimScale " << mRegionMinPrimScale << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxPrimScale " << mRegionMaxPrimScale << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHollowSize    " << mRegionMaxHollowSize << llendl;
+	LL_DEBUGS("OS_SETTINGS") << "RegionMinHoleSize  " << mRegionMinHoleSize << llendl;
+
 }
 
 
