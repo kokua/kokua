@@ -977,6 +977,10 @@ std::string LLGridManager::getAppSLURLBase(const std::string& grid)
 	{
 	  return mGridList[grid][GRID_APP_SLURL_BASE].asString();
 	}
+	else if (mGridList.has(grid) && mGridList[grid].has(GRID_SLURL_BASE))
+	{
+	  return mGridList[grid][GRID_SLURL_BASE].asString();
+	}
 	else
 	{
 	  return  llformat(DEFAULT_APP_SLURL_BASE, grid.c_str());
