@@ -6,7 +6,7 @@
 <strings>
 
 	<!-- Default Args - these arguments will be replaced in all strings -->
-	<string name="SECOND_LIFE">Second Life</string>
+	<string name="SECOND_LIFE">Kokua</string>
 	<string name="APP_NAME">Kokua</string>
 	<string name="CAPITALIZED_APP_NAME">KOKUA</string>
 	<string name="SECOND_LIFE_GRID">Second Life Grid</string>

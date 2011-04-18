@@ -74,7 +74,7 @@ extern "C" {
 }
 #endif
 #endif
-
+//Kokua: FIXME Rebranding
 const std::string LLAppViewerWin32::sWindowClass = "Second Life";
 
 // Create app mutex creates a unique global windows object. 

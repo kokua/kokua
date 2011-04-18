@@ -347,7 +347,7 @@ public:
 				icon->setValue(LLSD("OBJECT_Icon"));
 				break;
 			case CHAT_SOURCE_SYSTEM:
-				icon->setValue(LLSD("SL_Logo"));
+				icon->setValue(LLSD("Kokua_Logo"));
 				break;
 			case CHAT_SOURCE_AUDIO_STREAM:
 				icon->setValue(LLSD("Inv_Sound"));
