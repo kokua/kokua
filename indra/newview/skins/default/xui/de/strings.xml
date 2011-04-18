@@ -5,13 +5,13 @@
      that are returned from one component and may appear in many places-->
 <strings>
 	<string name="SECOND_LIFE">
-		Second Life
+		[CURRENT_GRID]
 	</string>
 	<string name="APP_NAME">
-		Second Life
+		Kokua
 	</string>
 	<string name="CAPITALIZED_APP_NAME">
-		SECOND LIFE
+		KOKUA
 	</string>
 	<string name="SECOND_LIFE_GRID">
 		Second Life-Grid:

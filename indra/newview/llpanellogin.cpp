@@ -1003,8 +1003,10 @@ void LLPanelLogin::onClickConnect(void *)
 		
 		if(username.empty())
 		{
+			LLSD args;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
 			// user must type in something into the username field
-			LLNotificationsUtil::add("MustHaveAccountToLogIn");
+			LLNotificationsUtil::add("MustHaveAccountToLogIn", args);
 		}
 		else
 		{

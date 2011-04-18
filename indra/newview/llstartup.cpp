@@ -469,7 +469,10 @@ bool idle_startup()
 		{
 			std::string diagnostic = "Could not start address resolution system";
 			LL_WARNS("AppInit") << diagnostic << LL_ENDL;
-			LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", LLSD().with("DIAGNOSTIC", diagnostic));
+			LLSD args;
+			args["DIAGNOSTIC"] = diagnostic;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+			LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", args);
 		}
 		
 		//
@@ -540,7 +543,11 @@ bool idle_startup()
 			{
 				std::string diagnostic = llformat(" Error: %d", gMessageSystem->getErrorCode());
 				LL_WARNS("AppInit") << diagnostic << LL_ENDL;
-				LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", LLSD().with("DIAGNOSTIC", diagnostic));
+
+				LLSD args;
+				args["DIAGNOSTIC"] = diagnostic;
+				args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+				LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", args);
 			}
 
 			#if LL_WINDOWS
@@ -2033,7 +2040,9 @@ bool idle_startup()
 		
 		if (wearables_time > MAX_WEARABLES_TIME)
 		{
-			LLNotificationsUtil::add("ClothingLoading");
+			LLSD args;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+			LLNotificationsUtil::add("ClothingLoading", args);
 			LLViewerStats::getInstance()->incStat(LLViewerStats::ST_WEARABLES_TOO_LONG);
 			LLStartUp::setStartupState( STATE_CLEANUP );
 			return TRUE;
@@ -2271,9 +2280,11 @@ void use_circuit_callback(void**, S32 result)
 		gUseCircuitCallbackCalled = true;
 		if (result)
 		{
+			LLSD args;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
 			// Make sure user knows something bad happened. JC
 			LL_WARNS("AppInit") << "Backing up to login screen!" << LL_ENDL;
-			LLNotificationsUtil::add("LoginPacketNeverReceived", LLSD(), LLSD(), login_alert_status);
+			LLNotificationsUtil::add("LoginPacketNeverReceived", args, LLSD(), login_alert_status);
 			reset_login();
 		}
 		else

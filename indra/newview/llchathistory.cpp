@@ -271,7 +271,7 @@ public:
 		if (chat.mFromName.empty()
 			|| mSourceType == CHAT_SOURCE_SYSTEM)
 		{
-			mFrom = LLTrans::getString("SECOND_LIFE");
+			mFrom = LLTrans::getString("APP_NAME");
 			user_name->setValue(mFrom);
 			updateMinUserNameWidth();
 		}
