@@ -581,8 +581,13 @@ void LLMediaCtrl::navigateTo( std::string url_in, std::string mime_type)
 	// don't browse to anything that starts with secondlife:// or sl://
 	const std::string protocol1 = "secondlife://";
 	const std::string protocol2 = "sl://";
+	const std::string protocol3 = "hop://";
+	const std::string protocol4 = "x-grid-location-info://";
+//Kokua: TODO: instead try if it is a slurl and fail if it is
 	if ((LLStringUtil::compareInsensitive(url_in.substr(0, protocol1.length()), protocol1) == 0) ||
-	    (LLStringUtil::compareInsensitive(url_in.substr(0, protocol2.length()), protocol2) == 0))
+	    (LLStringUtil::compareInsensitive(url_in.substr(0, protocol2.length()), protocol2) == 0) ||
+	    (LLStringUtil::compareInsensitive(url_in.substr(0, protocol3.length()), protocol3) == 0) ||
+	    (LLStringUtil::compareInsensitive(url_in.substr(0, protocol4.length()), protocol4) == 0)   )
 	{
 		// TODO: Print out/log this attempt?
 		// llinfos << "Rejecting attempt to load restricted website :" << urlIn << llendl;

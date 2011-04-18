@@ -64,7 +64,7 @@ static LLDefaultChildRegistry::Register<LLChatHistory> r("chat_history");
 
 const static std::string NEW_LINE(rawstr_to_utf8("\n"));
 
-const static std::string SLURL_APP_AGENT = "secondlife:///app/agent/";
+const static std::string SLURL_APP_AGENT = "hop:///app/agent/";
 const static std::string SLURL_ABOUT = "/about";
 
 // support for secondlife:///app/objectim/{UUID}/ SLapps
