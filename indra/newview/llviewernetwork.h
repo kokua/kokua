@@ -90,18 +90,20 @@ public:
 		RETRY,
 		LOCAL,
 		FINISH,
+		TRYLEGACY,
 		FAIL
 	} AddState;
 public:
 	
 	// when the grid manager is instantiated, the default grids are automatically
 	// loaded, and the grids favorites list is loaded from the xml file.
-	LLGridManager(const std::string& grid_file);
 	LLGridManager();
 	~LLGridManager();
 	
-	void initialize(const std::string& grid_file);
+
 	void initGrids();
+	void initSystemGrids();
+	void initGridList(std::string grid_file, AddState state);
 	void initCmdLineGrids();
 
 	// grid list management
@@ -179,8 +181,7 @@ protected:
 					   const std::string& nick,
 					   const std::string& login, 
 					   const std::string& helper,
-					   const std::string& login_page,
-					   const std::string& login_id = "");	
+					   const std::string& login_page);
 	
 	
 	std::string mGrid;
@@ -191,6 +192,7 @@ protected:
 	bool mIsInOpenSim;
 	int mResponderCount;
 	bool mReadyToLogin;
+	bool mCommandLineDone;
 };
 
 
