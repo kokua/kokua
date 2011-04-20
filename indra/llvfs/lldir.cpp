@@ -559,7 +559,7 @@ std::string LLDir::getForbiddenFileChars()
 	return "\\/:*?\"<>|";
 }
 
-void LLDir::setLindenUserDir(const std::string &username)
+bool LLDir::setLindenUserDir(const std::string &username)
 {
 	// if the username isn't set, that's bad
 	if (!username.empty())
@@ -572,13 +572,17 @@ void LLDir::setLindenUserDir(const std::string &username)
 		mLindenUserDir = getOSUserAppDir();
 		mLindenUserDir += mDirDelimiter;
 		mLindenUserDir += userlower;
+		dumpCurrentDirectories();
+		
+		return true;
 	}
 	else
 	{
-		llerrs << "NULL name for LLDir::setLindenUserDir" << llendl;
+		llwarns << "empty name for LLDir::setLindenUserDir" << llendl;
+		return false;
 	}
 
-	dumpCurrentDirectories();	
+	
 }
 
 void LLDir::setChatLogsDir(const std::string &path)

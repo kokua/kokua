@@ -977,21 +977,26 @@ bool idle_startup()
 			gKeyboard->resetKeys();
 		}
 
-		// save the credentials                                                                                        
-		std::string userid = "unknown";                                                                                
-		if(gUserCredential.notNull())                                                                                  
-		{  
+		// save the credentials
+		std::string userid = "unknown";
+		if(gUserCredential.notNull())
+		{
 			userid = gUserCredential->userID();
 			gUserID = userid;
-			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
+			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);
 		}
-		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);                                                 
-		LL_INFOS("AppInit") << "Attempting login as: " << userid << LL_ENDL;                                           
-		gDebugInfo["LoginName"] = userid;                                                                              
-         
-		// create necessary directories
-		// *FIX: these mkdir's should error check
-		gDirUtilp->setLindenUserDir(userid);
+		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);
+		LL_INFOS("AppInit") << "Attempting login as: " << userid << LL_ENDL;
+
+		gDebugInfo["LoginName"] = userid;
+
+		if(!gDirUtilp->setLindenUserDir(userid))
+		{
+			gSavedSettings.setBOOL("AutoLogin", FALSE);
+			reset_login();
+			return FALSE;
+		}
+
 		LLFile::mkdir(gDirUtilp->getLindenUserDir());
 
 		// Set PerAccountSettingsFile to the default value.
@@ -1024,7 +1029,7 @@ bool idle_startup()
 		{
 			gDirUtilp->setChatLogsDir(gSavedPerAccountSettings.getString("InstantMessageLogPath"));		
 		}
-		gDirUtilp->setPerAccountChatLogsDir(userid);  
+		gDirUtilp->setPerAccountChatLogsDir(userid);
 		
 		LLFile::mkdir(gDirUtilp->getChatLogsDir());
 		LLFile::mkdir(gDirUtilp->getPerAccountChatLogsDir());
@@ -1241,10 +1246,10 @@ bool idle_startup()
 								LLNotificationsUtil::add("GeneralCertificateError", args, response,
 														 general_cert_done);
 								
-								reset_login();
+
 								gSavedSettings.setBOOL("AutoLogin", FALSE);
 								show_connect_box = true;
-								
+								reset_login();
 							}
 
 						}
@@ -3009,9 +3014,8 @@ void trust_cert_done(const LLSD& notification, const LLSD& response)
 			break;
 		}
 		case OPT_CANCEL_TRUST:
+			gSavedSettings.setBOOL("AutoLogin", FALSE);
 			reset_login();
-			gSavedSettings.setBOOL("AutoLogin", FALSE);			
-			LLStartUp::setStartupState( STATE_LOGIN_SHOW );				
 		default:
 			LLPanelLogin::giveFocus();
 			break;
@@ -3400,6 +3404,6 @@ void transition_back_to_login_panel(const std::string& emsg)
 	}
 
 	// Bounce back to the login screen.
-	reset_login(); // calls LLStartUp::setStartupState( STATE_LOGIN_SHOW );
 	gSavedSettings.setBOOL("AutoLogin", FALSE);
+	reset_login(); // calls LLStartUp::setStartupState( STATE_LOGIN_SHOW );
 }
