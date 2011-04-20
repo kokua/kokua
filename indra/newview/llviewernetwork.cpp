@@ -82,7 +82,7 @@ public:
 				mOwner->addGrid(mData, LLGridManager::FAIL);
 			}
 		}
-		else if (304 == status)// not modified
+		else if (304 == status && !LLGridManager::TRYLEGACY == mState)// not modified
 		{
 			mOwner->addGrid(mData, LLGridManager::FINISH);
 		}
@@ -122,7 +122,7 @@ public:
 		{
 				mOwner->addGrid(mData, LLGridManager::TRYLEGACY);
 		}
-		LL_DEBUGS("GridManager")<< mData->grid[GRID_VALUE] << " status: " << status << " reason: " << reason << LL_ENDL;
+
 	}
 
 private:
