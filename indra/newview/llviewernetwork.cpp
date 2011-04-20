@@ -159,9 +159,9 @@ LLGridManager::LLGridManager()
 
 void LLGridManager::initGrids()
 {
-	std::string grid_fallback_file  = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.xml");
+	std::string grid_fallback_file  = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,  "grids.fallback.xml");
 	std::string grid_remote_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.remote.xml");
-	std::string grid_user_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.xml");
+	std::string grid_user_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.user.xml");
 
 	mGridFile = grid_user_file;
 
