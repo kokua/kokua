@@ -267,7 +267,6 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 // 	gResponsePtr = LLIamHereLogin::build( this );
 // 	LLHTTPClient::head( LLGridManager::getInstance()->getLoginPage(), gResponsePtr );
 
-	
 	updateLocationCombo(false);
 
 }
@@ -723,13 +722,16 @@ void LLPanelLogin::updateLocationCombo( bool force_visible )
 	BOOL show_server = gSavedSettings.getBOOL("ForceShowGrid");
 	sInstance->getChildView("server_combo_text")->setVisible( show_server);	
 	sInstance->getChildView("server_combo")->setVisible( show_server);
+
+
 }
 
 // static
 void LLPanelLogin::updateStartSLURL()
 {
 	if (!sInstance) return;
-	
+
+
 	LLComboBox* combo = sInstance->getChild<LLComboBox>("start_location_combo");
 	S32 index = combo->getCurrentIndex();
 	
@@ -756,6 +758,8 @@ void LLPanelLogin::updateStartSLURL()
 			break;
 		}			
 	}
+
+	update_grid_help(); //llviewermenu
 }
 
 
@@ -789,7 +793,6 @@ void LLPanelLogin::setAlwaysRefresh(bool refresh)
 		web_browser->setAlwaysRefresh(refresh);
 	}
 }
-
 
 
 void LLPanelLogin::loadLoginPage()
@@ -850,6 +853,7 @@ void LLPanelLogin::loadLoginPage()
 	gViewerWindow->setMenuBackgroundColor(false, LLGridManager::getInstance()->isInSLBeta());
 	gLoginMenuBarView->setBackgroundColor(gMenuBarView->getBackgroundColor());
 
+	update_grid_help();
 
 #if USE_VIEWER_AUTH
 	LLURLSimString::sInstance.parse();
@@ -1136,6 +1140,7 @@ void LLPanelLogin::updateServer()
 		web_browser->navigateToLocalPage( "loading", "loading.html" );
 
 		updateLocationCombo(LLStartUp::getStartSLURL().getType() == LLSLURL::LOCATION);
+
 	}
 	catch (LLInvalidGridName ex)
 	{
@@ -1171,7 +1176,9 @@ void LLPanelLogin::updateServerCombo()
 	server_choice_combo->add(LLGridManager::getInstance()->getGridLabel(), 
 		LLGridManager::getInstance()->getGrid(), ADD_TOP);	
 	
-	server_choice_combo->selectFirstItem();	
+	server_choice_combo->selectFirstItem();
+
+	update_grid_help();
 }
 
 // static

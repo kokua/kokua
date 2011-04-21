@@ -125,6 +125,7 @@ void handle_give_money_dialog();
 bool enable_pay_object();
 bool enable_buy_object();
 bool handle_go_to();
+bool update_grid_help();
 
 // Export to XML or Collada
 void handle_export_selected( void * );

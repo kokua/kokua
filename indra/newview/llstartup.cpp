@@ -1360,7 +1360,7 @@ bool idle_startup()
 		// Pre-load floaters, like the world map, that are slow to spawn
 		// due to XML complexity.
 		gViewerWindow->initWorldUI();
-
+		
 		display_startup();
 
 		// This is where we used to initialize gWorldp. Original comment said:
@@ -1952,6 +1952,7 @@ bool idle_startup()
 
 		LL_DEBUGS("AppInit") << "Initialization complete" << LL_ENDL;
 
+
 		gRenderStartTime.reset();
 		gForegroundTime.reset();
 
@@ -2174,7 +2175,7 @@ bool idle_startup()
 		}
 
 		show_debug_menus(); // Debug menu visiblity and First Use trigger
-		
+
 		// If we've got a startup URL, dispatch it
 		LLStartUp::dispatchURL();
 

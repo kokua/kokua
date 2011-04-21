@@ -426,6 +426,20 @@ void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
+		check = "help";
+		if (node->hasName(check))
+		{
+			grid_entry->grid[check] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			continue;
+		}
+		check = "about";
+		if (node->hasName(check))
+		{
+			grid_entry->grid[check] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			continue;
+		}
 		check = "helperuri";
 		if (node->hasName(check))
 		{

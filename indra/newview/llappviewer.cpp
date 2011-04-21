@@ -4478,6 +4478,7 @@ void LLAppViewer::handleLoginComplete()
 {
 	gLoggedInTime.start();
 	initMainloopTimeout("Mainloop Init");
+	update_grid_help();//Kokua: update the help menu
 
 	// Store some data to DebugInfo in case of a freeze.
 	gDebugInfo["ClientInfo"]["Name"] = ViewerInfo::viewerName();

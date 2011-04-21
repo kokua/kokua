@@ -1,12 +1,9 @@
 <llsd>
     <map>
-    <key></key>
-        <map>
-        <key>gridname</key>
-            <undef />
-        </map>
     <key>craft-world.org:8002</key>
         <map>
+        <key>about</key>
+            <string>http://www.craft-world.org/</string>
         <key>grid_login_id</key>
             <string>craft-world.org:8002</string>
         <key>gridname</key>
@@ -33,14 +30,50 @@
         <key>slurl_base</key>
             <string>hop://craft-world.org:8002/</string>
         </map>
+    <key>giantgrid.no-ip.biz:8002</key>
+        <map>
+        <key>about</key>
+            <string>http://www.giantgrid.nl</string>
+        <key>gridname</key>
+            <string>GiantGrid Build,Invent,Discover</string>
+        <key>gridnick</key>
+            <string>GiantGrid</string>
+        <key>help</key>
+            <string>http://giantgrid.no-ip.biz/XoopCube/html/modules/xoopensim/helper/landtool.php</string>
+        <key>helperuri</key>
+            <string>http://giantgrid.no-ip.biz/XoopCube/html/modules/xoopensim/helper/</string>
+        <key>login_identifier_types</key>
+            <array>
+                <string>agent</string>
+                <string>account</string>
+            </array>
+        <key>loginpage</key>
+            <string>http://gianttest.no-ip.biz/giantgrid/index.php?option=com_content&amp;=article&amp;id=52&amp;Itemid=74</string>
+        <key>loginuri</key>
+            <array>
+                <string>http://giantgrid.no-ip.biz:8002/</string>
+            </array>
+        <key>name</key>
+            <string>giantgrid.no-ip.biz:8002</string>
+        <key>password</key>
+            <string>http://giantgrid.no-ip.biz:8002/wifi/index.html</string>
+        <key>register</key>
+            <string>http://giantgrid.no-ip.biz:8002/wifi/index.html</string>
+        <key>slurl_base</key>
+            <string>hop://giantgrid.no-ip.biz:8002/</string>
+        </map>
     <key>grid.3rdrockgrid.com:8002</key>
         <map>
+        <key>about</key>
+            <string>http://3rdrockgrid.com/</string>
         <key>grid_login_id</key>
             <string>grid.3rdrockgrid.com:8002</string>
         <key>gridname</key>
             <string>3RD Rock Grid</string>
         <key>gridnick</key>
             <string>3RG</string>
+        <key>help</key>
+            <string>http://3rdrockgrid.com/</string>
         <key>helperuri</key>
             <string>http://grid.3rdrockgrid.com/3rg_money/</string>
         <key>login_identifier_types</key>
@@ -65,12 +98,16 @@
         </map>
     <key>grid.roleplayworlds.net:8002</key>
         <map>
+        <key>about</key>
+            <string>http://roleplayworlds.net</string>
         <key>grid_login_id</key>
             <string>grid.roleplayworlds.net:8002</string>
         <key>gridname</key>
             <string>Role Play Worlds</string>
         <key>gridnick</key>
             <string>roleplayworlds</string>
+        <key>help</key>
+            <string>http://roleplayworlds.net/help</string>
         <key>helperuri</key>
             <string>http://grid.roleplayworlds.net/</string>
         <key>login_identifier_types</key>
@@ -95,6 +132,8 @@
         </map>
     <key>grid01.from-ne.com:8002</key>
         <map>
+        <key>about</key>
+            <string>http://www.youralternativelife.com</string>
         <key>grid_login_id</key>
             <string>grid01.from-ne.com:8002</string>
         <key>gridname</key>
@@ -121,12 +160,16 @@
         </map>
     <key>inworldz.com:8002</key>
         <map>
+        <key>about</key>
+            <string>http://inworldz.com/</string>
         <key>grid_login_id</key>
             <string>inworldz.com:8002</string>
         <key>gridname</key>
             <string>Inworldz</string>
         <key>gridnick</key>
             <string>Inworldz</string>
+        <key>help</key>
+            <string>http://inworldz.com/faq.php</string>
         <key>helperuri</key>
             <string>http://inworldz.com/</string>
         <key>login_identifier_types</key>
@@ -175,12 +218,16 @@
         </map>
     <key>login.danger.osgrid.org</key>
         <map>
+        <key>about</key>
+            <string>http://www.danger.osgrid.org/</string>
         <key>grid_login_id</key>
             <string>login.danger.osgrid.org</string>
         <key>gridname</key>
             <string>Danger Grid (OSGrid Testing)</string>
         <key>gridnick</key>
             <string>osgrid_danger</string>
+        <key>help</key>
+            <string>http://www.danger.osgrid.org/</string>
         <key>helperuri</key>
             <string>http://helper.danger.osgrid.org/</string>
         <key>login_identifier_types</key>
@@ -192,7 +239,7 @@
             <string>http://www.danger.osgrid.org/splash/</string>
         <key>loginuri</key>
             <array>
-                <string>http://login.danger.osgrid.org</string>
+                <string>http://login.danger.osgrid.org/</string>
             </array>
         <key>name</key>
             <string>login.danger.osgrid.org</string>
@@ -205,12 +252,16 @@
         </map>
     <key>login.meta7.com</key>
         <map>
+        <key>about</key>
+            <string>http://www.meta7.com</string>
         <key>grid_login_id</key>
             <string>login.meta7.com</string>
         <key>gridname</key>
             <string>Meta 7</string>
         <key>gridnick</key>
             <string>Meta7</string>
+        <key>help</key>
+            <string>http://www.meta7.com</string>
         <key>helperuri</key>
             <string>https://secure.meta7.com</string>
         <key>login_identifier_types</key>
@@ -235,12 +286,16 @@
         </map>
     <key>login.osgrid.org</key>
         <map>
+        <key>about</key>
+            <string>http://www.osgrid.org/</string>
         <key>grid_login_id</key>
             <string>login.osgrid.org</string>
         <key>gridname</key>
             <string>OSGrid</string>
         <key>gridnick</key>
             <string>osgrid</string>
+        <key>help</key>
+            <string>http://www.osgrid.org/</string>
         <key>helperuri</key>
             <string>http://helper.osgrid.org/</string>
         <key>login_identifier_types</key>
@@ -252,7 +307,7 @@
             <string>http://www.osgrid.org/splash/</string>
         <key>loginuri</key>
             <array>
-                <string>http://login.osgrid.org</string>
+                <string>http://login.osgrid.org/</string>
             </array>
         <key>name</key>
             <string>login.osgrid.org</string>
@@ -265,12 +320,16 @@
         </map>
     <key>reactiongrid.com:8008</key>
         <map>
+        <key>about</key>
+            <string>http://reactiongrid.com/Default.aspx</string>
         <key>grid_login_id</key>
             <string>reactiongrid.com:8008</string>
         <key>gridname</key>
             <string>ReactionGrid</string>
         <key>gridnick</key>
             <string>ReactionGrid</string>
+        <key>help</key>
+            <string>http://reactiongrid.com/Support.aspx</string>
         <key>helperuri</key>
             <string>http://reactiongrid.com:9000/</string>
         <key>login_identifier_types</key>

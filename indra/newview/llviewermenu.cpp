@@ -222,6 +222,8 @@ BOOL check_show_xui_names(void *);
 
 void handle_buy_currency_test(void*);
 
+
+
 void handle_god_mode(void*);
 
 // God menu
@@ -486,6 +488,7 @@ void init_menus()
 	
 	// tooltips are on top of EVERYTHING, including menus
 	gViewerWindow->getRootView()->sendChildToFront(gToolTipView);
+
 }
 
 ///////////////////
@@ -5661,11 +5664,83 @@ class LLShowHelp : public view_listener_t
 	bool handleEvent(const LLSD& userdata)
 	{
 		std::string help_topic = userdata.asString();
-		LLViewerHelp* vhelp = LLViewerHelp::getInstance();
-		vhelp->showTopic(help_topic);
+
+
+		if("f1_help" == help_topic)
+		{
+// 			LLViewerHelp* vhelp = LLViewerHelp::getInstance();
+// 			vhelp->showTopic(help_topic);
+			//Kokua TODO: de-hardcode, use LLViewerHelp
+			LLWeb::loadURLInternal("http://wiki.kokuaviewer.org/wiki/Support");
+		}
+
+		std::string grid_help = help_topic;
+
+		if (grid_help.find("grid_") !=  0)
+		{
+				return true;
+		}
+		grid_help.erase(0,5);
+
+		std::string url;
+		LLSD grid_info;
+		LLGridManager::getInstance()->getGridData(grid_info);
+		if (grid_info.has(grid_help))
+		{
+			url = grid_info[grid_help].asString();
+		}
+
+		if(!url.empty())
+		{
+			LLWeb::loadURLInternal(url);
+		}
+		llwarns << "grid_help " <<  grid_help << " url " << url << llendl;
+
 		return true;
 	}
 };
+
+bool update_grid_help()
+{
+	LLSD grid_info;
+	LLGridManager::getInstance()->getGridData(grid_info);
+	std::string grid_label = LLGridManager::getInstance()->getGridLabel();
+
+	bool needs_seperator = false;
+
+
+	if (LLGridManager::getInstance()->isInOpenSim() && grid_info.has("help"))
+	{
+		needs_seperator = true;
+		gMenuHolder->childSetVisible("current_grid_help",true);
+		gMenuHolder->childSetLabelArg("current_grid_help", "[CURRENT_GRID]", grid_label);
+		gMenuHolder->childSetVisible("current_grid_help_login",true);
+		gMenuHolder->childSetLabelArg("current_grid_help_login", "[CURRENT_GRID]", grid_label);
+	}
+	else
+	{
+		gMenuHolder->childSetVisible("current_grid_help",false);
+		gMenuHolder->childSetVisible("current_grid_help_login",false);
+	}
+	if (LLGridManager::getInstance()->isInOpenSim() && grid_info.has("about"))
+	{
+		needs_seperator = true;
+		gMenuHolder->childSetVisible("current_grid_about",true);
+		gMenuHolder->childSetLabelArg("current_grid_about", "[CURRENT_GRID]", grid_label);
+		gMenuHolder->childSetVisible("current_grid_about_login",true);
+		gMenuHolder->childSetLabelArg("current_grid_about_login", "[CURRENT_GRID]", grid_label);
+	}
+	else
+	{
+		gMenuHolder->childSetVisible("current_grid_about",false);
+		gMenuHolder->childSetVisible("current_grid_about_login",false);
+	}
+	//FIXME: this does nothing
+	gMenuHolder->childSetVisible("grid_help_seperator",needs_seperator);
+	gMenuHolder->childSetVisible("grid_help_seperator_login",needs_seperator);
+
+	return true;
+}
 
 class LLShowSidetrayPanel : public view_listener_t
 {
@@ -8200,6 +8275,7 @@ void initialize_menus()
 	commit.add("ReportAbuse", boost::bind(&handle_report_abuse));
 	commit.add("BuyCurrency", boost::bind(&handle_buy_currency));
 	view_listener_t::addMenu(new LLShowHelp(), "ShowHelp");
+
 	view_listener_t::addMenu(new LLPromptShowURL(), "PromptShowURL");
 	view_listener_t::addMenu(new LLShowAgentProfile(), "ShowAgentProfile");
 	view_listener_t::addMenu(new LLToggleControl(), "ToggleControl");
