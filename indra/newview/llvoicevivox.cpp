@@ -767,7 +767,7 @@ void LLVivoxVoiceClient::stateMachine()
 			mAccountName.clear();//stay at stateDisabled until reset
 			mAccountPassword.clear();
 			mVoiceAccountServerURI.clear();
-			
+			mVoiceEnabled = false;
 			setState(stateDisabled);	
 		break;
 		
@@ -955,7 +955,7 @@ void LLVivoxVoiceClient::stateMachine()
 
 				if(!mSocket)
 				{
-					mSocket = LLSocket::create(gAPRPoolp, LLSocket::STREAM_TCP);	
+					mSocket = LLSocket::create(gAPRPoolp, LLSocket::STREAM_TCP);
 				}
 				
 				mConnected = mSocket->blockingConnect(mDaemonHost);
@@ -967,6 +967,7 @@ void LLVivoxVoiceClient::stateMachine()
 				{
 					// If the connect failed, the socket may have been put into a bad state.  Delete it.
 					closeSocket();
+					setState(stateDisableCleanup);
 				}
 			}
 		break;

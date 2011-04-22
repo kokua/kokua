@@ -211,6 +211,13 @@ void LLGridManager::initSystemGrids()
 			"https://login.aditi.lindenlab.com/cgi-bin/login.cgi",
 			"http://aditi-secondlife.webdev.lindenlab.com/helpers/",
 			DEFAULT_LOGIN_PAGE);
+// LLGridManager::addSystemGrid - helper for adding a system grid.
+void LLGridManager::addSystemGrid(const std::string& label,
+					  const std::string& name,
+					  const std::string& nick,
+					  const std::string& login,
+					  const std::string& helper,
+					  const std::string& login_page )
 */
 }
 
