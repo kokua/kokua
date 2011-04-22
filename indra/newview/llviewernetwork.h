@@ -86,6 +86,7 @@ public:
 	typedef enum 
 	{
 		FETCH,
+		FETCHTEMP,
 		SYSTEM,
 		RETRY,
 		LOCAL,

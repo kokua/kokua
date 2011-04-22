@@ -230,8 +230,7 @@ void LLGridManager::initGridList(std::string grid_file, AddState state)
 				GridEntry* grid_entry = new GridEntry;
 				grid_entry->set_current = false;
 				grid_entry->grid = grid_itr->second;
-				// TODO:  Make sure gridfile specified label is not 
-				// a system grid label
+
 				LL_DEBUGS("GridManager") << "reading: " << key_name << LL_ENDL;
 
 				try
@@ -490,7 +489,7 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 		state = FAIL;
 	}
 
-	if ((FETCH == state) || (SYSTEM == state))
+	if ((FETCH == state) ||(FETCHTEMP == state) || (SYSTEM == state))
 	{
 		std::string grid = utf8str_tolower(grid_entry->grid[GRID_VALUE]);
 		// grid should be in the form of a dns address
@@ -513,6 +512,13 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 			grid.erase(find_last_slash);
 			grid_entry->grid[GRID_VALUE]  = grid;
 		}
+
+		if (FETCHTEMP == state)
+		{
+			grid_entry->grid["FLAG_TEMPORARY"] = "TRUE";
+			state = FETCH;
+		}
+
 	}
 
 	if ((FETCH == state) || (RETRY == state))
@@ -645,7 +651,8 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 		++mGridEntries;
 	}
 
-
+// This is only of use if we want to fetch infos of entire gridlists at startup
+/*
 	if(grid_entry && FINISH == state || FAIL == state)
 	{
 
@@ -657,6 +664,7 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 			initCmdLineGrids();
 		}
 	}
+*/
 
 	if (grid_entry)
 	{
@@ -937,7 +945,10 @@ void LLGridManager::saveGridList()
 		grid_iter != mGridList.endMap();
 		grid_iter++)
 	{
+		if(!grid_iter->second.has("FLAG_TEMPORARY"))
+		{
  			output_grid_list[grid_iter->first] = grid_iter->second;
+		}
 	}
 	llofstream llsd_xml;
 	llsd_xml.open( mGridFile.c_str(), std::ios::out | std::ios::binary);	
@@ -958,6 +969,16 @@ std::string LLGridManager::getSLURLBase(const std::string& grid)
 	}
 	else
 	{
+		LL_DEBUGS("GridManager") << "Trying to fetch info for:" << grid << LL_ENDL;
+		GridEntry* grid_entry = new GridEntry;
+		grid_entry->set_current = false;
+		grid_entry->grid = LLSD::emptyMap();	
+		grid_entry->grid[GRID_VALUE] = grid;
+
+		// add the grid with the additional values, or update the
+		// existing grid if it exists with the given values
+		addGrid(grid_entry, FETCHTEMP);
+
 		ret = llformat(DEFAULT_HOP_BASE, grid.c_str());
 		LL_DEBUGS("GridManager") << "DEFAULT_HOP_BASE: " << ret  << LL_ENDL;
 	}
