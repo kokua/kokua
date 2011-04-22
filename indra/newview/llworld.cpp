@@ -91,7 +91,8 @@ LLWorld::LLWorld() :
 	mLastPacketsOut(0),
 	mLastPacketsLost(0),
 	mSpaceTimeUSec(0),
-	mClassicCloudsEnabled(TRUE)
+	mClassicCloudsEnabled(TRUE),
+	mLimitsNeedRefresh(true)
 {
 	for (S32 i = 0; i < 8; i++)
 	{
@@ -113,6 +114,35 @@ LLWorld::LLWorld() :
 	mDefaultWaterTexturep = LLViewerTextureManager::getLocalTexture(raw.get(), FALSE);
 	gGL.getTexUnit(0)->bind(mDefaultWaterTexturep);
 	mDefaultWaterTexturep->setAddressMode(LLTexUnit::TAM_CLAMP);
+
+
+}
+
+
+void LLWorld::destroyClass()
+{
+	mHoleWaterObjects.clear();
+	gObjectList.destroy();
+	for(region_list_t::iterator region_it = mRegionList.begin(); region_it != mRegionList.end(); )
+	{
+		LLViewerRegion* region_to_delete = *region_it++;
+		removeRegion(region_to_delete->getHost());
+	}
+	if(LLVOCache::hasInstance())
+	{
+		LLVOCache::getInstance()->destroyClass() ;
+	}
+	LLViewerPartSim::getInstance()->destroyClass();
+}
+
+void LLWorld::refreshLimits()
+{
+	if(!LLGridManager::getInstance())
+	{
+		return;
+	}
+
+	mLimitsNeedRefresh = false;
 
 	if(LLGridManager::getInstance()->isInOpenSim())
 	{
@@ -140,26 +170,7 @@ LLWorld::LLWorld() :
 	LL_DEBUGS("OS_SETTINGS") << "RegionMaxPrimScale " << mRegionMaxPrimScale << llendl;
 	LL_DEBUGS("OS_SETTINGS") << "RegionMaxHollowSize    " << mRegionMaxHollowSize << llendl;
 	LL_DEBUGS("OS_SETTINGS") << "RegionMinHoleSize  " << mRegionMinHoleSize << llendl;
-
 }
-
-
-void LLWorld::destroyClass()
-{
-	mHoleWaterObjects.clear();
-	gObjectList.destroy();
-	for(region_list_t::iterator region_it = mRegionList.begin(); region_it != mRegionList.end(); )
-	{
-		LLViewerRegion* region_to_delete = *region_it++;
-		removeRegion(region_to_delete->getHost());
-	}
-	if(LLVOCache::hasInstance())
-	{
-		LLVOCache::getInstance()->destroyClass() ;
-	}
-	LLViewerPartSim::getInstance()->destroyClass();
-}
-
 
 LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 {
@@ -254,6 +265,11 @@ LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 	}
 
 	updateWaterObjects();
+
+	if(mLimitsNeedRefresh)
+	{
+		refreshLimits();
+	}
 
 	return regionp;
 }

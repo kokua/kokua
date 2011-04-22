@@ -65,6 +65,7 @@ public:
 	LLWorld();
 	void destroyClass();
 
+	void refreshLimits();
 	LLViewerRegion*	addRegion(const U64 &region_handle, const LLHost &host);
 		// safe to call if already present, does the "right thing" if
 		// hosts are same, or if hosts are different, etc...
@@ -180,6 +181,7 @@ private:
 	F32 mRegionMaxPrimScale;
 	F32 mRegionMaxHollowSize;
 	F32 mRegionMinHoleSize;
+	bool mLimitsNeedRefresh;
 
 	F32 mLandFarClip;					// Far clip distance for land.
 	LLPatchVertexArray		mLandPatch;
