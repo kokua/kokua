@@ -30,38 +30,6 @@
         <key>slurl_base</key>
             <string>hop://craft-world.org:8002/</string>
         </map>
-    <key>giantgrid.no-ip.biz:8002</key>
-        <map>
-        <key>about</key>
-            <string>http://www.giantgrid.nl</string>
-        <key>gridname</key>
-            <string>GiantGrid Build,Invent,Discover</string>
-        <key>gridnick</key>
-            <string>GiantGrid</string>
-        <key>help</key>
-            <string>http://giantgrid.no-ip.biz/XoopCube/html/modules/xoopensim/helper/landtool.php</string>
-        <key>helperuri</key>
-            <string>http://giantgrid.no-ip.biz/XoopCube/html/modules/xoopensim/helper/</string>
-        <key>login_identifier_types</key>
-            <array>
-                <string>agent</string>
-                <string>account</string>
-            </array>
-        <key>loginpage</key>
-            <string>http://gianttest.no-ip.biz/giantgrid/index.php?option=com_content&amp;=article&amp;id=52&amp;Itemid=74</string>
-        <key>loginuri</key>
-            <array>
-                <string>http://giantgrid.no-ip.biz:8002/</string>
-            </array>
-        <key>name</key>
-            <string>giantgrid.no-ip.biz:8002</string>
-        <key>password</key>
-            <string>http://giantgrid.no-ip.biz:8002/wifi/index.html</string>
-        <key>register</key>
-            <string>http://giantgrid.no-ip.biz:8002/wifi/index.html</string>
-        <key>slurl_base</key>
-            <string>hop://giantgrid.no-ip.biz:8002/</string>
-        </map>
     <key>grid.3rdrockgrid.com:8002</key>
         <map>
         <key>about</key>

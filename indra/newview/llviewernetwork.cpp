@@ -36,7 +36,7 @@
 // #include "llxmlnode.h"
 #include "lltrans.h"
 #include "llbufferstream.h"
-
+#include "llnotificationsutil.h"
 class GridInfoRequestResponder : public LLHTTPClient::Responder
 {
 public:
@@ -77,7 +77,14 @@ public:
 			}
 			else
 			{
-				llwarns << "Invalid gridinfo xml file on server "
+				LLSD args;
+				args["GRID"] = mData->grid[GRID_VALUE];
+				//Could not add [GRID] to the grid list.
+				args["REASON"] = "Server provided broken grid info xml. Please";
+				//[REASON] contact support of [GRID].
+				LLNotificationsUtil::add("CantAddGrid", args);
+
+				llwarns << " Could not parse grid info xml from server."
 					<< mData->grid[GRID_VALUE] << " skipping." << llendl;
 				mOwner->addGrid(mData, LLGridManager::FAIL);
 			}
@@ -115,12 +122,19 @@ public:
 		}
 		else if (LLGridManager::TRYLEGACY == mState) //we did TRYLEGACY and faild
 		{
-				llwarns << "No legacy login page. Giving up for " << mData->grid[GRID_VALUE] << llendl;
-				mOwner->addGrid(mData, LLGridManager::FAIL);
+			LLSD args;
+			args["GRID"] = mData->grid[GRID_VALUE];
+			//Could not add [GRID] to the grid list.
+			args["REASON"] = "Server didn't provide grid info.\nPlease check if the loginuri is correct and";
+			//[REASON] contact support of [GRID].
+			LLNotificationsUtil::add("CantAddGrid", args);
+
+			llwarns << "No legacy login page. Giving up for " << mData->grid[GRID_VALUE] << llendl;
+			mOwner->addGrid(mData, LLGridManager::FAIL);
 		}
 		else
 		{
-				mOwner->addGrid(mData, LLGridManager::TRYLEGACY);
+			mOwner->addGrid(mData, LLGridManager::TRYLEGACY);
 		}
 
 	}
@@ -387,70 +401,70 @@ void LLGridManager::gridInfoResponderCB(GridEntry* grid_entry)
 		{
 			grid_entry->grid[GRID_LOGIN_URI_VALUE] = LLSD::emptyArray();
 			grid_entry->grid[GRID_LOGIN_URI_VALUE].append(node->getTextContents());
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[GRID_LOGIN_URI_VALUE] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[GRID_LOGIN_URI_VALUE] << LL_ENDL;
 			continue;
 		}
 		check = "gridname";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[GRID_LABEL_VALUE] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[GRID_LABEL_VALUE] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[GRID_LABEL_VALUE] << LL_ENDL;
 			continue;
 		}
 		check = "gridnick";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[check] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
 		check = "welcome";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[GRID_LOGIN_PAGE_VALUE] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[GRID_LOGIN_PAGE_VALUE] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[GRID_LOGIN_PAGE_VALUE] << LL_ENDL;
 			continue;
 		}
 		check = GRID_REGISTER_NEW_ACCOUNT;
 		if (node->hasName(check))
 		{
 			grid_entry->grid[check] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
 		check = GRID_FORGOT_PASSWORD;
 		if (node->hasName(check))
 		{
 			grid_entry->grid[check] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
 		check = "help";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[check] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
 		check = "about";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[check] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[check] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[check] << LL_ENDL;
 			continue;
 		}
 		check = "helperuri";
 		if (node->hasName(check))
 		{
 			grid_entry->grid[GRID_HELPER_URI_VALUE] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[GRID_HELPER_URI_VALUE] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[GRID_HELPER_URI_VALUE] << LL_ENDL;
 			//don't continue, also check the next
 		}
 		check = "economy";
 		if (node->hasName(check))
 		{	//sic! economy and helperuri is 2 names for the same
 			grid_entry->grid[GRID_HELPER_URI_VALUE] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "["<<check<<"]: " << grid_entry->grid[GRID_HELPER_URI_VALUE] << LL_ENDL;
+			LL_DEBUGS("GridManager") << "[\""<<check<<"\"]: " << grid_entry->grid[GRID_HELPER_URI_VALUE] << LL_ENDL;
 		}
 	}
 
