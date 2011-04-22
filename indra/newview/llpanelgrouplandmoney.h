@@ -1,6 +1,6 @@
 /** 
  * @file llpanelgrouplandmoney.h
- * @brief Panel for group land and L$.
+ * @brief Panel for group land and $MONEY.
  *
  * $LicenseInfo:firstyear=2006&license=viewerlgpl$
  * Second Life Viewer Source Code

@@ -113,7 +113,11 @@ public:
 	// region X and Y size in meters
 	F32						getRegionWidthInMeters() const	{ return mWidthInMeters; }
 	F32						getRegionMinHeight() const		{ return -mWidthInMeters; }
-	F32						getRegionMaxHeight() const		{ return MAX_OBJECT_Z; }
+	F32 getRegionMaxHeight() const		{ return mRegionMaxHeight; }
+	F32 getRegionMinPrimScale() const	{ return mRegionMinPrimScale; }
+	F32 getRegionMaxPrimScale() const	{ return mRegionMaxPrimScale; }
+	F32 getRegionMaxHollowSize() const	{ return mRegionMaxHollowSize; }
+	F32 getRegionMinHoleSize() const	{ return mRegionMinHoleSize; }
 
 	void					updateRegions(F32 max_update_time);
 	void					updateVisibilities();
@@ -170,6 +174,12 @@ private:
 	static const F32 mScale;
 
 	static const F32 mWidthInMeters;
+
+	F32 mRegionMaxHeight;
+	F32 mRegionMinPrimScale;
+	F32 mRegionMaxPrimScale;
+	F32 mRegionMaxHollowSize;
+	F32 mRegionMinHoleSize;
 
 	F32 mLandFarClip;					// Far clip distance for land.
 	LLPatchVertexArray		mLandPatch;

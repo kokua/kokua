@@ -55,6 +55,7 @@
 #include "llrender.h"
 #include "llsdutil.h"
 #include "llsdutil_math.h"
+#include "llviewernetwork.h"
 
 ///----------------------------------------------------------------------------
 /// Local function declarations, constants, enums, and typedefs
@@ -451,13 +452,14 @@ void LLFloaterAuction::onClickSellToAnyone(void* data)
 		LLParcel* parcelp = self->mParcelp->getParcel();
 
 		// Do a confirmation
-		S32 sale_price = parcelp->getArea();	// Selling for L$1 per meter
+		S32 sale_price = parcelp->getArea();	// Selling for $MONEY1 per meter
 		S32 area = parcelp->getArea();
 
 		LLSD args;
 		args["LAND_SIZE"] = llformat("%d", area);
 		args["SALE_PRICE"] = llformat("%d", sale_price);
 		args["NAME"] = "Anyone";
+		args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
 
 		LLNotification::Params params("ConfirmLandSaleChange");	// Re-use existing dialog
 		params.substitutions(args)
@@ -511,7 +513,7 @@ void LLFloaterAuction::doSellToAnyone()
 		parcel_flags &= ~PF_FOR_SALE_OBJECTS;
 		body["parcel_flags"] = ll_sd_from_U32(parcel_flags);
 		
-		body["sale_price"] = parcelp->getArea();	// Sell for L$1 per square meter
+		body["sale_price"] = parcelp->getArea();	// Sell for $MONEY1 per square meter
 		body["auth_buyer_id"] = LLUUID::null;		// To anyone
 
 		llinfos << "Sending parcel update to sell to anyone for L$1 via capability to: "

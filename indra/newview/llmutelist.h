@@ -75,7 +75,7 @@ public:
 	enum EAutoReason 
 	{ 
 		AR_IM = 0,			// agent IMed a muted resident
-		AR_MONEY = 1,			// agent paid L$ to a muted resident
+		AR_MONEY = 1,			// agent paid $MONEY to a muted resident
 		AR_INVENTORY = 2,	// agent offered inventory to a muted resident
 		AR_COUNT			// enum count
 	};

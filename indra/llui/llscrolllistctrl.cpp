@@ -1749,7 +1749,11 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 			LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
 			registrar.add("Url.Execute", boost::bind(&LLScrollListCtrl::showNameDetails, id, is_group));
 			registrar.add("Url.CopyLabel", boost::bind(&LLScrollListCtrl::copyNameToClipboard, id, is_group));
-			registrar.add("Url.CopyUrl", boost::bind(&LLScrollListCtrl::copySLURLToClipboard, id, is_group));
+
+			// Kokua FIXME: it's plain wrong that way
+			std::string app_slurl_base ="secondlife:///app/";
+
+			registrar.add("Url.CopyUrl", boost::bind(&LLScrollListCtrl::copySLURLToClipboard, app_slurl_base, id, is_group));
 
 			// create the context menu from the XUI file and display it
 			std::string menu_name = is_group ? "menu_url_group.xml" : "menu_url_agent.xml";
@@ -1771,7 +1775,7 @@ void LLScrollListCtrl::showNameDetails(std::string id, bool is_group)
 {
 	// show the resident's profile or the group profile
 	std::string sltype = is_group ? "group" : "agent";
-	std::string slurl = "secondlife:///app/" + sltype + "/" + id + "/about";
+	std::string slurl = "hop:///app/" + sltype + "/" + id + "/about";
 	LLUrlAction::clickAction(slurl);
 }
 
@@ -1790,11 +1794,12 @@ void LLScrollListCtrl::copyNameToClipboard(std::string id, bool is_group)
 	LLUrlAction::copyURLToClipboard(name);
 }
 
-void LLScrollListCtrl::copySLURLToClipboard(std::string id, bool is_group)
+void LLScrollListCtrl::copySLURLToClipboard(std::string app_slurl_base, std::string id, bool is_group)
 {
 	// copy a SLURL for the avatar or group to the clipboard
 	std::string sltype = is_group ? "group" : "agent";
-	std::string slurl = "secondlife:///app/" + sltype + "/" + id + "/about";
+// 	std::string slurl = "hop:///app/" + sltype + "/" + id + "/about";
+	std::string slurl =  app_slurl_base + sltype + "/" + id + "/about";
 	LLUrlAction::copyURLToClipboard(slurl);
 }
 

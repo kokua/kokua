@@ -351,7 +351,9 @@ void LLFloaterReporter::onClickSend(void *userdata)
 					category_value == IP_CONTENT_REMOVAL ||
 					category_value == IP_PERMISSONS_EXPLOIT)
 				{
-					LLNotificationsUtil::add("HelpReportAbuseContainsCopyright");
+					LLSD args;
+					args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+					LLNotificationsUtil::add("HelpReportAbuseContainsCopyright", args);
 					self->mCopyrightWarningSeen = TRUE;
 					return;
 				}

@@ -34,10 +34,10 @@ class LLFloaterBuyCurrencyHTML;
 class LLBuyCurrencyHTML
 {
 	public:
-		// choke point for opening a legacy or new currency floater - this overload is when the L$ sum is not required
+		// choke point for opening a legacy or new currency floater - this overload is when the $MONEY sum is not required
 		static void openCurrencyFloater();
 
-		// choke point for opening a legacy or new currency floater - this overload is when the L$ sum is required
+		// choke point for opening a legacy or new currency floater - this overload is when the $MONEY sum is required
 		static void openCurrencyFloater( const std::string& message, S32 sum );
 
 		// show and give focus to actual currency floater - this is used for both cases

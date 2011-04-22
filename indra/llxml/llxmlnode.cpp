@@ -788,11 +788,15 @@ bool LLXMLNode::parseStream(
 		
 		if (XML_Parse(my_parser, (const char *)buffer, count, !str.good()) != XML_STATUS_OK)
 		{
-			llwarns << "Error parsing xml error code: "
+			llwarns << "Error parsing xml error code: \n"
 					<< XML_ErrorString(XML_GetErrorCode(my_parser))
-					<< " on lne " << XML_GetCurrentLineNumber(my_parser)
+					<< "\n line:   " << XML_GetCurrentLineNumber(my_parser)
+					<< "\n column: " << XML_GetCurrentColumnNumber(my_parser)
 					<< llendl;
-			break;
+
+			node = new LLXMLNode();
+			return false;
+//			break;
 		}
 	}
 	

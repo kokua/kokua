@@ -135,7 +135,7 @@
 #include "llsky.h"
 #include "llsidetray.h"
 #include "llstatview.h"
-#include "llstatusbar.h"		// sendMoneyBalanceRequest(), owns L$ balance
+#include "llstatusbar.h"		// sendMoneyBalanceRequest(), owns $MONEY balance
 #include "llsurface.h"
 #include "lltexturecache.h"
 #include "lltexturefetch.h"
@@ -322,10 +322,40 @@ public:
 		sClientInfoRequestReady = true;
 		if (304 == status)
 		{
-			llinfos << "ClientInfoRequest: List not modified since last session" << llendl;
+			//llinfos << "ClientInfoRequest: List not modified since last session" << llendl;
 		}
 		else
 			llwarns << "ClientInfoRequest::error("<< status << ": " << reason << ")" << llendl;
+	}
+};
+
+static bool sGridListRequestReady = false;
+class GridListRequestResponder : public LLHTTPClient::Responder
+{
+public:
+	//If we get back a normal response, handle it here
+	virtual void result(const LLSD& content)
+	{
+		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "grids.remote.xml");
+
+		llofstream out_file;
+		out_file.open(filename);
+		LLSDSerialize::toPrettyXML(content, out_file);
+		out_file.close();
+		llinfos << "GridListRequest: got new list." << llendl;
+		sGridListRequestReady = true;
+	}
+
+	//If we get back an error (not found, etc...), handle it here
+	virtual void error(U32 status, const std::string& reason)
+	{
+		sGridListRequestReady = true;
+		if (304 == status)
+		{
+			LL_DEBUGS("GridManager") << "<- no error :P ... GridListRequest: List not modified since last session" << LL_ENDL;
+		}
+		else
+			llwarns << "GridListRequest::error("<< status << ": " << reason << ")" << llendl;
 	}
 };
 
@@ -469,7 +499,10 @@ bool idle_startup()
 		{
 			std::string diagnostic = "Could not start address resolution system";
 			LL_WARNS("AppInit") << diagnostic << LL_ENDL;
-			LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", LLSD().with("DIAGNOSTIC", diagnostic));
+			LLSD args;
+			args["DIAGNOSTIC"] = diagnostic;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+			LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", args);
 		}
 		
 		//
@@ -540,7 +573,11 @@ bool idle_startup()
 			{
 				std::string diagnostic = llformat(" Error: %d", gMessageSystem->getErrorCode());
 				LL_WARNS("AppInit") << diagnostic << LL_ENDL;
-				LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", LLSD().with("DIAGNOSTIC", diagnostic));
+
+				LLSD args;
+				args["DIAGNOSTIC"] = diagnostic;
+				args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+				LLAppViewer::instance()->earlyExit("LoginFailedNoNetwork", args);
 			}
 
 			#if LL_WINDOWS
@@ -629,8 +666,30 @@ bool idle_startup()
 
 		LL_INFOS("AppInit") << "Message System Initialized." << LL_ENDL;
 
+		if(!gSavedSettings.getBOOL("GridListDownload"))
+		{
+			sGridListRequestReady = true;
+		}
+		else
+		{
+			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "grids.remote.xml");
+
+			llstat file_stat; //platform independent wrapper for stat
+			time_t last_modified = 0;
+
+			if(!LLFile::stat(filename, &file_stat))//exists
+			{
+				last_modified = file_stat.st_mtime;
+			}
+
+			std::string url = gSavedSettings.getString("GridListDownloadURL");
+			LLHTTPClient::getIfModified(url, new GridListRequestResponder(), last_modified );
+		}
+
 		if(gSavedSettings.getBOOL("ClientInfoDownload"))
 		{
+			// note: sClientInfoRequestReady stays false we do something else here as with grids
+
 			std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "client_list_new_format.xml");
 
 			llstat file_stat; //platform independent wrapper for stat
@@ -657,7 +716,8 @@ bool idle_startup()
 		const F32 grid_time = grid_timer.getElapsedTimeF32();
 		const F32 MAX_GRID_TIME = 15.f;//don't wait forever
 
-		if(LLGridManager::getInstance()->isReadyToLogin() || grid_time>MAX_GRID_TIME)
+		if(grid_time>MAX_GRID_TIME ||
+			( sGridListRequestReady && LLGridManager::getInstance()->isReadyToLogin() ))
 		{
 			LLStartUp::setStartupState( STATE_AUDIO_INIT );
 		}
@@ -917,21 +977,26 @@ bool idle_startup()
 			gKeyboard->resetKeys();
 		}
 
-		// save the credentials                                                                                        
-		std::string userid = "unknown";                                                                                
-		if(gUserCredential.notNull())                                                                                  
-		{  
+		// save the credentials
+		std::string userid = "unknown";
+		if(gUserCredential.notNull())
+		{
 			userid = gUserCredential->userID();
 			gUserID = userid;
-			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
+			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);
 		}
-		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);                                                 
-		LL_INFOS("AppInit") << "Attempting login as: " << userid << LL_ENDL;                                           
-		gDebugInfo["LoginName"] = userid;                                                                              
-         
-		// create necessary directories
-		// *FIX: these mkdir's should error check
-		gDirUtilp->setLindenUserDir(userid);
+		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);
+		LL_INFOS("AppInit") << "Attempting login as: " << userid << LL_ENDL;
+
+		gDebugInfo["LoginName"] = userid;
+
+		if(!gDirUtilp->setLindenUserDir(userid))
+		{
+			gSavedSettings.setBOOL("AutoLogin", FALSE);
+			reset_login();
+			return FALSE;
+		}
+
 		LLFile::mkdir(gDirUtilp->getLindenUserDir());
 
 		// Set PerAccountSettingsFile to the default value.
@@ -964,7 +1029,7 @@ bool idle_startup()
 		{
 			gDirUtilp->setChatLogsDir(gSavedPerAccountSettings.getString("InstantMessageLogPath"));		
 		}
-		gDirUtilp->setPerAccountChatLogsDir(userid);  
+		gDirUtilp->setPerAccountChatLogsDir(userid);
 		
 		LLFile::mkdir(gDirUtilp->getChatLogsDir());
 		LLFile::mkdir(gDirUtilp->getPerAccountChatLogsDir());
@@ -1181,10 +1246,10 @@ bool idle_startup()
 								LLNotificationsUtil::add("GeneralCertificateError", args, response,
 														 general_cert_done);
 								
-								reset_login();
+
 								gSavedSettings.setBOOL("AutoLogin", FALSE);
 								show_connect_box = true;
-								
+								reset_login();
 							}
 
 						}
@@ -1295,7 +1360,7 @@ bool idle_startup()
 		// Pre-load floaters, like the world map, that are slow to spawn
 		// due to XML complexity.
 		gViewerWindow->initWorldUI();
-
+		
 		display_startup();
 
 		// This is where we used to initialize gWorldp. Original comment said:
@@ -1759,7 +1824,7 @@ bool idle_startup()
 		llinfos << "Requesting Mute List" << llendl;
 		LLMuteList::getInstance()->requestFromServer(gAgent.getID());
 
-		// Get L$ and ownership credit information
+		// Get $MONEY and ownership credit information
 		llinfos << "Requesting Money Balance" << llendl;
 		LLStatusBar::sendMoneyBalanceRequest();
 
@@ -1887,6 +1952,7 @@ bool idle_startup()
 
 		LL_DEBUGS("AppInit") << "Initialization complete" << LL_ENDL;
 
+
 		gRenderStartTime.reset();
 		gForegroundTime.reset();
 
@@ -1898,7 +1964,7 @@ bool idle_startup()
 
 		
 		// Ignore stipend information for now.  Money history is on the web site.
-		// if needed, show the L$ history window
+		// if needed, show the $MONEY history window
 		//if (stipend_since_login && !gNoRender)
 		//{
 		//}
@@ -2033,7 +2099,9 @@ bool idle_startup()
 		
 		if (wearables_time > MAX_WEARABLES_TIME)
 		{
-			LLNotificationsUtil::add("ClothingLoading");
+			LLSD args;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+			LLNotificationsUtil::add("ClothingLoading", args);
 			LLViewerStats::getInstance()->incStat(LLViewerStats::ST_WEARABLES_TOO_LONG);
 			LLStartUp::setStartupState( STATE_CLEANUP );
 			return TRUE;
@@ -2107,7 +2175,7 @@ bool idle_startup()
 		}
 
 		show_debug_menus(); // Debug menu visiblity and First Use trigger
-		
+
 		// If we've got a startup URL, dispatch it
 		LLStartUp::dispatchURL();
 
@@ -2271,9 +2339,11 @@ void use_circuit_callback(void**, S32 result)
 		gUseCircuitCallbackCalled = true;
 		if (result)
 		{
+			LLSD args;
+			args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
 			// Make sure user knows something bad happened. JC
 			LL_WARNS("AppInit") << "Backing up to login screen!" << LL_ENDL;
-			LLNotificationsUtil::add("LoginPacketNeverReceived", LLSD(), LLSD(), login_alert_status);
+			LLNotificationsUtil::add("LoginPacketNeverReceived", args, LLSD(), login_alert_status);
 			reset_login();
 		}
 		else
@@ -2945,9 +3015,8 @@ void trust_cert_done(const LLSD& notification, const LLSD& response)
 			break;
 		}
 		case OPT_CANCEL_TRUST:
+			gSavedSettings.setBOOL("AutoLogin", FALSE);
 			reset_login();
-			gSavedSettings.setBOOL("AutoLogin", FALSE);			
-			LLStartUp::setStartupState( STATE_LOGIN_SHOW );				
 		default:
 			LLPanelLogin::giveFocus();
 			break;
@@ -3293,13 +3362,19 @@ bool process_login_success_response()
 		LLViewerMedia::openIDSetup(openid_url, openid_token);
 	}
 
-	if(response.has("max-agent-groups")) {		
-		std::string max_agent_groups(response["max-agent-groups"]);
+	if(response.has("max-agent-groups") || response.has("max_groups"))
+	{
+		std::string max_agent_groups;
+		response.has("max_groups") ?
+			max_agent_groups = response["max_groups"].asString()
+			: max_agent_groups = response["max-agent-groups"].asString();
+
 		gMaxAgentGroups = atoi(max_agent_groups.c_str());
 		LL_INFOS("LLStartup") << "gMaxAgentGroups read from login.cgi: "
 							  << gMaxAgentGroups << LL_ENDL;
 	}
-	else {
+	else
+	{
 		gMaxAgentGroups = DEFAULT_MAX_AGENT_GROUPS;
 		LL_INFOS("LLStartup") << "using gMaxAgentGroups default: "
 							  << gMaxAgentGroups << LL_ENDL;
@@ -3330,6 +3405,6 @@ void transition_back_to_login_panel(const std::string& emsg)
 	}
 
 	// Bounce back to the login screen.
-	reset_login(); // calls LLStartUp::setStartupState( STATE_LOGIN_SHOW );
 	gSavedSettings.setBOOL("AutoLogin", FALSE);
+	reset_login(); // calls LLStartUp::setStartupState( STATE_LOGIN_SHOW );
 }

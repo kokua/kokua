@@ -336,7 +336,7 @@ void LLStatusBar::setBalance(S32 balance)
 	std::string label_str = getString("buycurrencylabel", string_args);
 	balance_box->setValue(label_str);
 
-	// Resize the L$ balance background to be wide enough for your balance plus the buy button
+	// Resize the $MONEY balance background to be wide enough for your balance plus the buy button
 	{
 		const S32 HPAD = 24;
 		LLRect balance_rect = balance_box->getTextBoundingRect();
@@ -524,7 +524,7 @@ void LLStatusBar::onVolumeChanged(const LLSD& newvalue)
 	refresh();
 }
 
-// Implements secondlife:///app/balance/request to request a L$ balance
+// Implements secondlife:///app/balance/request to request a $MONEY balance
 // update via UDP message system. JC
 class LLBalanceHandler : public LLCommandHandler
 {

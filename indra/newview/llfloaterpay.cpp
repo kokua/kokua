@@ -524,7 +524,7 @@ void LLFloaterPay::give(S32 amount)
 		}
 		else
 		{
-			// just transfer the L$
+			// just transfer the $MONEY
 			mCallback(mTargetUUID, gAgent.getRegion(), amount, mTargetIsGroup, TRANS_GIFT, LLStringUtil::null);
 
 			// check if the payee needs to be unmuted

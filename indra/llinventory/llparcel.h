@@ -419,7 +419,7 @@ public:
 	void startSale(const LLUUID& buyer_id, BOOL is_buyer_group);
 
 	// do the expiration logic, which needs to return values usable in
-	// a L$ transaction.
+	// a $MONEY transaction.
 	void expireSale(U32& type, U8& flags, LLUUID& from_id, LLUUID& to_id);
 	void completeSale(U32& type, U8& flags, LLUUID& to_id);
 	void clearSale();

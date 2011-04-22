@@ -34,6 +34,8 @@
 #include "llviewernetwork.h"
 #include "llfiltersd2xmlrpc.h"
 #include "curl/curl.h"
+#include "llworld.h"
+
 const char* LLSLURL::HOP_SCHEME		 = "hop";
 const char* LLSLURL::SLURL_HTTP_SCHEME		 = "http";
 const char* LLSLURL::SLURL_HTTPS_SCHEME		 = "https";
@@ -229,7 +231,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				LL_DEBUGS("SLURL") << "slurl_uri.hostNameAndPort(): " 
 							<< slurl_uri.hostNameAndPort() << LL_ENDL;
 				LL_DEBUGS("SLURL") << "getGridByProbing(slurl_uri.hostNameAndPort(): "
-							<< probe_grid<< LL_ENDL;
+							<< probe_grid<< ")" <<LL_ENDL;
 				if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME ||
 					 slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) &&
 					slurl_uri.hostNameAndPort() != probe_grid)
@@ -266,14 +268,20 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 			else if (path_array[0].asString() == LLSLURL::SLURL_APP_PATH)
 			{
-				LL_DEBUGS("SLURL") << "its a app slurl"  << LL_ENDL;
+				LL_DEBUGS("SLURL") << "its an app hop or slurl"  << LL_ENDL;
 				mType = APP;
 				path_array.erase(0);
 				// leave app appended. 
 			}
+			else if ( slurl_uri.scheme() == LLSLURL::HOP_SCHEME)
+			{
+				LL_DEBUGS("SLURL") << "its a location hop"  << LL_ENDL;
+				mType = LOCATION;
+			}
 			else
 			{
-				LL_DEBUGS("SLURL") << "not a valid https/http/x-grid-location-info slurl"  << LL_ENDL;
+				LL_DEBUGS("SLURL") << "not a valid https/http/x-grid-location-info slurl " 
+				<<  slurl << LL_ENDL;
 				// not a valid https/http/x-grid-location-info slurl, so it'll likely just be a URL
 				return;
 			}
@@ -329,7 +337,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				(F32(mPosition[VY]) < 0.f) || 
 				(mPosition[VY] > REGION_WIDTH_METERS) ||
 				(F32(mPosition[VZ]) < 0.f) || 
-				(mPosition[VZ] > REGION_HEIGHT_METERS))
+				(mPosition[VZ] > LLWorld::getInstance()->getRegionMaxHeight()))
 				{
 					mType = INVALID;
 					return;
@@ -426,9 +434,11 @@ std::string LLSLURL::getSLURLString() const
 				S32 x = llround( (F32)mPosition[VX] );
 				S32 y = llround( (F32)mPosition[VY] );
 				S32 z = llround( (F32)mPosition[VZ] );
-				LL_DEBUGS("SLURL") << "mGrid: " << mGrid << LL_ENDL;
-				return LLGridManager::getInstance()->getSLURLBase(mGrid) +
-				LLURI::escape(mRegion) + llformat("/%d/%d/%d",x,y,z); 
+				std::string ret = LLGridManager::getInstance()->getSLURLBase(mGrid);
+				ret.append(LLURI::escape(mRegion)); 
+				ret.append(llformat("/%d/%d/%d",x,y,z));
+				LL_DEBUGS("SLURL") << "Location: " << ret << LL_ENDL;
+				return ret;
 			}
 		case APP:
 		{

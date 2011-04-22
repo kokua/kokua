@@ -312,6 +312,7 @@ static BOOL gDoDisconnect = FALSE;
 static std::string gLaunchFileOnQuit;
 
 // Used on Win32 for other apps to identify our window (eg, win_setup)
+//Kokua: FIXME Rebranding
 const char* const VIEWER_WINDOW_CLASSNAME = "Second Life";
 
 //----------------------------------------------------------------------------
@@ -2285,7 +2286,7 @@ bool LLAppViewer::initConfiguration()
 	// crash as this dialog is always frontmost.
 	std::string splash_msg;
 	LLStringUtil::format_map_t args;
-	args["[APP_NAME]"] = LLTrans::getString("SECOND_LIFE");
+	args["[APP_NAME]"] = LLTrans::getString("APP_NAME");
 	splash_msg = LLTrans::getString("StartupLoading", args);
 	LLSplashScreen::show();
 	LLSplashScreen::update(splash_msg);
@@ -3497,6 +3498,8 @@ void LLAppViewer::forceDisconnect(const std::string& mesg)
 	LLSD args;
 	gDoDisconnect = TRUE;
 
+	args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
+
 	if (LLStartUp::getStartupState() < STATE_STARTED)
 	{
 		// Tell users what happened
@@ -3506,6 +3509,7 @@ void LLAppViewer::forceDisconnect(const std::string& mesg)
 	else
 	{
 		args["MESSAGE"] = big_reason;
+
 		LLNotificationsUtil::add("YouHaveBeenLoggedOut", args, LLSD(), &finish_disconnect );
 	}
 }
@@ -4474,6 +4478,7 @@ void LLAppViewer::handleLoginComplete()
 {
 	gLoggedInTime.start();
 	initMainloopTimeout("Mainloop Init");
+	update_grid_help();//Kokua: update the help menu
 
 	// Store some data to DebugInfo in case of a freeze.
 	gDebugInfo["ClientInfo"]["Name"] = ViewerInfo::viewerName();

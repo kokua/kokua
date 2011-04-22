@@ -174,7 +174,7 @@ void LLAssetUploadResponder::uploadFailure(const LLSD& content)
 	LLUploadDialog::modalUploadFinished();
 	
 	std::string reason = content["state"];
-	// deal with L$ errors
+	// deal with $MONEY errors
 	if (reason == "insufficient funds")
 	{
 		S32 price = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
@@ -220,7 +220,7 @@ void LLNewAgentInventoryResponder::uploadComplete(const LLSD& content)
 	LLInventoryType::EType inventory_type = LLInventoryType::lookup(mPostData["inventory_type"].asString());
 	S32 expected_upload_cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
 
-	// Update L$ and ownership credit information
+	// Update $MONEY and ownership credit information
 	// since it probably changed on the server
 	if (asset_type == LLAssetType::AT_TEXTURE ||
 		asset_type == LLAssetType::AT_SOUND ||

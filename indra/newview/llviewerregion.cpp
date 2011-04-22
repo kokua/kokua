@@ -98,7 +98,7 @@ public:
 		}
 
 		// build a secondlife://{PLACE} SLurl from this SLapp
-		std::string url = "secondlife://";
+		std::string url = "hop://";
 		for (int i = 0; i < num_params; i++)
 		{
 			if (i > 0)

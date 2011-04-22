@@ -41,6 +41,7 @@
 #include "llviewerparcelmgr.h"
 #include "lluictrlfactory.h"
 #include "llviewerwindow.h"
+#include "llviewernetwork.h"
 
 class LLAvatarName;
 
@@ -472,6 +473,7 @@ void LLFloaterSellLandUI::doSellLand(void *userdata)
 	args["LAND_SIZE"] = llformat("%d",area);
 	args["SALE_PRICE"] = llformat("%d",sale_price);
 	args["NAME"] = authorizedBuyerName;
+	args["CURRENT_GRID"] = LLGridManager::getInstance()->getGridLabel();
 
 	LLNotification::Params params("ConfirmLandSaleChange");
 	params.substitutions(args)

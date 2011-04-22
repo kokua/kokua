@@ -1339,6 +1339,7 @@ set(viewer_APPSETTINGS_FILES
     app_settings/anim.ini
     app_settings/cmd_line.xml
     app_settings/grass.xml
+    app_settings/grids.fallback.xml
     app_settings/ignorable_dialogs.xml
     app_settings/keys.ini
     app_settings/keywords.ini

@@ -35,7 +35,7 @@
 // Class LLSaleInfo
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// L$ default price for objects
+// $MONEY default price for objects
 const S32 DEFAULT_PRICE = 10;
 
 class LLMessageSystem;
