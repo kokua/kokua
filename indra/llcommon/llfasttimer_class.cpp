@@ -666,7 +666,7 @@ void LLFastTimer::nextFrame()
 	U64 frame_time = getCPUClockCount64();
 	if ((frame_time - sLastFrameTime) >> 8 > 0xffffffff)
 	{
-		llinfos << "Slow frame, fast timers inaccurate" << llendl;
+		LL_DEBUGS("FastTimer") << "Slow frame, fast timers inaccurate" << LL_ENDL;
 	}
 
 	if (sPauseHistory)
