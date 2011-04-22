@@ -139,7 +139,7 @@ const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
 const char* MAIN_GRID_SLURL_BASE = "http://maps.secondlife.com/secondlife/";
 const char* SYSTEM_GRID_APP_SLURL_BASE = "secondlife:///app";
 
-const char* DEFAULT_SLURL_BASE = "https://%s/region/";
+const char* DEFAULT_HOP_BASE = "hop://%s/";
 const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
 
 LLGridManager::LLGridManager()
@@ -958,8 +958,8 @@ std::string LLGridManager::getSLURLBase(const std::string& grid)
 	}
 	else
 	{
-		ret = llformat(DEFAULT_SLURL_BASE, grid.c_str());
-		LL_DEBUGS("GridManager") << "DEFAULT_SLURL_BASE: " << ret  << LL_ENDL;
+		ret = llformat(DEFAULT_HOP_BASE, grid.c_str());
+		LL_DEBUGS("GridManager") << "DEFAULT_HOP_BASE: " << ret  << LL_ENDL;
 	}
 
 	return  ret;
