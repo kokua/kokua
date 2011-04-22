@@ -886,7 +886,7 @@ class Linux_i686Manifest(LinuxManifest):
             self.path("libalut.so.0.1.0", "libalut.so.0")
             self.path("libopenal.so.1.12.854", "libopenal.so.1")
 
-           try:
+            try:
                     self.path("libkdu.so")
                     pass
             except:
