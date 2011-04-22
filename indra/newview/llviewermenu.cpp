@@ -5814,7 +5814,7 @@ class LLPromptShowURL : public view_listener_t
 		}
 		else
 		{
-			llinfos << "PromptShowURL invalid parameters! Expecting \"ALERT,URL\"." << llendl;
+			llwarns << "PromptShowURL invalid parameters! Expecting \"ALERT,URL\"." << llendl;
 		}
 		return true;
 	}
