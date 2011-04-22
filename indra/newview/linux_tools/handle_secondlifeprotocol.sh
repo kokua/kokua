@@ -16,5 +16,5 @@ cd "${RUN_PATH}"
 if [ `pidof do-not-directly-run-kokua-bin` ]; then
 	exec dbus-send --type=method_call --dest=com.secondlife.ViewerAppAPIService /com/secondlife/ViewerAppAPI com.secondlife.ViewerAppAPI.GoSLURL string:"$1"
 else
-	exec ./kokua -url \'"${URL}"\'
+	exec ../kokua -url \'"${URL}"\'
 fi
