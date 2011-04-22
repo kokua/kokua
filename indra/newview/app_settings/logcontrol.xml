@@ -69,6 +69,11 @@
 							<!-- <string>TextureFetch</string> -->
 							<!-- <string>TextureFetchWorker</string> -->
 
+
+						<!-- Spammers -->
+							<!-- <string>ShaderLoading</string> -->
+							<!-- <string>View</string> -->
+							<!-- <string>FastTimer</string> -->
 						</array>
 				</map>
 			</array>
