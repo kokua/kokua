@@ -303,9 +303,9 @@
 	<string name="ReleaseNotes">
 		Note sulla versione
 	</string>
-	<string name="RELEASE_NOTES_BASE_URL">
+<!--	<string name="RELEASE_NOTES_BASE_URL">
 		http://wiki.secondlife.com/wiki/Release_Notes/
-	</string>
+	</string>-->
 	<string name="LoadingData">
 		In caricamento...
 	</string>
