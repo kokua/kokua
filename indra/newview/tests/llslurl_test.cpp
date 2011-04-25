@@ -43,6 +43,17 @@ BOOL LLControlGroup::declareString(const std::string& name,
                                    BOOL persist) {return TRUE;}
 void LLControlGroup::setString(const std::string& name, const std::string& val){}
 
+class LLNotification;
+typedef boost::shared_ptr<LLNotification> LLNotificationPtr;
+namespace LLNotificationsUtil
+{
+	LLNotificationPtr add(const std::string& name, 
+	                      const LLSD& substitutions)
+	{
+		return LLNotificationPtr();
+	}
+}
+
 std::string gCmdLineLoginURI;
 std::string gCmdLineGridChoice;
 std::string gCmdLineHelperURI;
@@ -101,9 +112,7 @@ namespace tut
 	{
 		slurlTest()
 		{	
-			LLGridManager::getInstance()->initialize(std::string(""));
 			LLGridManager::getInstance()->LLGridManager::initGrids();
-
 		}
 		~slurlTest()
 		{
