@@ -137,8 +137,7 @@ void LLGridManager::addSystemGrid(	const std::string& label,
 					const std::string& nick, 
 					const std::string& login, 
 					const std::string& helper,
-					const std::string& login_page,
-					const std::string& login_id)
+					const std::string& login_page)
 {
 }
 std::map<std::string, std::string> LLGridManager::getKnownGrids(bool favorite_only)
