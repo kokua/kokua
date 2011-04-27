@@ -67,8 +67,10 @@ endif (WINDOWS)
 
 
 if (GSTREAMER010_FOUND AND GSTREAMER010_PLUGINS_BASE_FOUND)
-  set(GSTREAMER010 ON CACHE BOOL "Build with GStreamer-0.10 streaming media support.")
-  add_definitions(-DLL_GSTREAMER010_ENABLED=1)
+  if (NOT DARWIN)
+    set(GSTREAMER010 ON CACHE BOOL "Build with GStreamer-0.10 streaming media support.")
+    add_definitions(-DLL_GSTREAMER010_ENABLED=1)
+  endif (NOT DARWIN)
 endif (GSTREAMER010_FOUND AND GSTREAMER010_PLUGINS_BASE_FOUND)
 
   

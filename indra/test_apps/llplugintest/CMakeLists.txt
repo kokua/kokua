@@ -292,7 +292,7 @@ endif (DARWIN)
 add_dependencies(llmediaplugintest
   stage_third_party_libs
   SLPlugin
-  media_plugin_quicktime
+  # media_plugin_quicktime
   media_plugin_webkit
   media_plugin_example
   ${LLPLUGIN_LIBRARIES}
@@ -352,11 +352,11 @@ if (DARWIN OR WINDOWS)
     DEPENDS ${BUILT_WEBKIT_PLUGIN}
   )
 
-  get_target_property(BUILT_QUICKTIME_PLUGIN media_plugin_quicktime LOCATION)
-  add_custom_command(TARGET llmediaplugintest POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${BUILT_QUICKTIME_PLUGIN}  ${PLUGINS_DESTINATION_DIR}
-    DEPENDS ${BUILT_QUICKTIME_PLUGIN}
-  )
+  # get_target_property(BUILT_QUICKTIME_PLUGIN media_plugin_quicktime LOCATION)
+  # add_custom_command(TARGET llmediaplugintest POST_BUILD
+  #   COMMAND ${CMAKE_COMMAND} -E copy ${BUILT_QUICKTIME_PLUGIN}  ${PLUGINS_DESTINATION_DIR}
+  #   DEPENDS ${BUILT_QUICKTIME_PLUGIN}
+  # )
   
   get_target_property(BUILT_EXAMPLE_PLUGIN media_plugin_example LOCATION)
   add_custom_command(TARGET llmediaplugintest POST_BUILD
