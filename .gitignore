@@ -26,7 +26,6 @@ indra/newview/character/
 indra/newview/app_settings/*.db2
 indra/newview/app_settings/windlight/
 indra/newview/cursors_mac/
-indra/newview/viewer.icns
 indra/newview/installers/windows/README.txt
 indra/newview/installers/windows/imp_icon.ico
 indra/newview/installers/windows/imprudence installer script weekly.iss
