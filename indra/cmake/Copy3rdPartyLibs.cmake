@@ -271,8 +271,6 @@ elseif(DARWIN)
     set(vivox_src_dir "${CMAKE_SOURCE_DIR}/newview/vivox-runtime/universal-darwin")
     set(vivox_files
         SLVoice
-        libopenal.1.dylib
-        libalut.0.dylib
         libortp.dylib
         libvivoxsdk.dylib
        )
@@ -285,6 +283,7 @@ elseif(DARWIN)
     # or ARCH_PREBUILT_DIRS
     set(release_src_dir "${CMAKE_SOURCE_DIR}/../libraries/universal-darwin/lib_release")
     set(release_files
+        libalut.0.dylib
         libapr-1.0.3.7.dylib
         libapr-1.dylib
         libaprutil-1.0.3.8.dylib
@@ -293,6 +292,8 @@ elseif(DARWIN)
         libexpat.dylib
         libllqtwebkit.dylib
         libndofdev.dylib
+        libopenal.1.dylib
+        libopenjpeg.1.4.dylib
         libexception_handler.dylib
        )
 

@@ -653,8 +653,14 @@ class DarwinManifest(ViewerManifest):
         self.path(self.args['configuration'] + "/Kokua.app", dst="")
 
         if self.prefix(src="", dst="Contents"):  # everything goes in Contents
+
             # copy additional libs in <bundle>/Contents/MacOS/
-            self.path("../../libraries/universal-darwin/lib_release/libndofdev.dylib", dst="MacOS/libndofdev.dylib")
+            if self.prefix(src="../../libraries/universal-darwin/lib_release/", dst="MacOS"):
+                self.path("libndofdev.dylib")
+                self.path("libalut.0.dylib")
+                self.path("libopenal.1.dylib")
+                self.path("libopenjpeg.1.4.dylib")
+                self.end_prefix("MacOS")
 
             self.path("../viewer_components/updater/scripts/darwin/update_install", "MacOS/update_install")
 
