@@ -851,9 +851,12 @@ class LinuxManifest(ViewerManifest):
     def copy_finish(self):
         # Force executable permissions to be set for scripts
         # see CHOP-223 and http://mercurial.selenic.com/bts/issue1802
-        for script in 'kokua', 'bin/update_install':
-            self.run_command("chmod +x %r" % os.path.join(self.get_dst_prefix(), script))
 
+        #yus, copy paste was faster :P
+        for script in ('install.sh', 'kokua', 'bin/update_install', 'etc/handle_secondlifeprotocol.sh',
+                       'etc/register_secondlifeprotocol.sh', 'etc/register_hopprotocol.sh',
+                       'etc/refresh_desktop_app_entry.sh', 'etc/launch_url.sh'):
+                           self.run_command("chmod +x %r" % os.path.join(self.get_dst_prefix(), script))
 
 class Linux_i686Manifest(LinuxManifest):
     def construct(self):
@@ -909,6 +912,11 @@ class Linux_i686Manifest(LinuxManifest):
                     self.path("libvivoxsdk.so")
                     self.end_prefix("lib")
 
+        if self.args['buildtype'].lower() == 'release':
+                self.run_command('find %(d)r/bin %(d)r/lib  -type f \\'
+                                 '! -name update_install | xargs --no-run-if-empty strip -S'
+                                 % {'d': self.get_dst_prefix()} )
+
 class Linux_x86_64Manifest(LinuxManifest):
     def construct(self):
         super(Linux_x86_64Manifest, self).construct()
@@ -963,6 +971,10 @@ class Linux_x86_64Manifest(LinuxManifest):
                     self.path("*.so*")
                     self.end_prefix("lib32")
 
+        if self.args['buildtype'].lower() == 'release':
+                self.run_command('find %(d)r/bin %(d)r/lib32 %(d)r/lib64  -type f \\'
+                                 '! -name update_install | xargs --no-run-if-empty strip -S'
+                                 % {'d': self.get_dst_prefix()} )
 
 ################################################################
 
