@@ -99,7 +99,7 @@ def get_channel(srctree):
     
 
 DEFAULT_SRCTREE = os.path.dirname(sys.argv[0])
-DEFAULT_CHANNEL = 'Second Life Release'
+DEFAULT_CHANNEL = 'Kokua Release'
 
 ARGUMENTS=[
     dict(name='actions',
@@ -395,8 +395,9 @@ class LLManifest(object):
           a) verify that you really have created it
           b) schedule it for cleanup"""
         if not os.path.exists(path):
-            raise RuntimeError, "Should be something at path " + path
-        self.created_paths.append(path)
+            print "No installer package created at path " + path + "\nTerminating package process"
+        else:
+            self.created_paths.append(path)
 
     def put_in_file(self, contents, dst):
         # write contents as dst

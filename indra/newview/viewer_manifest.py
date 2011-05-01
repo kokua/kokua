@@ -125,7 +125,7 @@ class ViewerManifest(LLManifest):
     def channel(self):
         return self.args['channel']
     def channel_unique(self):
-        return self.channel().replace("Second Life", "").strip()
+        return self.channel().replace("Kokua", "").strip()
     def channel_oneword(self):
         return "".join(self.channel_unique().split())
     def channel_lowerword(self):
@@ -143,6 +143,7 @@ class ViewerManifest(LLManifest):
                            {'grid':self.grid()}
 
         # set command line flags for channel
+        # login_channel is different from default_channel, which is just used in building. I know, it's weird -- MC
         channel_flags = ''
         if self.login_channel() and self.login_channel() != self.channel():
             # Report a special channel during login, but use default
@@ -152,8 +153,13 @@ class ViewerManifest(LLManifest):
 
         # Deal with settings 
         setting_flags = ''
+        # default_channel is "Kokua Release" -- MC
         if not self.default_channel() or not self.default_grid():
-            if self.default_grid():
+            # we always want the default to be settings.xml in case they
+            # run Kokua from the .exe directly -- MC
+            if not self.channel_lowerword():
+                setting_flags = '--settings settings.xml'
+            elif self.default_grid():
                 setting_flags = '--settings settings_%s.xml'\
                                 % self.channel_lowerword()
             else:
@@ -167,9 +173,9 @@ class WindowsManifest(ViewerManifest):
     def final_exe(self):
         if self.default_channel():
             if self.default_grid():
-                return "SecondLife.exe"
+                return "Kokua.exe"
             else:
-                return "SecondLifePreview.exe"
+                return "KokuaPreview.exe"
         else:
             return ''.join(self.channel().split()) + '.exe'
 
@@ -253,6 +259,7 @@ class WindowsManifest(ViewerManifest):
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
 
+            # BEGIN SHARED LIBS DIRECTORY
             self.enable_crt_manifest_check()
 
             # Get kdu dll, continue if missing.
@@ -295,19 +302,7 @@ class WindowsManifest(ViewerManifest):
                 self.path("msvcr80.dll")
                 self.path("msvcp80.dll")
                 self.path("Microsoft.VC80.CRT.manifest")
-
-            # Vivox runtimes
-            if self.prefix(src="vivox-runtime/i686-win32", dst=""):
-            #    self.path("alut.dll")
-                self.path("wrap_oal.dll")
-                self.path("SLVoice.exe")
-            #    self.path("SLVoiceAgent.exe")
-            #    self.path("libeay32.dll")
-            #    self.path("srtp.dll")
-            #    self.path("ssleay32.dll")
-            #    self.path("tntk.dll")
-                self.path("vivoxsdk.dll")
-                self.path("ortp.dll")
+                    
 
             # For google-perftools tcmalloc allocator.
             try:
@@ -317,17 +312,10 @@ class WindowsManifest(ViewerManifest):
                     self.path('libtcmalloc_minimal.dll')
             except:
                 print "Skipping libtcmalloc_minimal.dll"
-
-            self.end_prefix()
-
-
-            # Gstreamer plugins
-            if self.prefix(src="lib/gstreamer-plugins", dst=""):
-                self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
-                self.end_prefix()
+                
     
-            # Gstreamer libs
-            if  self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
+            # GStreamer libs
+            try:
                 self.path("avcodec-gpl-52.dll")
                 self.path("avdevice-gpl-52.dll")
                 self.path("avfilter-gpl-1.dll")
@@ -387,118 +375,156 @@ class WindowsManifest(ViewerManifest):
                 self.path("SDL.dll")
                 self.path("xvidcore.dll")
                 self.path("z.dll")
+            except:
+                print "Skipping GStreamer libraries (not found)"
+
+
+            # For sound
+            try:
+                self.path("openal32.dll")
+                self.path("alut.dll")
+            except:
+                print "Skipping OpenAL audio libraries (not found)"
+                
+
+            # END SHARED LIBS DIRECTORY - entering indra/newview
+            self.end_prefix()
+
+
+            self.path(src="licenses-win32.txt", dst="licenses.txt")
+            self.path("featuretable.txt")
+            self.path("featuretable_xp.txt")
+
+
+            # For use in crash reporting (generates minidumps)
+            self.path("dbghelp.dll")            
+
+
+            # Vivox runtimes
+            try:
+                if self.prefix(src="../../newview/vivox-runtime/i686-win32", dst=""):
+                #    self.path("alut.dll")
+                    self.path("wrap_oal.dll")
+                    self.path("SLVoice.exe")
+                #    self.path("SLVoiceAgent.exe")
+                #    self.path("libeay32.dll")
+                #    self.path("srtp.dll")
+                #    self.path("ssleay32.dll")
+                #    self.path("tntk.dll")
+                    self.path("vivoxsdk.dll")
+                    self.path("ortp.dll")
+                    self.end_prefix()
+            except:
+                print "Skipping Vivox voice files (not found)"
+                
+
+            # GStreamer plugins directory
+            try:
+                if self.prefix(src="../../newview/lib/gstreamer-plugins", dst=""):
+                    self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
+                    self.end_prefix()
+            except:
+                print "Skipping GStreamer plugins (not found)"
+                
+
+            # Media plugins - QuickTime
+            if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_quicktime.dll")
                 self.end_prefix()
 
-
-        self.path(src="licenses-win32.txt", dst="licenses.txt")
-        self.path("featuretable.txt")
-        self.path("featuretable_xp.txt")
-
-        # For use in crash reporting (generates minidumps)
-        self.path("dbghelp.dll")
-
-        self.enable_no_crt_manifest_check()
-
-        # For sound
-        if self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
-            self.path("openal32.dll")
-            self.path("alut.dll")
-            self.end_prefix()
-
-        # Media plugins - QuickTime
-        if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_quicktime.dll")
-            self.end_prefix()
-
-        # Media plugins - WebKit/Qt
-        if self.prefix(src='../media_plugins/webkit/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_webkit.dll")
-            self.end_prefix()
-
-        # winmm.dll shim
-        if self.prefix(src='../media_plugins/winmmshim/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("winmm.dll")
-            self.end_prefix()
-
-        # Media plugins - GStreamer
-        if self.prefix(src='../media_plugins/gstreamer010/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_gstreamer010.dll")
-            self.end_prefix()
-
-        if self.args['configuration'].lower() == 'debug':
-            if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'debug'),
-                           dst="llplugin"):
-                self.path("libeay32.dll")
-                self.path("qtcored4.dll")
-                self.path("qtguid4.dll")
-                self.path("qtnetworkd4.dll")
-                self.path("qtopengld4.dll")
-                self.path("qtwebkitd4.dll")
-                self.path("qtxmlpatternsd4.dll")
-                self.path("ssleay32.dll")
-
-                # For WebKit/Qt plugin runtimes (image format plugins)
-                if self.prefix(src="imageformats", dst="imageformats"):
-                    self.path("qgifd4.dll")
-                    self.path("qicod4.dll")
-                    self.path("qjpegd4.dll")
-                    self.path("qmngd4.dll")
-                    self.path("qsvgd4.dll")
-                    self.path("qtiffd4.dll")
-                    self.end_prefix()
-
-                # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-                if self.prefix(src="codecs", dst="codecs"):
-                    self.path("qcncodecsd4.dll")
-                    self.path("qjpcodecsd4.dll")
-                    self.path("qkrcodecsd4.dll")
-                    self.path("qtwcodecsd4.dll")
-                    self.end_prefix()
-
-                self.end_prefix()
-        else:
-            if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'release'),
-                           dst="llplugin"):
-                self.path("libeay32.dll")
-                self.path("qtcore4.dll")
-                self.path("qtgui4.dll")
-                self.path("qtnetwork4.dll")
-                self.path("qtopengl4.dll")
-                self.path("qtwebkit4.dll")
-                self.path("qtxmlpatterns4.dll")
-                self.path("ssleay32.dll")
-
-                # For WebKit/Qt plugin runtimes (image format plugins)
-                if self.prefix(src="imageformats", dst="imageformats"):
-                    self.path("qgif4.dll")
-                    self.path("qico4.dll")
-                    self.path("qjpeg4.dll")
-                    self.path("qmng4.dll")
-                    self.path("qsvg4.dll")
-                    self.path("qtiff4.dll")
-                    self.end_prefix()
-
-                # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-                if self.prefix(src="codecs", dst="codecs"):
-                    self.path("qcncodecs4.dll")
-                    self.path("qjpcodecs4.dll")
-                    self.path("qkrcodecs4.dll")
-                    self.path("qtwcodecs4.dll")
-                    self.end_prefix()
-
+            # Media plugins - WebKit/Qt
+            if self.prefix(src='../media_plugins/webkit/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_webkit.dll")
                 self.end_prefix()
 
-        self.disable_manifest_check()
+            # winmm.dll shim
+            if self.prefix(src='../media_plugins/winmmshim/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("winmm.dll")
+                self.end_prefix()
 
-        # pull in the crash logger and updater from other projects
-        # tag:"crash-logger" here as a cue to the exporter
-        self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],
-                  dst="win_crash_logger.exe")
-        self.path(src='../win_updater/%s/windows-updater.exe' % self.args['configuration'],
-                  dst="updater.exe")
+            # Media plugins - GStreamer
+            if self.prefix(src='../media_plugins/gstreamer010/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_gstreamer010.dll")
+                self.end_prefix()
 
-        if not self.is_packaging_viewer():
-            self.package_file = "copied_deps"    
+            # We do this after the main plugins because they may not be statically linked to the CRT -- MC
+            self.enable_no_crt_manifest_check()                
+
+            if self.args['configuration'].lower() == 'debug':
+                if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'debug'),
+                               dst="llplugin"):
+                    self.path("libeay32.dll")
+                    self.path("qtcored4.dll")
+                    self.path("qtguid4.dll")
+                    self.path("qtnetworkd4.dll")
+                    self.path("qtopengld4.dll")
+                    self.path("qtwebkitd4.dll")
+                    self.path("qtxmlpatternsd4.dll")
+                    self.path("ssleay32.dll")
+
+                    # For WebKit/Qt plugin runtimes (image format plugins)
+                    if self.prefix(src="imageformats", dst="imageformats"):
+                        self.path("qgifd4.dll")
+                        self.path("qicod4.dll")
+                        self.path("qjpegd4.dll")
+                        self.path("qmngd4.dll")
+                        self.path("qsvgd4.dll")
+                        self.path("qtiffd4.dll")
+                        self.end_prefix()
+
+                    # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+                    if self.prefix(src="codecs", dst="codecs"):
+                        self.path("qcncodecsd4.dll")
+                        self.path("qjpcodecsd4.dll")
+                        self.path("qkrcodecsd4.dll")
+                        self.path("qtwcodecsd4.dll")
+                        self.end_prefix()
+
+                    self.end_prefix()
+            
+            else:
+                if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'release'),
+                               dst="llplugin"):
+                    self.path("libeay32.dll")
+                    self.path("qtcore4.dll")
+                    self.path("qtgui4.dll")
+                    self.path("qtnetwork4.dll")
+                    self.path("qtopengl4.dll")
+                    self.path("qtwebkit4.dll")
+                    self.path("qtxmlpatterns4.dll")
+                    self.path("ssleay32.dll")
+
+                    # For WebKit/Qt plugin runtimes (image format plugins)
+                    if self.prefix(src="imageformats", dst="imageformats"):
+                        self.path("qgif4.dll")
+                        self.path("qico4.dll")
+                        self.path("qjpeg4.dll")
+                        self.path("qmng4.dll")
+                        self.path("qsvg4.dll")
+                        self.path("qtiff4.dll")
+                        self.end_prefix()
+
+                    # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+                    if self.prefix(src="codecs", dst="codecs"):
+                        self.path("qcncodecs4.dll")
+                        self.path("qjpcodecs4.dll")
+                        self.path("qkrcodecs4.dll")
+                        self.path("qtwcodecs4.dll")
+                        self.end_prefix()
+
+                    self.end_prefix()
+            
+            self.disable_manifest_check()
+
+            # pull in the crash logger and updater from other projects
+            # tag:"crash-logger" here as a cue to the exporter
+            self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],
+                      dst="win_crash_logger.exe")
+            self.path(src='../win_updater/%s/windows-updater.exe' % self.args['configuration'],
+                      dst="updater.exe")
+
+            if not self.is_packaging_viewer():
+                self.package_file = "copied_deps"    
 
     def nsi_file_commands(self, install=True):
         def wpath(path):
@@ -547,7 +573,6 @@ class WindowsManifest(ViewerManifest):
         # a standard map of strings for replacing in the templates
         substitution_strings = {
             'version' : '.'.join(self.args['version']),
-            'version_short' : '.'.join(self.args['version'][:-1]),
             'version_dashes' : '-'.join(self.args['version']),
             'final_exe' : self.final_exe(),
             'grid':self.args['grid'],
@@ -561,45 +586,48 @@ class WindowsManifest(ViewerManifest):
 
         version_vars = """
         !define INSTEXE  "%(final_exe)s"
-        !define VERSION "%(version_short)s"
+        !define VERSION "%(version)s"
         !define VERSION_LONG "%(version)s"
         !define VERSION_DASHES "%(version_dashes)s"
         """ % substitution_strings
         if self.default_channel():
             if self.default_grid():
                 # release viewer
-                installer_file = "Second_Life_%(version_dashes)s_Setup.exe"
+                installer_file = "Kokua_%(version_dashes)s_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
-                !define INSTNAME   "SecondLifeViewer2"
-                !define SHORTCUT   "Second Life Viewer 2"
+                !define INSTNAME   "Kokua"
+                !define SHORTCUT   "Kokua"
                 !define URLNAME   "secondlife"
-                Caption "Second Life ${VERSION}"
+                Caption "Kokua ${VERSION}"
                 """
             else:
                 # beta grid viewer
-                installer_file = "Second_Life_%(version_dashes)s_(%(grid_caps)s)_Setup.exe"
+                installer_file = "Kokua_%(version_dashes)s_(%(grid_caps)s)_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
-                !define INSTNAME   "SecondLife%(grid_caps)s"
-                !define SHORTCUT   "Second Life (%(grid_caps)s)"
+                !define INSTNAME   "Kokua%(grid_caps)s"
+                !define SHORTCUT   "Kokua (%(grid_caps)s)"
                 !define URLNAME   "secondlife%(grid)s"
                 !define UNINSTALL_SETTINGS 1
-                Caption "Second Life %(grid)s ${VERSION}"
+                Caption "Kokua %(grid)s ${VERSION}"
                 """
         else:
-            # some other channel on some grid
-            installer_file = "Second_Life_%(version_dashes)s_%(channel_oneword)s_Setup.exe"
+            # default_channel isn't "Kokua Release" -- MC
+            if self.channel_oneword():
+                installer_file = "Kokua_%(channel_oneword)s_%(version_dashes)s_Setup.exe"
+            else:
+                installer_file = "Kokua_%(version_dashes)s_Setup.exe"
             grid_vars_template = """
             OutFile "%(installer_file)s"
             !define INSTFLAGS "%(flags)s"
-            !define INSTNAME   "SecondLife%(channel_oneword)s"
+            !define INSTNAME   "Kokua%(channel_oneword)s"
             !define SHORTCUT   "%(channel)s"
             !define URLNAME   "secondlife"
             !define UNINSTALL_SETTINGS 1
-            Caption "%(channel)s ${VERSION}"
+            Caption "Kokua %(channel)s ${VERSION}"
             """
         if 'installer_name' in self.args:
             installer_file = self.args['installer_name']
@@ -607,7 +635,7 @@ class WindowsManifest(ViewerManifest):
             installer_file = installer_file % substitution_strings
         substitution_strings['installer_file'] = installer_file
 
-        tempfile = "secondlife_setup_tmp.nsi"
+        tempfile = "kokua_setup_tmp.nsi"
         # the following replaces strings in the nsi template
         # it also does python-style % substitution
         self.replace_in("installers/windows/installer_template.nsi", tempfile, {
@@ -621,24 +649,30 @@ class WindowsManifest(ViewerManifest):
         # http://www.scratchpaper.com/
         # Check two paths, one for Program Files, and one for Program Files (x86).
         # Yay 64bit windows.
+        # We bail here is NSIS Unicode isn't found. No idea what LL never did this -- MC
         NSIS_path = os.path.expandvars('${ProgramFiles}\\NSIS\\Unicode\\makensis.exe')
         if not os.path.exists(NSIS_path):
             NSIS_path = os.path.expandvars('${ProgramFiles(x86)}\\NSIS\\Unicode\\makensis.exe')
-        self.run_command('"' + proper_windows_path(NSIS_path) + '" ' + self.dst_path_of(tempfile))
+        if not os.path.exists(NSIS_path):
+            print "Skipping NSIS Unicide (installation path not found). See http://www.scratchpaper.com/ to install"
+        else:
+            self.run_command('"' + proper_windows_path(NSIS_path) + '" ' + self.dst_path_of(tempfile))
         # self.remove(self.dst_path_of(tempfile))
+
         # If we're on a build machine, sign the code using our Authenticode certificate. JC
-        sign_py = os.path.expandvars("${SIGN}")
-        if not sign_py or sign_py == "${SIGN}":
-            sign_py = 'C:\\buildscripts\\code-signing\\sign.py'
-        else:
-            sign_py = sign_py.replace('\\', '\\\\\\\\')
-        python = os.path.expandvars("${PYTHON}")
-        if not python or python == "${PYTHON}":
-            python = 'python'
-        if os.path.exists(sign_py):
-            self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
-        else:
-            print "Skipping code signing,", sign_py, "does not exist"
+        # But we're not, and we don't use code signing -- MC
+        #sign_py = os.path.expandvars("${SIGN}")
+        #if not sign_py or sign_py == "${SIGN}":
+        #    sign_py = 'C:\\buildscripts\\code-signing\\sign.py'
+        #else:
+        #    sign_py = sign_py.replace('\\', '\\\\\\\\')
+        #python = os.path.expandvars("${PYTHON}")
+        #if not python or python == "${PYTHON}":
+        #    python = 'python'
+        #if os.path.exists(sign_py):
+        #    self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
+        #else:
+        #    print "Skipping code signing,", sign_py, "does not exist"
         self.created_path(self.dst_path_of(installer_file))
         self.package_file = installer_file
 

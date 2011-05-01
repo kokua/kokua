@@ -304,16 +304,16 @@ BOOL gLogoutInProgress = FALSE;
 // Internal globals... that should be removed.
 static std::string gArgs;
 
-const std::string MARKER_FILE_NAME("SecondLife.exec_marker");
-const std::string ERROR_MARKER_FILE_NAME("SecondLife.error_marker");
-const std::string LLERROR_MARKER_FILE_NAME("SecondLife.llerror_marker");
-const std::string LOGOUT_MARKER_FILE_NAME("SecondLife.logout_marker");
+const std::string MARKER_FILE_NAME("Kokua.exec_marker");
+const std::string ERROR_MARKER_FILE_NAME("Kokua.error_marker");
+const std::string LLERROR_MARKER_FILE_NAME("Kokua.llerror_marker");
+const std::string LOGOUT_MARKER_FILE_NAME("Kokua.logout_marker");
 static BOOL gDoDisconnect = FALSE;
 static std::string gLaunchFileOnQuit;
 
 // Used on Win32 for other apps to identify our window (eg, win_setup)
 //Kokua: FIXME Rebranding
-const char* const VIEWER_WINDOW_CLASSNAME = "Second Life";
+const char* const VIEWER_WINDOW_CLASSNAME = "Kokua";
 
 //----------------------------------------------------------------------------
 
@@ -1810,15 +1810,15 @@ bool LLAppViewer::initLogging()
 
 	// Remove the last ".old" log file.
 	std::string old_log_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-							     "SecondLife.old");
+							     "Kokua.old");
 	LLFile::remove(old_log_file);
 
 	// Rename current log file to ".old"
 	std::string log_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-							     "SecondLife.log");
+							     "Kokua.log");
 	LLFile::rename(log_file, old_log_file);
 
-	// Set the log file to SecondLife.log
+	// Set the log file to Kokua.log
 
 	LLError::logToFile(log_file);
 
@@ -2637,7 +2637,7 @@ void LLAppViewer::removeCacheFiles(const std::string& file_mask)
 
 void LLAppViewer::writeSystemInfo()
 {
-	gDebugInfo["SLLog"] = LLError::logFileName();
+	gDebugInfo["KLog"] = LLError::logFileName();
 
 	gDebugInfo["ClientInfo"]["Name"] = ViewerInfo::viewerName();
 	gDebugInfo["ClientInfo"]["MajorVersion"] = ViewerInfo::versionMajor();
@@ -2911,10 +2911,10 @@ void LLAppViewer::initMarkerFile()
 	LL_DEBUGS("MarkerFile") << "Checking marker file for lock..." << LL_ENDL;
 
 	//We've got 4 things to test for here
-	// - Other Process Running (SecondLife.exec_marker present, locked)
-	// - Freeze (SecondLife.exec_marker present, not locked)
-	// - LLError Crash (SecondLife.llerror_marker present)
-	// - Other Crash (SecondLife.error_marker present)
+	// - Other Process Running (Kokua.exec_marker present, locked)
+	// - Freeze (Kokua.exec_marker present, not locked)
+	// - LLError Crash (Kokua.llerror_marker present)
+	// - Other Crash (Kokua.error_marker present)
 	// These checks should also remove these files for the last 2 cases if they currently exist
 
 	//LLError/Error checks. Only one of these should ever happen at a time.
@@ -3089,18 +3089,18 @@ void LLAppViewer::abortQuit()
 void LLAppViewer::migrateCacheDirectory()
 {
 #if LL_WINDOWS || LL_DARWIN
-	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/SecondLife from
-	// /library/application support/SecondLife/cache This should clear/delete the old dir.
+	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/Kokua from
+	// /library/application support/Kokua/cache This should clear/delete the old dir.
 
 	// As of 1.23 the Windows cache moved from
-	//   C:\Documents and Settings\James\Application Support\SecondLife\cache
+	//   C:\Documents and Settings\James\Application Support\Kokua\cache
 	// to
-	//   C:\Documents and Settings\James\Local Settings\Application Support\SecondLife
+	//   C:\Documents and Settings\James\Local Settings\Application Support\Kokua
 	//
 	// The Windows Vista equivalent is from
-	//   C:\Users\James\AppData\Roaming\SecondLife\cache
+	//   C:\Users\James\AppData\Roaming\Kokua\cache
 	// to
-	//   C:\Users\James\AppData\Local\SecondLife
+	//   C:\Users\James\AppData\Local\Kokua
 	//
 	// Note the absence of \cache on the second path.  James.
 
