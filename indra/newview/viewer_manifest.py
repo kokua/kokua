@@ -632,24 +632,30 @@ class WindowsManifest(ViewerManifest):
         # http://www.scratchpaper.com/
         # Check two paths, one for Program Files, and one for Program Files (x86).
         # Yay 64bit windows.
+        # We bail here is NSIS Unicode isn't found. No idea what LL never did this -- MC
         NSIS_path = os.path.expandvars('${ProgramFiles}\\NSIS\\Unicode\\makensis.exe')
         if not os.path.exists(NSIS_path):
             NSIS_path = os.path.expandvars('${ProgramFiles(x86)}\\NSIS\\Unicode\\makensis.exe')
-        self.run_command('"' + proper_windows_path(NSIS_path) + '" ' + self.dst_path_of(tempfile))
+        if not os.path.exists(NSIS_path):
+            print "Skipping NSIS Unicide (installation path not found). See http://www.scratchpaper.com/ to install"
+        else:
+            self.run_command('"' + proper_windows_path(NSIS_path) + '" ' + self.dst_path_of(tempfile))
         # self.remove(self.dst_path_of(tempfile))
+
         # If we're on a build machine, sign the code using our Authenticode certificate. JC
-        sign_py = os.path.expandvars("${SIGN}")
-        if not sign_py or sign_py == "${SIGN}":
-            sign_py = 'C:\\buildscripts\\code-signing\\sign.py'
-        else:
-            sign_py = sign_py.replace('\\', '\\\\\\\\')
-        python = os.path.expandvars("${PYTHON}")
-        if not python or python == "${PYTHON}":
-            python = 'python'
-        if os.path.exists(sign_py):
-            self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
-        else:
-            print "Skipping code signing,", sign_py, "does not exist"
+        # But we're not, and we don't use code signing -- MC
+        #sign_py = os.path.expandvars("${SIGN}")
+        #if not sign_py or sign_py == "${SIGN}":
+        #    sign_py = 'C:\\buildscripts\\code-signing\\sign.py'
+        #else:
+        #    sign_py = sign_py.replace('\\', '\\\\\\\\')
+        #python = os.path.expandvars("${PYTHON}")
+        #if not python or python == "${PYTHON}":
+        #    python = 'python'
+        #if os.path.exists(sign_py):
+        #    self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
+        #else:
+        #    print "Skipping code signing,", sign_py, "does not exist"
         self.created_path(self.dst_path_of(installer_file))
         self.package_file = installer_file
 
