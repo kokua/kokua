@@ -253,6 +253,7 @@ class WindowsManifest(ViewerManifest):
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
 
+            # BEGIN SHARED LIBS DIRECTORY
             self.enable_crt_manifest_check()
 
             # Get kdu dll, continue if missing.
@@ -295,22 +296,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("msvcr80.dll")
                 self.path("msvcp80.dll")
                 self.path("Microsoft.VC80.CRT.manifest")
-
-            # Vivox runtimes
-            try:
-                if self.prefix(src="../../newview/vivox-runtime/i686-win32", dst=""):
-                #    self.path("alut.dll")
-                    self.path("wrap_oal.dll")
-                    self.path("SLVoice.exe")
-                #    self.path("SLVoiceAgent.exe")
-                #    self.path("libeay32.dll")
-                #    self.path("srtp.dll")
-                #    self.path("ssleay32.dll")
-                #    self.path("tntk.dll")
-                    self.path("vivoxsdk.dll")
-                    self.path("ortp.dll")
-            except:
-                print "Skipping Vivox voice files (not found)"
                     
 
             # For google-perftools tcmalloc allocator.
@@ -321,17 +306,7 @@ class WindowsManifest(ViewerManifest):
                     self.path('libtcmalloc_minimal.dll')
             except:
                 print "Skipping libtcmalloc_minimal.dll"
-
-            self.end_prefix()
-
-
-            # GStreamer plugins
-            try:
-                if self.prefix(src="../../newview/lib/gstreamer-plugins", dst=""):
-                    self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
-                    self.end_prefix()
-            except:
-                print "Skipping GStreamer plugins (not found)"
+                
     
             # GStreamer libs
             try:
@@ -394,24 +369,57 @@ class WindowsManifest(ViewerManifest):
                 self.path("SDL.dll")
                 self.path("xvidcore.dll")
                 self.path("z.dll")
-                self.end_prefix()
             except:
                 print "Skipping GStreamer libraries (not found)"
+
 
             # For sound
             try:
                 self.path("openal32.dll")
                 self.path("alut.dll")
-                self.end_prefix()
             except:
-                print "Skipping OpenAL audio libraries (not found)"                
+                print "Skipping OpenAL audio libraries (not found)"
+                
+
+            # END SHARED LIBS DIRECTORY - entering indra/newview
+            self.end_prefix()
+
 
             self.path(src="licenses-win32.txt", dst="licenses.txt")
             self.path("featuretable.txt")
             self.path("featuretable_xp.txt")
 
+
             # For use in crash reporting (generates minidumps)
-            self.path("dbghelp.dll")
+            self.path("dbghelp.dll")            
+
+
+            # Vivox runtimes
+            try:
+                if self.prefix(src="../../newview/vivox-runtime/i686-win32", dst=""):
+                #    self.path("alut.dll")
+                    self.path("wrap_oal.dll")
+                    self.path("SLVoice.exe")
+                #    self.path("SLVoiceAgent.exe")
+                #    self.path("libeay32.dll")
+                #    self.path("srtp.dll")
+                #    self.path("ssleay32.dll")
+                #    self.path("tntk.dll")
+                    self.path("vivoxsdk.dll")
+                    self.path("ortp.dll")
+                    self.end_prefix()
+            except:
+                print "Skipping Vivox voice files (not found)"
+                
+
+            # GStreamer plugins directory
+            try:
+                if self.prefix(src="../../newview/lib/gstreamer-plugins", dst=""):
+                    self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
+                    self.end_prefix()
+            except:
+                print "Skipping GStreamer plugins (not found)"
+                
 
             # Media plugins - QuickTime
             if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
