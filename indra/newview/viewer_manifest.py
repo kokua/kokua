@@ -297,17 +297,21 @@ class WindowsManifest(ViewerManifest):
                 self.path("Microsoft.VC80.CRT.manifest")
 
             # Vivox runtimes
-            if self.prefix(src="vivox-runtime/i686-win32", dst=""):
-            #    self.path("alut.dll")
-                self.path("wrap_oal.dll")
-                self.path("SLVoice.exe")
-            #    self.path("SLVoiceAgent.exe")
-            #    self.path("libeay32.dll")
-            #    self.path("srtp.dll")
-            #    self.path("ssleay32.dll")
-            #    self.path("tntk.dll")
-                self.path("vivoxsdk.dll")
-                self.path("ortp.dll")
+            try:
+                if self.prefix(src="../../newview/vivox-runtime/i686-win32", dst=""):
+                #    self.path("alut.dll")
+                    self.path("wrap_oal.dll")
+                    self.path("SLVoice.exe")
+                #    self.path("SLVoiceAgent.exe")
+                #    self.path("libeay32.dll")
+                #    self.path("srtp.dll")
+                #    self.path("ssleay32.dll")
+                #    self.path("tntk.dll")
+                    self.path("vivoxsdk.dll")
+                    self.path("ortp.dll")
+            except:
+                print "Skipping Vivox voice files (not found)"
+                    
 
             # For google-perftools tcmalloc allocator.
             try:
@@ -321,13 +325,16 @@ class WindowsManifest(ViewerManifest):
             self.end_prefix()
 
 
-            # Gstreamer plugins
-            if self.prefix(src="lib/gstreamer-plugins", dst=""):
-                self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
-                self.end_prefix()
+            # GStreamer plugins
+            try:
+                if self.prefix(src="../../newview/lib/gstreamer-plugins", dst=""):
+                    self.path("*.dll", dst="lib/gstreamer-plugins/*.dll")
+                    self.end_prefix()
+            except:
+                print "Skipping GStreamer plugins (not found)"
     
-            # Gstreamer libs
-            if  self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
+            # GStreamer libs
+            try:
                 self.path("avcodec-gpl-52.dll")
                 self.path("avdevice-gpl-52.dll")
                 self.path("avfilter-gpl-1.dll")
@@ -388,6 +395,8 @@ class WindowsManifest(ViewerManifest):
                 self.path("xvidcore.dll")
                 self.path("z.dll")
                 self.end_prefix()
+            except:
+                print "Skipping GStreamer libraries (not found)"
 
 
         self.path(src="licenses-win32.txt", dst="licenses.txt")
@@ -400,10 +409,12 @@ class WindowsManifest(ViewerManifest):
         self.enable_no_crt_manifest_check()
 
         # For sound
-        if self.prefix(src="../../libraries/i686-win32/lib/release", dst=""):
+        try:
             self.path("openal32.dll")
             self.path("alut.dll")
             self.end_prefix()
+        except:
+            print "Skipping OpenAL audio libraries (not found)"
 
         # Media plugins - QuickTime
         if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
