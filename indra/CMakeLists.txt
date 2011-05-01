@@ -14,7 +14,7 @@ if (COMMAND cmake_policy)
 endif (COMMAND cmake_policy)
 
 set(ROOT_PROJECT_NAME "Kokua" CACHE STRING
-    "The root project/makefile/solution name. Defaults to SecondLife.")
+    "The root project/makefile/solution name. Defaults to Kokua.")
 project(${ROOT_PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
