@@ -615,7 +615,7 @@ class WindowsManifest(ViewerManifest):
                 Caption "Kokua %(grid)s ${VERSION}"
                 """
         else:
-            # default_channel is empty -- MC
+            # default_channel isn't "Kokua Release" -- MC
             if self.channel_oneword():
                 installer_file = "Kokua_%(channel_oneword)s_%(version_dashes)s_Setup.exe"
             else:
