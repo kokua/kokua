@@ -398,75 +398,75 @@ class WindowsManifest(ViewerManifest):
             except:
                 print "Skipping GStreamer libraries (not found)"
 
-
-        self.path(src="licenses-win32.txt", dst="licenses.txt")
-        self.path("featuretable.txt")
-        self.path("featuretable_xp.txt")
-
-        # For use in crash reporting (generates minidumps)
-        self.path("dbghelp.dll")
-
-        self.enable_no_crt_manifest_check()
-
-        # For sound
-        try:
-            self.path("openal32.dll")
-            self.path("alut.dll")
-            self.end_prefix()
-        except:
-            print "Skipping OpenAL audio libraries (not found)"
-
-        # Media plugins - QuickTime
-        if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_quicktime.dll")
-            self.end_prefix()
-
-        # Media plugins - WebKit/Qt
-        if self.prefix(src='../media_plugins/webkit/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_webkit.dll")
-            self.end_prefix()
-
-        # winmm.dll shim
-        if self.prefix(src='../media_plugins/winmmshim/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("winmm.dll")
-            self.end_prefix()
-
-        # Media plugins - GStreamer
-        if self.prefix(src='../media_plugins/gstreamer010/%s' % self.args['configuration'], dst="llplugin"):
-            self.path("media_plugin_gstreamer010.dll")
-            self.end_prefix()
-
-        if self.args['configuration'].lower() == 'debug':
-            if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'debug'),
-                           dst="llplugin"):
-                self.path("libeay32.dll")
-                self.path("qtcored4.dll")
-                self.path("qtguid4.dll")
-                self.path("qtnetworkd4.dll")
-                self.path("qtopengld4.dll")
-                self.path("qtwebkitd4.dll")
-                self.path("qtxmlpatternsd4.dll")
-                self.path("ssleay32.dll")
-
-                # For WebKit/Qt plugin runtimes (image format plugins)
-                if self.prefix(src="imageformats", dst="imageformats"):
-                    self.path("qgifd4.dll")
-                    self.path("qicod4.dll")
-                    self.path("qjpegd4.dll")
-                    self.path("qmngd4.dll")
-                    self.path("qsvgd4.dll")
-                    self.path("qtiffd4.dll")
-                    self.end_prefix()
-
-                # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-                if self.prefix(src="codecs", dst="codecs"):
-                    self.path("qcncodecsd4.dll")
-                    self.path("qjpcodecsd4.dll")
-                    self.path("qkrcodecsd4.dll")
-                    self.path("qtwcodecsd4.dll")
-                    self.end_prefix()
-
+            # For sound
+            try:
+                self.path("openal32.dll")
+                self.path("alut.dll")
                 self.end_prefix()
+            except:
+                print "Skipping OpenAL audio libraries (not found)"                
+
+            self.path(src="licenses-win32.txt", dst="licenses.txt")
+            self.path("featuretable.txt")
+            self.path("featuretable_xp.txt")
+
+            # For use in crash reporting (generates minidumps)
+            self.path("dbghelp.dll")
+
+            # Media plugins - QuickTime
+            if self.prefix(src='../media_plugins/quicktime/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_quicktime.dll")
+                self.end_prefix()
+
+            # Media plugins - WebKit/Qt
+            if self.prefix(src='../media_plugins/webkit/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_webkit.dll")
+                self.end_prefix()
+
+            # winmm.dll shim
+            if self.prefix(src='../media_plugins/winmmshim/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("winmm.dll")
+                self.end_prefix()
+
+            # Media plugins - GStreamer
+            if self.prefix(src='../media_plugins/gstreamer010/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_gstreamer010.dll")
+                self.end_prefix()
+
+            # We do this after plugins because they may not be statically linked to the CRT -- MC
+            self.enable_no_crt_manifest_check()                
+
+            if self.args['configuration'].lower() == 'debug':
+                if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'debug'),
+                               dst="llplugin"):
+                    self.path("libeay32.dll")
+                    self.path("qtcored4.dll")
+                    self.path("qtguid4.dll")
+                    self.path("qtnetworkd4.dll")
+                    self.path("qtopengld4.dll")
+                    self.path("qtwebkitd4.dll")
+                    self.path("qtxmlpatternsd4.dll")
+                    self.path("ssleay32.dll")
+
+                    # For WebKit/Qt plugin runtimes (image format plugins)
+                    if self.prefix(src="imageformats", dst="imageformats"):
+                        self.path("qgifd4.dll")
+                        self.path("qicod4.dll")
+                        self.path("qjpegd4.dll")
+                        self.path("qmngd4.dll")
+                        self.path("qsvgd4.dll")
+                        self.path("qtiffd4.dll")
+                        self.end_prefix()
+
+                    # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+                    if self.prefix(src="codecs", dst="codecs"):
+                        self.path("qcncodecsd4.dll")
+                        self.path("qjpcodecsd4.dll")
+                        self.path("qkrcodecsd4.dll")
+                        self.path("qtwcodecsd4.dll")
+                        self.end_prefix()
+
+                    self.end_prefix()
         else:
             if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'release'),
                            dst="llplugin"):
