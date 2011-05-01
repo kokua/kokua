@@ -24,7 +24,7 @@ X-Desktop-File-Install-Version=3.0"
 
     echo " - Installing menu entries in ${desktop_entries_dir}"
     mkdir -vp "${desktop_entries_dir}"
-    echo -e $desktop_entry > "${desktop_entries_dir}/kokua-viewer.desktop" || "Failed to install application menu!"
+    echo -e $desktop_entry > "${desktop_entries_dir}/Kokua.desktop" || "Failed to install application menu!"
 }
 
 if [ "$UID" == "0" ]; then

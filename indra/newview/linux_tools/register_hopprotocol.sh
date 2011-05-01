@@ -11,12 +11,13 @@ cd "${RUN_PATH}/.."
 
 if [ -z "$HANDLER" ]; then
     HANDLER=`pwd`/etc/handle_secondlifeprotocol.sh
+ echo $HANDLER
 fi
 
 # Register handler for GNOME-aware apps
 LLGCONFTOOL2=gconftool-2
 if which ${LLGCONFTOOL2} >/dev/null; then
-    (${LLGCONFTOOL2} -s -t string /desktop/gnome/url-handlers/secondlife/command "${HANDLER} \"%s\"" && ${LLGCONFTOOL2} -s -t bool /desktop/gnome/url-handlers/secondlife/enabled true) || echo Warning: Did not register hop:// handler with GNOME: ${LLGCONFTOOL2} failed.
+    (${LLGCONFTOOL2} -s -t string /desktop/gnome/url-handlers/hop/command "${HANDLER} \"%s\"" && ${LLGCONFTOOL2} -s -t bool /desktop/gnome/url-handlers/hop/enabled true) || echo Warning: Did not register hop:// handler with GNOME: ${LLGCONFTOOL2} failed.
 else
     echo Warning: Did not register hop:// handler with GNOME: ${LLGCONFTOOL2} not found.
 fi
@@ -26,7 +27,7 @@ for LLKDECONFIG in kde-config kde4-config; do
     if [ `which $LLKDECONFIG` ]; then
         LLKDEPROTODIR=`$LLKDECONFIG --path services | cut -d ':' -f 1`
         if [ -d "$LLKDEPROTODIR" ]; then
-            LLKDEPROTOFILE=${LLKDEPROTODIR}/secondlife.protocol
+            LLKDEPROTOFILE=${LLKDEPROTODIR}/hop.protocol
             cat > ${LLKDEPROTOFILE} <<EOF || echo Warning: Did not register hop:// handler with KDE: Could not write ${LLKDEPROTOFILE} 
 [Protocol]
 exec=${HANDLER} '%u'
