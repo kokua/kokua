@@ -433,7 +433,7 @@ class WindowsManifest(ViewerManifest):
                 self.path("media_plugin_gstreamer010.dll")
                 self.end_prefix()
 
-            # We do this after plugins because they may not be statically linked to the CRT -- MC
+            # We do this after the main plugins because they may not be statically linked to the CRT -- MC
             self.enable_no_crt_manifest_check()                
 
             if self.args['configuration'].lower() == 'debug':
@@ -467,49 +467,50 @@ class WindowsManifest(ViewerManifest):
                         self.end_prefix()
 
                     self.end_prefix()
-        else:
-            if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'release'),
-                           dst="llplugin"):
-                self.path("libeay32.dll")
-                self.path("qtcore4.dll")
-                self.path("qtgui4.dll")
-                self.path("qtnetwork4.dll")
-                self.path("qtopengl4.dll")
-                self.path("qtwebkit4.dll")
-                self.path("qtxmlpatterns4.dll")
-                self.path("ssleay32.dll")
+            
+            else:
+                if self.prefix(src=os.path.join(os.pardir, os.pardir, 'libraries', 'i686-win32', 'lib', 'release'),
+                               dst="llplugin"):
+                    self.path("libeay32.dll")
+                    self.path("qtcore4.dll")
+                    self.path("qtgui4.dll")
+                    self.path("qtnetwork4.dll")
+                    self.path("qtopengl4.dll")
+                    self.path("qtwebkit4.dll")
+                    self.path("qtxmlpatterns4.dll")
+                    self.path("ssleay32.dll")
 
-                # For WebKit/Qt plugin runtimes (image format plugins)
-                if self.prefix(src="imageformats", dst="imageformats"):
-                    self.path("qgif4.dll")
-                    self.path("qico4.dll")
-                    self.path("qjpeg4.dll")
-                    self.path("qmng4.dll")
-                    self.path("qsvg4.dll")
-                    self.path("qtiff4.dll")
+                    # For WebKit/Qt plugin runtimes (image format plugins)
+                    if self.prefix(src="imageformats", dst="imageformats"):
+                        self.path("qgif4.dll")
+                        self.path("qico4.dll")
+                        self.path("qjpeg4.dll")
+                        self.path("qmng4.dll")
+                        self.path("qsvg4.dll")
+                        self.path("qtiff4.dll")
+                        self.end_prefix()
+
+                    # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+                    if self.prefix(src="codecs", dst="codecs"):
+                        self.path("qcncodecs4.dll")
+                        self.path("qjpcodecs4.dll")
+                        self.path("qkrcodecs4.dll")
+                        self.path("qtwcodecs4.dll")
+                        self.end_prefix()
+
                     self.end_prefix()
+            
+            self.disable_manifest_check()
 
-                # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-                if self.prefix(src="codecs", dst="codecs"):
-                    self.path("qcncodecs4.dll")
-                    self.path("qjpcodecs4.dll")
-                    self.path("qkrcodecs4.dll")
-                    self.path("qtwcodecs4.dll")
-                    self.end_prefix()
+            # pull in the crash logger and updater from other projects
+            # tag:"crash-logger" here as a cue to the exporter
+            self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],
+                      dst="win_crash_logger.exe")
+            self.path(src='../win_updater/%s/windows-updater.exe' % self.args['configuration'],
+                      dst="updater.exe")
 
-                self.end_prefix()
-
-        self.disable_manifest_check()
-
-        # pull in the crash logger and updater from other projects
-        # tag:"crash-logger" here as a cue to the exporter
-        self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],
-                  dst="win_crash_logger.exe")
-        self.path(src='../win_updater/%s/windows-updater.exe' % self.args['configuration'],
-                  dst="updater.exe")
-
-        if not self.is_packaging_viewer():
-            self.package_file = "copied_deps"    
+            if not self.is_packaging_viewer():
+                self.package_file = "copied_deps"    
 
     def nsi_file_commands(self, install=True):
         def wpath(path):
