@@ -1,6 +1,6 @@
 # -*- cmake -*-
 #
-# Compilation options shared by all Second Life components.
+# Compilation options shared by all Kokua components.
 
 include(Variables)
 
