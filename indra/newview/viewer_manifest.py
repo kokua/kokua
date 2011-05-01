@@ -143,6 +143,7 @@ class ViewerManifest(LLManifest):
                            {'grid':self.grid()}
 
         # set command line flags for channel
+        # login_channel is different from default_channel, which is just used in building. I know, it's weird -- MC
         channel_flags = ''
         if self.login_channel() and self.login_channel() != self.channel():
             # Report a special channel during login, but use default
@@ -152,8 +153,13 @@ class ViewerManifest(LLManifest):
 
         # Deal with settings 
         setting_flags = ''
+        # default_channel is "Kokua Release" -- MC
         if not self.default_channel() or not self.default_grid():
-            if self.default_grid():
+            # we always want the default to be settings.xml in case they
+            # run Kokua from the .exe directly -- MC
+            if not self.channel_lowerword():
+                setting_flags = '--settings settings.xml'
+            elif self.default_grid():
                 setting_flags = '--settings settings_%s.xml'\
                                 % self.channel_lowerword()
             else:
@@ -167,9 +173,9 @@ class WindowsManifest(ViewerManifest):
     def final_exe(self):
         if self.default_channel():
             if self.default_grid():
-                return "KokuaViewer.exe"
+                return "Kokua.exe"
             else:
-                return "KokuaViewerPreview.exe"
+                return "KokuaPreview.exe"
         else:
             return ''.join(self.channel().split()) + '.exe'
 
@@ -567,7 +573,6 @@ class WindowsManifest(ViewerManifest):
         # a standard map of strings for replacing in the templates
         substitution_strings = {
             'version' : '.'.join(self.args['version']),
-            'version_short' : '.'.join(self.args['version'][:-1]),
             'version_dashes' : '-'.join(self.args['version']),
             'final_exe' : self.final_exe(),
             'grid':self.args['grid'],
@@ -581,7 +586,7 @@ class WindowsManifest(ViewerManifest):
 
         version_vars = """
         !define INSTEXE  "%(final_exe)s"
-        !define VERSION "%(version_short)s"
+        !define VERSION "%(version)s"
         !define VERSION_LONG "%(version)s"
         !define VERSION_DASHES "%(version_dashes)s"
         """ % substitution_strings
@@ -610,8 +615,11 @@ class WindowsManifest(ViewerManifest):
                 Caption "Kokua %(grid)s ${VERSION}"
                 """
         else:
-            # some other channel on some grid
-            installer_file = "Kokua_%(version_dashes)s_%(channel_oneword)s_Setup.exe"
+            # default_channel is empty -- MC
+            if self.channel_oneword():
+                installer_file = "Kokua_%(channel_oneword)s_%(version_dashes)s_Setup.exe"
+            else:
+                installer_file = "Kokua_%(version_dashes)s_Setup.exe"
             grid_vars_template = """
             OutFile "%(installer_file)s"
             !define INSTFLAGS "%(flags)s"
