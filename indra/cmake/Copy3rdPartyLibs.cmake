@@ -22,7 +22,7 @@ if(WINDOWS)
         wrap_oal.dll
         vivoxsdk.dll
         ortp.dll
-        zlib1.dll
+        #zlib1.dll
         )
 
     #*******************************
