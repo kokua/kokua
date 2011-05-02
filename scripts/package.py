@@ -35,6 +35,7 @@ from viewer_info import ViewerInfo
 
 
 SCRIPTS_DIR = sys.path[0] # directory containing this script
+TOP_DIR = os.path.abspath(os.path.join(SCRIPTS_DIR,'..'))
 SOURCE_DIR = os.path.abspath(os.path.join(TOP_DIR,'indra'))
 BUILD_TYPE = "RelWithDebInfo"
 
