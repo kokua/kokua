@@ -35,7 +35,6 @@ from viewer_info import ViewerInfo
 
 
 SCRIPTS_DIR = sys.path[0] # directory containing this script
-TOP_DIR = os.path.abspath(os.path.join(SCRIPTS_DIR,'..'))
 SOURCE_DIR = os.path.abspath(os.path.join(TOP_DIR,'indra'))
 BUILD_TYPE = "RelWithDebInfo"
 
@@ -66,8 +65,7 @@ def error(*args):
 class Packager:
 
     def __init__(self, build_dir, opts={}):
-        options = {'dest_dir': TOP_DIR,
-                   'source_dir': SOURCE_DIR,
+        options = {'source_dir': SOURCE_DIR,
                    'build_type': BUILD_TYPE,
                    'verbose': False,
                    }
@@ -76,8 +74,8 @@ class Packager:
         self.build_dir = os.path.abspath(build_dir)
         self.__check_build_dir()
 
-        self.dest_dir = os.path.abspath(options['dest_dir'])
-        self.__check_dest_dir()
+        # Package results go in the top build directory.
+        self.dest_dir = build_dir
 
         self.source_dir = os.path.abspath(options['source_dir'])
         self.__check_source_dir()
@@ -240,17 +238,6 @@ true""" % {'d': packaged_dir})
             raise BadDir('build dir %(dir)r is not a directory.' %
                          {'dir': self.build_dir})
 
-    def __check_dest_dir(self):
-        if not os.path.exists(self.dest_dir):
-            raise BadDir('dest dir %(dir)r does not exist.' %
-                         {'dir': self.dest_dir})
-        if not os.path.isdir(self.dest_dir):
-            raise BadDir('dest dir %(dir)r is not a directory.' %
-                         {'dir': self.dest_dir})
-        if not os.access(self.dest_dir, os.W_OK):
-            raise BadDir('dest dir %(dir)r is not writable.' %
-                         {'dir': self.dest_dir})
-
     def __check_source_dir(self):
         if not os.path.exists(self.source_dir):
             raise BadDir('source dir %(dir)r does not exist.' %
@@ -302,12 +289,6 @@ def main(args=sys.argv[1:]):
                   help='path to the \'build\' directory, which contains '
                   'CMakeCache.txt and the compile result subdirectories')
 
-    op.add_option('--dest-dir', dest='dest_dir', nargs=1, metavar='PATH',
-                  default=TOP_DIR,
-                  help='optional path to destination directory where the '
-                  'package result should be saved. Default: %(TOP_DIR)r'
-                  %{ 'TOP_DIR': TOP_DIR } )
-
     op.add_option('--source-dir', dest='source_dir', nargs=1, metavar='PATH',
                   default=SOURCE_DIR,
                   help='optional path to an alternate source directory, '
@@ -333,8 +314,7 @@ def main(args=sys.argv[1:]):
         error('--build-dir=PATH is required.')
         sys.exit(1)
 
-    opts_dict = {'dest_dir': options.dest_dir,
-                 'source_dir': options.source_dir,
+    opts_dict = {'source_dir': options.source_dir,
                  'build_type': options.build_type,
                  'verbose':  options.verbose}
 
