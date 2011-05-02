@@ -181,9 +181,15 @@ if (LINUX)
       set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
     endif (NOT STANDALONE)
   endif (VIEWER)
-
   set(CMAKE_CXX_FLAGS_DEBUG "-fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
+
+  if (${ARCH} STREQUAL "x86_64")
+     add_definitions(-DLINUX64=1 -pipe)
+     #linux64 atm crashes usin -O2
+#      set(CMAKE_CXX_FLAGS_RELEASE "-fomit-frame-pointer -mmmx -msse -mfpmath=sse msse2 -ffast-math - ftree-vectorize -fweb -fexpensive-optimizations -frename-registers ${CMAKE_CXX_FLAGS_RELEASE}")
+  else(${ARCH} STREQUAL "x86_64")
+      set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
+  endif (${ARCH} STREQUAL "x86_64")
 endif (LINUX)
 
 
