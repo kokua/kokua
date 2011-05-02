@@ -99,6 +99,8 @@ class Packager:
     #########
 
     def make_linux(self):
+        import shutil
+
         packaged_dir = os.path.join(self.build_dir, 'newview', 'packaged')
 
         if not os.path.exists(packaged_dir):
@@ -123,7 +125,13 @@ true""" % {'d': packaged_dir})
         inst_name = self.viewer_info.combined + '-' + plat
         dest_file = os.path.join(self.dest_dir, inst_name + '.tar.bz2')
 
-        self.__run_command('Creating package %r...'%dest_file,
+        if (os.path.exists(dest_file)):
+            bkp = dest_file + ".bkp"
+            message("Renaming existing package to %r..." % bkp)
+            shutil.move(dest_file, bkp)
+
+        self.__run_command(
+            'Creating package %r (this takes a while)...'%dest_file,
             'tar -C %(dir)s --numeric-owner '
             '--transform "s,^./,%(inst_name)s/," '
             #'--verbose --show-transformed-names '
