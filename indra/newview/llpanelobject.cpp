@@ -140,30 +140,19 @@ BOOL	LLPanelObject::postBuild()
 	childSetCommitCallback("Pos Y",onCommitPosition,this);
 
 	mCtrlPosZ = getChild<LLSpinCtrl>("Pos Z");
-	mCtrlPosZ->setMaxValue(LLWorld::getInstance()->getRegionMaxHeight());
-
 	childSetCommitCallback("Pos Z",onCommitPosition,this);
 
 	// Scale
-	F32 min_scale = LLWorld::getInstance()->getRegionMinPrimScale();
-	F32 max_scale = LLWorld::getInstance()->getRegionMaxPrimScale();
-
 	mLabelSize = getChild<LLTextBox>("label size");
 	mCtrlScaleX = getChild<LLSpinCtrl>("Scale X");
-	mCtrlScaleX->setMinValue(min_scale);
-	mCtrlScaleX->setMaxValue(max_scale);
 	childSetCommitCallback("Scale X",onCommitScale,this);
 
 	// Scale Y
 	mCtrlScaleY = getChild<LLSpinCtrl>("Scale Y");
-	mCtrlScaleY->setMinValue(min_scale);
-	mCtrlScaleY->setMaxValue(max_scale);
 	childSetCommitCallback("Scale Y",onCommitScale,this);
 
 	// Scale Z
 	mCtrlScaleZ = getChild<LLSpinCtrl>("Scale Z");
-	mCtrlScaleZ->setMinValue(min_scale);
-	mCtrlScaleZ->setMaxValue(max_scale);
 	childSetCommitCallback("Scale Z",onCommitScale,this);
 
 	// Rotation
@@ -207,11 +196,9 @@ BOOL	LLPanelObject::postBuild()
 	mSpinCutEnd->setValidateBeforeCommit( &precommitValidate );
 
 	// Hollow / Skew
-	mMaxHollowSize = LLWorld::getInstance()->getRegionMaxHollowSize();
 	mLabelHollow = getChild<LLTextBox>("text hollow");
 	mLabelSkew = getChild<LLTextBox>("text skew");
 	mSpinHollow = getChild<LLSpinCtrl>("Scale 1");
-	mSpinHollow->setMaxValue(mMaxHollowSize);
 	childSetCommitCallback("Scale 1",onCommitParametric,this);
 // 	mSpinHollow->setValidateBeforeCommit( &precommitValidate );
 	mSpinSkew = getChild<LLSpinCtrl>("Skew");
@@ -233,15 +220,12 @@ BOOL	LLPanelObject::postBuild()
 	mSpinTwist->setValidateBeforeCommit( &precommitValidate );
 
 	// Scale
-	mMinHoleSize = LLWorld::getInstance()->getRegionMinHoleSize();
 	mSpinScaleX = getChild<LLSpinCtrl>("Taper Scale X");
-	mSpinScaleX->setMinValue(mMinHoleSize);
 	childSetCommitCallback("Taper Scale X",onCommitParametric,this);
-// 	mSpinScaleX->setValidateBeforeCommit( &precommitValidate );
+	mSpinScaleX->setValidateBeforeCommit( &precommitValidate );
 	mSpinScaleY = getChild<LLSpinCtrl>("Taper Scale Y");
-	mSpinScaleY->setMinValue(mMinHoleSize);
 	childSetCommitCallback("Taper Scale Y",onCommitParametric,this);
-// 	mSpinScaleY->setValidateBeforeCommit( &precommitValidate );
+	mSpinScaleY->setValidateBeforeCommit( &precommitValidate );
 
 	// Shear
 	mLabelShear = getChild<LLTextBox>("text topshear");
@@ -332,7 +316,8 @@ LLPanelObject::LLPanelObject()
 	mCastShadows(TRUE),
 	mSelectedType(MI_BOX),
 	mSculptTextureRevert(LLUUID::null),
-	mSculptTypeRevert(0)
+	mSculptTypeRevert(0),
+	mLimitsNeedUpdate(true)
 {
 }
 
@@ -340,6 +325,31 @@ LLPanelObject::LLPanelObject()
 LLPanelObject::~LLPanelObject()
 {
 	// Children all cleaned up by default view destructor.
+}
+
+void LLPanelObject::updateLimits()
+{
+	mLimitsNeedUpdate = false;
+
+	mRegionMaxHeight = LLWorld::getInstance()->getRegionMaxHeight();
+	mCtrlPosZ->setMaxValue(mRegionMaxHeight);
+
+
+	mMinScale = LLWorld::getInstance()->getRegionMinPrimScale();
+	mMaxScale = LLWorld::getInstance()->getRegionMaxPrimScale();
+	mCtrlScaleX->setMinValue(mMinScale);
+	mCtrlScaleX->setMaxValue(mMaxScale);
+	mCtrlScaleY->setMinValue(mMinScale);
+	mCtrlScaleY->setMaxValue(mMaxScale);
+	mCtrlScaleZ->setMinValue(mMinScale);
+	mCtrlScaleZ->setMaxValue(mMaxScale);
+
+	mMaxHollowSize = LLWorld::getInstance()->getRegionMaxHollowSize();
+	mSpinHollow->setMaxValue(mMaxHollowSize);
+
+	mMinHoleSize = LLWorld::getInstance()->getRegionMinHoleSize();
+	mSpinScaleX->setMinValue(mMinHoleSize);
+	mSpinScaleY->setMinValue(mMinHoleSize);
 }
 
 void LLPanelObject::getState( )
@@ -1331,6 +1341,7 @@ void LLPanelObject::onCommitParametric( LLUICtrl* ctrl, void* userdata )
 
 void LLPanelObject::getVolumeParams(LLVolumeParams& volume_params)
 {
+
 	// Figure out what type of volume to make
 	S32 was_selected_type = mSelectedType;
 	S32 selected_type = mComboBaseType->getCurrentIndex();
@@ -1815,6 +1826,11 @@ void LLPanelObject::sendSculpt()
 
 void LLPanelObject::refresh()
 {
+	if(mLimitsNeedUpdate)
+	{
+		updateLimits();
+	}
+
 	getState();
 	if (mObject.notNull() && mObject->isDead())
 	{

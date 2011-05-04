@@ -54,6 +54,7 @@ public:
 	virtual void	draw();
 	virtual void 	clearCtrls();
 
+	void 			updateLimits();
 	void			refresh();
 
 	static bool		precommitValidate(const LLSD& data);
@@ -103,6 +104,12 @@ protected:
 	LLTextBox*		mLabelCut;
 	LLSpinCtrl*		mSpinCutBegin;
 	LLSpinCtrl*		mSpinCutEnd;
+
+	bool mLimitsNeedUpdate;
+	F32			mRegionMaxHeight;
+
+	F32			mMinScale;
+	F32			mMaxScale;
 
 	F32			mMaxHollowSize;
 	LLTextBox*		mLabelHollow;

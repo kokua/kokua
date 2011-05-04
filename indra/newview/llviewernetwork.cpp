@@ -61,6 +61,7 @@ public:
 									const LLIOPipe::buffer_ptr_t& buffer)
 	{
 		mOwner->decResponderCount();
+		LL_DEBUGS("GridManager") << mData->grid[GRID_VALUE] << " status: " << status << " reason: " << reason << llendl;
 		if(LLGridManager::TRYLEGACY == mState && 200 == status)
 		{
 			mOwner->addGrid(mData, LLGridManager::SYSTEM);
@@ -111,7 +112,6 @@ public:
 
 	virtual void error(U32 status, const std::string& reason)
 	{
-
 		if (504 == status)// gateway timeout ... well ... retry once >_>
 		{
 			if (LLGridManager::FETCH == mState)
@@ -125,7 +125,10 @@ public:
 			LLSD args;
 			args["GRID"] = mData->grid[GRID_VALUE];
 			//Could not add [GRID] to the grid list.
-			args["REASON"] = "Server didn't provide grid info.\nPlease check if the loginuri is correct and";
+			std::string reason_dialog = "Server didn't provide grid info: ";
+			reason_dialog.append(mData->last_http_error);
+			reason_dialog.append("\nPlease check if the loginuri is correct and");
+			args["REASON"] = reason_dialog;
 			//[REASON] contact support of [GRID].
 			LLNotificationsUtil::add("CantAddGrid", args);
 
@@ -134,6 +137,11 @@ public:
 		}
 		else
 		{
+			// remember the error we got when trying to get grid info where we expect it
+			std::ostringstream last_error;
+			last_error << status << " " << reason;
+			mData->last_http_error = last_error.str();
+
 			mOwner->addGrid(mData, LLGridManager::TRYLEGACY);
 		}
 
@@ -174,8 +182,11 @@ LLGridManager::LLGridManager()
 void LLGridManager::initGrids()
 {
 	std::string grid_fallback_file  = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,  "grids.fallback.xml");
-	std::string grid_remote_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.remote.xml");
+
 	std::string grid_user_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.user.xml");
+
+	std::string grid_remote_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.remote.xml");
+
 
 	mGridFile = grid_user_file;
 
@@ -656,20 +667,60 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 	
 		if(!grid.empty())//
 		{
-			//finally add the grid \o/
-			mGridList[grid] = grid_entry->grid;
+			if (!mGridList.has(grid)) //new grid
+			{
+				//finally add the grid \o/
+				mGridList[grid] = grid_entry->grid;
+				++mGridEntries;
+
+				LL_DEBUGS("GridManager") << "Adding new entry: " << grid << LL_ENDL;
+			}
+			else
+			{
+				LLSD existing_grid = mGridList[grid];
+				if (!existing_grid.has("LastModified"))
+				{
+					//lack of "LastModified" means existing_grid is from fallback list,
+					// assume its anyway older and override with the new entry
+
+					mGridList[grid] = grid_entry->grid;
+					//number of mGridEntries doesn't change
+					LL_DEBUGS("GridManager") << "Using custom entry: " << grid << LL_ENDL;
+				}
+				else if (grid_entry->grid.has("LastModified"))
+				{
+// (time_t)saved_value.secondsSinceEpoch();
+					LLDate testing_newer = grid_entry->grid["LastModified"];
+					LLDate existing = existing_grid["LastModified"];
+
+					LL_DEBUGS("GridManager") << "testing_newer " << testing_newer
+								<< " existing " << existing << LL_ENDL;
+
+					if(testing_newer.secondsSinceEpoch() > existing.secondsSinceEpoch())
+					{
+						//existing_grid is older, override.
+	
+						mGridList[grid] = grid_entry->grid;
+						//number of mGridEntries doesn't change
+						LL_DEBUGS("GridManager") << "Updating entry: " << grid << LL_ENDL;
+					}
+				}
+				else
+				{
+					LL_DEBUGS("GridManager") << "Same or newer entry already present: " << grid << LL_ENDL;
+				}
+
+			}
+	
+			if(is_current)
+			{
+				mGrid = grid;
+	
+				LL_DEBUGS("GridManager") << "Selected grid is " << mGrid << LL_ENDL;		
+				setGridChoice(mGrid);
+			}
+	
 		}
-
-		if(is_current && !mGrid.empty())
-		{
-			mGrid = grid;
-
-			LL_DEBUGS("GridManager") << "Selected grid is " << mGrid << LL_ENDL;		
-			setGridChoice(mGrid);
-		}
-		LL_DEBUGS("GridManager") << "ADDING: " << grid << LL_ENDL;
-
-		++mGridEntries;
 	}
 
 // This is only of use if we want to fetch infos of entire gridlists at startup

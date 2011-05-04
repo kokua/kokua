@@ -61,6 +61,7 @@ struct GridEntry
 	LLSD grid;
 	LLXMLNodePtr info_root;
 	bool set_current;
+	std::string last_http_error;
 };
 
 class LLInvalidGridName
