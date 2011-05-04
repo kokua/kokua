@@ -61,6 +61,7 @@ public:
 									const LLIOPipe::buffer_ptr_t& buffer)
 	{
 		mOwner->decResponderCount();
+		LL_DEBUGS("GridManager") << mData->grid[GRID_VALUE] << " status: " << status << " reason: " << reason << llendl;
 		if(LLGridManager::TRYLEGACY == mState && 200 == status)
 		{
 			mOwner->addGrid(mData, LLGridManager::SYSTEM);
@@ -111,7 +112,6 @@ public:
 
 	virtual void error(U32 status, const std::string& reason)
 	{
-
 		if (504 == status)// gateway timeout ... well ... retry once >_>
 		{
 			if (LLGridManager::FETCH == mState)
@@ -125,7 +125,10 @@ public:
 			LLSD args;
 			args["GRID"] = mData->grid[GRID_VALUE];
 			//Could not add [GRID] to the grid list.
-			args["REASON"] = "Server didn't provide grid info.\nPlease check if the loginuri is correct and";
+			std::string reason_dialog = "Server didn't provide grid info: ";
+			reason_dialog.append(mData->last_http_error);
+			reason_dialog.append("\nPlease check if the loginuri is correct and");
+			args["REASON"] = reason_dialog;
 			//[REASON] contact support of [GRID].
 			LLNotificationsUtil::add("CantAddGrid", args);
 
@@ -134,6 +137,11 @@ public:
 		}
 		else
 		{
+			// remember the error we got when trying to get grid info where we expect it
+			std::ostringstream last_error;
+			last_error << status << " " << reason;
+			mData->last_http_error = last_error.str();
+
 			mOwner->addGrid(mData, LLGridManager::TRYLEGACY);
 		}
 
