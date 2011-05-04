@@ -666,18 +666,19 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 		{
 			//finally add the grid \o/
 			mGridList[grid] = grid_entry->grid;
+
+	
+			if(is_current)
+			{
+				mGrid = grid;
+	
+				LL_DEBUGS("GridManager") << "Selected grid is " << mGrid << LL_ENDL;		
+				setGridChoice(mGrid);
+			}
+			LL_DEBUGS("GridManager") << "ADDING: " << grid << LL_ENDL;
+	
+			++mGridEntries;
 		}
-
-		if(is_current && !mGrid.empty())
-		{
-			mGrid = grid;
-
-			LL_DEBUGS("GridManager") << "Selected grid is " << mGrid << LL_ENDL;		
-			setGridChoice(mGrid);
-		}
-		LL_DEBUGS("GridManager") << "ADDING: " << grid << LL_ENDL;
-
-		++mGridEntries;
 	}
 
 // This is only of use if we want to fetch infos of entire gridlists at startup
