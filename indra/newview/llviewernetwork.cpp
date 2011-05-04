@@ -182,8 +182,11 @@ LLGridManager::LLGridManager()
 void LLGridManager::initGrids()
 {
 	std::string grid_fallback_file  = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,  "grids.fallback.xml");
-	std::string grid_remote_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.remote.xml");
+
 	std::string grid_user_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.user.xml");
+
+	std::string grid_remote_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,  "grids.remote.xml");
+
 
 	mGridFile = grid_user_file;
 
@@ -664,9 +667,50 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 	
 		if(!grid.empty())//
 		{
-			//finally add the grid \o/
-			mGridList[grid] = grid_entry->grid;
+			if (!mGridList.has(grid)) //new grid
+			{
+				//finally add the grid \o/
+				mGridList[grid] = grid_entry->grid;
+				++mGridEntries;
 
+				LL_DEBUGS("GridManager") << "Adding new entry: " << grid << LL_ENDL;
+			}
+			else
+			{
+				LLSD existing_grid = mGridList[grid];
+				if (!existing_grid.has("LastModified"))
+				{
+					//lack of "LastModified" means existing_grid is from fallback list,
+					// assume its anyway older and override with the new entry
+
+					mGridList[grid] = grid_entry->grid;
+					//number of mGridEntries doesn't change
+					LL_DEBUGS("GridManager") << "Using custom entry: " << grid << LL_ENDL;
+				}
+				else if (grid_entry->grid.has("LastModified"))
+				{
+// (time_t)saved_value.secondsSinceEpoch();
+					LLDate testing_newer = grid_entry->grid["LastModified"];
+					LLDate existing = existing_grid["LastModified"];
+
+					LL_DEBUGS("GridManager") << "testing_newer " << testing_newer
+								<< " existing " << existing << LL_ENDL;
+
+					if(testing_newer.secondsSinceEpoch() > existing.secondsSinceEpoch())
+					{
+						//existing_grid is older, override.
+	
+						mGridList[grid] = grid_entry->grid;
+						//number of mGridEntries doesn't change
+						LL_DEBUGS("GridManager") << "Updating entry: " << grid << LL_ENDL;
+					}
+				}
+				else
+				{
+					LL_DEBUGS("GridManager") << "Same or newer entry already present: " << grid << LL_ENDL;
+				}
+
+			}
 	
 			if(is_current)
 			{
@@ -675,9 +719,7 @@ void LLGridManager::addGrid(GridEntry* grid_entry,  AddState state)
 				LL_DEBUGS("GridManager") << "Selected grid is " << mGrid << LL_ENDL;		
 				setGridChoice(mGrid);
 			}
-			LL_DEBUGS("GridManager") << "ADDING: " << grid << LL_ENDL;
 	
-			++mGridEntries;
 		}
 	}
 
